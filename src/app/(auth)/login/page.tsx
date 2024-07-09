@@ -59,7 +59,6 @@ export default function LoginPage() {
 				}
 				await deleteCookie();
 			} catch (error) {
-				console.log(error);
 			}
 			setIsLoading(false);
 		})();
@@ -106,7 +105,7 @@ export default function LoginPage() {
 					"No tokens returned by the API during connection; authentication not possible.",
 				);
 			router.push(pagePath.DASHBOARD);
-		} catch (error) {}
+		} catch (error) { }
 	}
 
 	return (

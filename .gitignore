@@ -37,3 +37,5 @@ package-lock.json
 
 data
 letsencrypt
+.env
+package-lock.json

@@ -1,6 +1,5 @@
 "use client";
 
-import { Inter as FontSans } from "next/font/google";
 import localFont from "next/font/local";
 
 import "@/src/styles/globals.css";
@@ -18,17 +17,6 @@ import {
 import { usePathname } from "next/navigation";
 import router from "next/router";
 import { pagePath } from "../constants/enum";
-
-const fontSans = FontSans({
-	subsets: ["latin"],
-	variable: "--font-sans",
-});
-
-// Font files can be colocated inside of `pages`
-const fontHeading = localFont({
-	src: "../assets/fonts/CalSans-SemiBold.woff2",
-	variable: "--font-heading",
-});
 
 interface RootLayoutProps {
 	children: React.ReactNode;
@@ -56,8 +44,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
 			<body
 				className={cn(
 					"h-[calc(100vh-49px)] bg-background font-sans antialiased animate-fade animate-once animate-duration-[500ms] animate-ease-out ",
-					fontSans.variable,
-					fontHeading.variable,
 				)}
 			>
 				<ThemeProvider
@@ -69,7 +55,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
 					<main className="flex flex-row px-2 pb-2 gap-2 h-full">
 						{!isLoading && children}
 					</main>
-					<Toaster />
 					<TailwindIndicator />
 				</ThemeProvider>
 			</body>

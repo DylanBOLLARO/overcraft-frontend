@@ -17,7 +17,7 @@ export function formatDate(input: string | number): string {
 }
 
 export function absoluteUrlApi(path: string) {
-  return `${env.NEXT_PUBLIC_API_URL}${path}`
+  return `${env.NEXT_PUBLIC_BACKEND_URL}${path}`
 }
 
 export const jsonFileDownload = (build: any) => {
