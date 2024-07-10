@@ -23,6 +23,7 @@ COPY tsconfig.json .
 COPY postcss.config.js .
 COPY tailwind.config.ts .
 COPY components.json .
+COPY env.mjs .
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030
@@ -64,9 +65,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 ARG NEXT_PUBLIC_BACKEND_URL
 ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
-# Uncomment the following line to disable telemetry at run time
 ENV NEXT_TELEMETRY_DISABLED 1
-
-# Note: Don't expose ports here, Compose will handle that for us
+ENV PORT 23000
 
 CMD ["node", "server.js"]
