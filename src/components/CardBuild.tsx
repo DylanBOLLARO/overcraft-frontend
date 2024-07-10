@@ -13,6 +13,8 @@ export function CardBuild({
 }: any) {
 	const router = useRouter();
 
+	const isProd = process.env.NODE_ENV === "production";
+
 	const truncateText = (text: string) => {
 		return text.length > 75 ? `${text.slice(0, 75)}...` : text;
 	};
@@ -28,8 +30,9 @@ export function CardBuild({
 			}}
 		>
 			<div className="flex flex-row gap-2 items-center">
+
 				<Image
-					src={`/picture_build.png`}
+					src={`${isProd ? "/overcraft" : ""}/picture_build.png`}
 					alt={build.title}
 					width={width}
 					height={height}

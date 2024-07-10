@@ -11,7 +11,7 @@ export function AlbumArtwork({
 	...props
 }: any) {
 	const router = useRouter();
-
+	const isProd = process.env.NODE_ENV === "production";
 	return (
 		<div
 			className={cn(
@@ -23,7 +23,7 @@ export function AlbumArtwork({
 		>
 			<div className="overflow-hidden rounded-md">
 				<Image
-					src={`/picture_build.png`}
+					src={`${isProd ? "/overcraft" : ""}/picture_build.png`}
 					alt={build.title}
 					width={width}
 					height={height}
