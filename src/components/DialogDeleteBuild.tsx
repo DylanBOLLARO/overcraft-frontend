@@ -6,7 +6,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
+	DialogTrigger
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";

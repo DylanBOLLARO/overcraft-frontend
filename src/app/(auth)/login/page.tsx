@@ -13,7 +13,7 @@ import {
 	CardDescription,
 	CardFooter,
 	CardHeader,
-	CardTitle,
+	CardTitle
 } from "@/src/components/ui/card";
 
 import { Input } from "@/src/components/ui/input";
@@ -22,7 +22,7 @@ import {
 	Tabs,
 	TabsContent,
 	TabsList,
-	TabsTrigger,
+	TabsTrigger
 } from "@/src/components/ui/tabs";
 import {
 	Form,
@@ -31,7 +31,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
-	FormMessage,
+	FormMessage
 } from "@/src/components/ui/form";
 
 import * as z from "zod";
@@ -42,7 +42,7 @@ import {
 	deleteCookie,
 	get_connected_user_id,
 	signin,
-	signup,
+	signup
 } from "../../../lib/networking";
 
 export default function LoginPage() {
@@ -58,29 +58,28 @@ export default function LoginPage() {
 					return;
 				}
 				await deleteCookie();
-			} catch (error) {
-			}
+			} catch (error) {}
 			setIsLoading(false);
 		})();
 	}, []);
 
 	const formSignin = z.object({
 		email: z.string().email(),
-		password: z.string().min(5),
+		password: z.string().min(5)
 	});
 
 	const formSigninInstance = useForm<z.infer<typeof formSignin>>({
 		resolver: zodResolver(formSignin),
 		defaultValues: {
 			email: "",
-			password: "",
-		},
+			password: ""
+		}
 	});
 
 	const formSignup = z.object({
 		username: z.string().min(3).max(30),
 		email: z.string().email(),
-		password: z.string().min(5),
+		password: z.string().min(5)
 	});
 
 	const formSignupInstance = useForm<z.infer<typeof formSignup>>({
@@ -88,8 +87,8 @@ export default function LoginPage() {
 		defaultValues: {
 			username: "",
 			email: "",
-			password: "",
-		},
+			password: ""
+		}
 	});
 
 	async function onSigninSubmit(values: z.infer<typeof formSignin>) {
@@ -102,10 +101,10 @@ export default function LoginPage() {
 			const tokens: any = await signup(values);
 			if (!tokens)
 				throw new Error(
-					"No tokens returned by the API during connection; authentication not possible.",
+					"No tokens returned by the API during connection; authentication not possible."
 				);
 			router.push(pagePath.DASHBOARD);
-		} catch (error) { }
+		} catch (error) {}
 	}
 
 	return (
@@ -115,7 +114,7 @@ export default function LoginPage() {
 					href={pagePath.HOME}
 					className={cn(
 						buttonVariants({ variant: "secondary" }),
-						"self-start",
+						"self-start"
 					)}
 				>
 					<>
@@ -143,7 +142,7 @@ export default function LoginPage() {
 								<Form {...formSigninInstance}>
 									<form
 										onSubmit={formSigninInstance.handleSubmit(
-											onSigninSubmit,
+											onSigninSubmit
 										)}
 										className="space-y-8"
 									>
@@ -207,7 +206,7 @@ export default function LoginPage() {
 								<Form {...formSignupInstance}>
 									<form
 										onSubmit={formSignupInstance.handleSubmit(
-											onSignupSubmit,
+											onSignupSubmit
 										)}
 										className="space-y-8"
 									>

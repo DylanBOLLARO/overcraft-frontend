@@ -8,7 +8,7 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuTrigger,
+	DropdownMenuTrigger
 } from "@/src/components/ui/dropdown-menu";
 import { Laptop, Moon, Sun } from "lucide-react";
 

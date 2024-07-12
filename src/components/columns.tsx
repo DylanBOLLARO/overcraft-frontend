@@ -3,14 +3,14 @@
 export const columns = [
 	{
 		accessorKey: "description",
-		header: "Description",
+		header: "Description"
 	},
 	{
 		accessorKey: "population",
-		header: "Population",
+		header: "Population"
 	},
 	{
 		accessorKey: "timer",
-		header: "Timer",
-	},
+		header: "Timer"
+	}
 ];

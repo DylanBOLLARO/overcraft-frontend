@@ -11,12 +11,12 @@ import {
 	TableFooter,
 	TableHead,
 	TableHeader,
-	TableRow,
+	TableRow
 } from "@/src/components/ui/table";
 import { pagePath } from "@/src/constants/enum";
 import {
 	get_all_step_build_by_build_id,
-	get_public_build_by_id,
+	get_public_build_by_id
 } from "@/src/lib/networking";
 import { cn } from "@/src/lib/utils";
 import Link from "next/link";
@@ -29,10 +29,10 @@ export default function Page({ params }: { params: { build_id: string } }) {
 		const public_build = await get_public_build_by_id(+params.build_id);
 
 		const public_build_steps = await get_all_step_build_by_build_id(
-			public_build.id,
+			public_build.id
 		);
 		const steps = public_build_steps.sort(
-			(a: any, b: any) => a.position - b.position,
+			(a: any, b: any) => a.position - b.position
 		);
 		setSelectedUserBuild({ ...public_build, steps });
 	};
@@ -52,7 +52,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 					href={pagePath.BUILDS}
 					className={cn(
 						buttonVariants({ variant: "secondary" }),
-						"left-4 top-4 md:left-8 md:top-8 self-start",
+						"left-4 top-4 md:left-8 md:top-8 self-start"
 					)}
 				>
 					<>

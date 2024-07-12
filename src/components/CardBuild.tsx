@@ -22,7 +22,7 @@ export function CardBuild({
 		<div
 			className={cn(
 				"flex flex-1 flex-row hover:bg-muted p-2 cursor-pointer gap-3 rounded justify-between",
-				className,
+				className
 			)}
 			{...props}
 			onClick={() => {
@@ -30,14 +30,13 @@ export function CardBuild({
 			}}
 		>
 			<div className="flex flex-row gap-2 items-center">
-
 				<Image
 					src={`${isProd ? "/overcraft" : ""}/picture_build.png`}
 					alt={build.title}
 					width={width}
 					height={height}
 					className={cn(
-						"object-cover transition-all hover:scale-105 aspect-square h-10 w-10 rounded",
+						"object-cover transition-all hover:scale-105 aspect-square h-10 w-10 rounded"
 					)}
 				/>
 				<div className="space-y-1 text-sm">

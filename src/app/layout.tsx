@@ -12,7 +12,7 @@ import Navigation from "./navigation";
 import {
 	deleteCookie,
 	getCookie,
-	get_connected_user_id,
+	get_connected_user_id
 } from "../lib/networking";
 import { usePathname } from "next/navigation";
 import router from "next/router";
@@ -43,7 +43,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 			<head />
 			<body
 				className={cn(
-					"h-[calc(100vh-49px)] bg-background font-sans antialiased animate-fade animate-once animate-duration-[500ms] animate-ease-out ",
+					"h-[calc(100vh-49px)] bg-background font-sans antialiased animate-fade animate-once animate-duration-[500ms] animate-ease-out "
 				)}
 			>
 				<ThemeProvider

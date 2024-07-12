@@ -6,7 +6,7 @@ import { pagePath } from "@/src/constants/enum";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function DashboardLayout({
-	children,
+	children
 }: {
 	children: React.ReactNode;
 }) {

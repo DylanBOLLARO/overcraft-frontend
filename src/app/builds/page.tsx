@@ -7,7 +7,7 @@ import {
 	CardDescription,
 	CardFooter,
 	CardHeader,
-	CardTitle,
+	CardTitle
 } from "@/src/components/ui/card";
 import { ScrollArea } from "@/src/components/ui/scroll-area";
 import { Separator } from "@/src/components/ui/separator";
@@ -15,7 +15,7 @@ import {
 	Tabs,
 	TabsContent,
 	TabsList,
-	TabsTrigger,
+	TabsTrigger
 } from "@/src/components/ui/tabs";
 import { get_all_publics_builds } from "@/src/lib/networking";
 import React, { useEffect, useState } from "react";
@@ -31,7 +31,7 @@ const Page = () => {
 		get_all_public_builds();
 	}, []);
 
-		if (!allBuilds) return <></>;
+	if (!allBuilds) return <></>;
 
 	return (
 		<Tabs defaultValue="all" className="flex-1">

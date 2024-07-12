@@ -7,7 +7,7 @@ import {
 	Tabs,
 	TabsContent,
 	TabsList,
-	TabsTrigger,
+	TabsTrigger
 } from "@/src/components/ui/tabs";
 import { RefreshCcw } from "lucide-react";
 import React, { useEffect, useState } from "react";

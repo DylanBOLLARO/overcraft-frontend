@@ -1,16 +1,16 @@
-version: '3'
+version: "3"
 
 services:
-  nextjs:
-    build:
-      context: .
-    ports:
-      - "3000"
-    container_name: nextjs
-    restart: always
-    networks:
-      - overcraft
+    nextjs:
+        build:
+            context: .
+        ports:
+            - "3000"
+        container_name: nextjs
+        restart: always
+        networks:
+            - overcraft
 
 networks:
-  overcraft:
-    name: overcraft
+    overcraft:
+        name: overcraft

@@ -3,7 +3,7 @@ import {
 	Dialog,
 	DialogContent,
 	DialogFooter,
-	DialogTrigger,
+	DialogTrigger
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { ClipboardEdit } from "lucide-react";
@@ -15,14 +15,14 @@ import {
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
-	SelectValue,
+	SelectValue
 } from "./ui/select";
 import { Switch } from "./ui/switch";
 import { patch_build } from "../lib/networking";
 
 export const DialogEditBuild = ({
 	selectedUserBuild,
-	local_refresh_steps,
+	local_refresh_steps
 }: any) => {
 	const [open, setOpen] = useState(false);
 	const [editedBuild, setEditedBuild] = useState(selectedUserBuild);
@@ -37,7 +37,7 @@ export const DialogEditBuild = ({
 	const handleRaceChange = (e: any) => {
 		setEditedBuild((prevBuild: any) => ({
 			...prevBuild,
-			race: e,
+			race: e
 		}));
 		setIsModified(true);
 	};
@@ -45,7 +45,7 @@ export const DialogEditBuild = ({
 	const handleV_RaceChange = (e: any) => {
 		setEditedBuild((prevBuild: any) => ({
 			...prevBuild,
-			v_race: e,
+			v_race: e
 		}));
 		setIsModified(true);
 	};
@@ -53,18 +53,18 @@ export const DialogEditBuild = ({
 	const handleIsPublicChange = (e: any) => {
 		setEditedBuild((prevBuild: any) => ({
 			...prevBuild,
-			is_public: e,
+			is_public: e
 		}));
 		setIsModified(true);
 	};
 
 	const handleDescriptionChange = (
-		e: React.ChangeEvent<HTMLTextAreaElement>,
+		e: React.ChangeEvent<HTMLTextAreaElement>
 	) => {
 		const newDescription = e.target.value;
 		setEditedBuild((prevBuild: any) => ({
 			...prevBuild,
-			description: newDescription,
+			description: newDescription
 		}));
 		setIsModified(true);
 	};
@@ -77,7 +77,7 @@ export const DialogEditBuild = ({
 				description,
 				race,
 				v_race,
-				is_public,
+				is_public
 			});
 		}
 		await local_refresh_steps();

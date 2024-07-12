@@ -6,7 +6,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
+	DialogTrigger
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";

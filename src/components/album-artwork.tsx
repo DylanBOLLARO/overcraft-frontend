@@ -16,7 +16,7 @@ export function AlbumArtwork({
 		<div
 			className={cn(
 				"space-y-3 hover:bg-muted p-2 rounded cursor-pointer",
-				className,
+				className
 			)}
 			{...props}
 			onClick={() => router.push(`/builds/${build.id}`)}
@@ -28,7 +28,7 @@ export function AlbumArtwork({
 					width={width}
 					height={height}
 					className={cn(
-						"h-auto w-auto object-cover transition-all hover:scale-105 aspect-square",
+						"h-auto w-auto object-cover transition-all hover:scale-105 aspect-square"
 					)}
 				/>
 			</div>

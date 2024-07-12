@@ -4,7 +4,7 @@ import {
 	ColumnDef,
 	flexRender,
 	getCoreRowModel,
-	useReactTable,
+	useReactTable
 } from "@tanstack/react-table";
 
 import {
@@ -13,7 +13,7 @@ import {
 	TableCell,
 	TableHead,
 	TableHeader,
-	TableRow,
+	TableRow
 } from "@/src/components/ui/table";
 import { ChevronDown, ChevronUp, PlusCircle, Trash2 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
@@ -23,18 +23,18 @@ import { useState } from "react";
 import {
 	add_step_build,
 	delete_step_in_build_steps,
-	move_step_in_build_steps,
+	move_step_in_build_steps
 } from "@/src/lib/networking";
 
 export function DataTable({
 	columns,
 	selectedUserBuild,
-	local_refresh_steps,
+	local_refresh_steps
 }: any) {
 	const table = useReactTable({
 		data: selectedUserBuild.steps,
 		columns,
-		getCoreRowModel: getCoreRowModel(),
+		getCoreRowModel: getCoreRowModel()
 	});
 
 	const [description, setDescription] = useState<string>("");
@@ -48,7 +48,7 @@ export function DataTable({
 				build_id: "" + selectedUserBuild.id,
 				position: "" + selectedUserBuild.steps.length,
 				timer: "" + timer,
-				population,
+				population
 			});
 		}
 	};
@@ -68,8 +68,8 @@ export function DataTable({
 												: flexRender(
 														header.column.columnDef
 															.header,
-														header.getContext(),
-												  )}
+														header.getContext()
+													)}
 										</TableHead>
 									);
 								})}
@@ -90,7 +90,7 @@ export function DataTable({
 										<TableCell key={cell.id}>
 											{flexRender(
 												cell.column.columnDef.cell,
-												cell.getContext(),
+												cell.getContext()
 											)}
 										</TableCell>
 									))}
@@ -105,7 +105,7 @@ export function DataTable({
 													build_id:
 														"" +
 														selectedUserBuild.id,
-													move: "DOWN",
+													move: "DOWN"
 												});
 												await local_refresh_steps();
 											}}
@@ -122,7 +122,7 @@ export function DataTable({
 													build_id:
 														"" +
 														selectedUserBuild.id,
-													move: "UP",
+													move: "UP"
 												});
 												await local_refresh_steps();
 											}}
@@ -135,7 +135,7 @@ export function DataTable({
 											className="h-6 w-6 px-0 hover:text-destructive"
 											onClick={async () => {
 												await delete_step_in_build_steps(
-													row.original.id,
+													row.original.id
 												);
 												await local_refresh_steps();
 											}}

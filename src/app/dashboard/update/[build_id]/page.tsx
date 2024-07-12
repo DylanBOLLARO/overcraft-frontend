@@ -6,7 +6,7 @@ import { Separator } from "@/src/components/ui/separator";
 import { pagePath } from "@/src/constants/enum";
 import {
 	get_all_step_build_by_build_id,
-	get_connected_user_builds,
+	get_connected_user_builds
 } from "@/src/lib/networking";
 import { cn } from "@/src/lib/utils";
 import Link from "next/link";
@@ -22,13 +22,13 @@ export default function Page({ params }: { params: { build_id: string } }) {
 	const local_refresh_steps = async () => {
 		const connected_user_builds = await get_connected_user_builds();
 		const selected_user_build = await connected_user_builds.find(
-			(x: any) => x.id == params.build_id,
+			(x: any) => x.id == params.build_id
 		);
 		const stepsUnSort = await get_all_step_build_by_build_id(
-			selected_user_build.id,
+			selected_user_build.id
 		);
 		const steps = stepsUnSort.sort(
-			(a: any, b: any) => a.position - b.position,
+			(a: any, b: any) => a.position - b.position
 		);
 		setSelectedUserBuild({ ...selected_user_build, steps });
 	};
@@ -48,7 +48,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 					href={pagePath.DASHBOARD}
 					className={cn(
 						buttonVariants({ variant: "secondary" }),
-						"left-4 top-4 md:left-8 md:top-8 self-start",
+						"left-4 top-4 md:left-8 md:top-8 self-start"
 					)}
 				>
 					<>
@@ -107,5 +107,3 @@ export default function Page({ params }: { params: { build_id: string } }) {
 		</div>
 	);
 }
-
-

@@ -30,8 +30,7 @@ export function MainNav({ items }: any) {
 								item.href.startsWith(`/${segment}`)
 									? "text-foreground"
 									: "text-foreground/60",
-								item.disabled &&
-									"cursor-not-allowed opacity-80",
+								item.disabled && "cursor-not-allowed opacity-80"
 							)}
 						>
 							{item.title}
@@ -41,7 +40,7 @@ export function MainNav({ items }: any) {
 					<Link
 						href={`${pagePath.DASHBOARD}`}
 						className={cn(
-							"flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm text-foreground/60",
+							"flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm text-foreground/60"
 						)}
 					>
 						Dashboard

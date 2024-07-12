@@ -16,7 +16,7 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-	AlertDialogTrigger,
+	AlertDialogTrigger
 } from "../components/ui/alert-dialog";
 import { pagePath } from "../constants/enum";
 import { MainNav } from "../components/main-nav";
@@ -73,8 +73,8 @@ export default function NavigationBar({ userId }: any) {
 								className={cn(
 									buttonVariants({
 										variant: "secondary",
-										size: "xsm",
-									}),
+										size: "xsm"
+									})
 								)}
 							>
 								Login

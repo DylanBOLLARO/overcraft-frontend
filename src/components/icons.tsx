@@ -22,7 +22,7 @@ import {
 	Trash,
 	Twitter,
 	User,
-	X,
+	X
 } from "lucide-react";
 
 export const Icons = {
@@ -65,5 +65,5 @@ export const Icons = {
 		</svg>
 	),
 	twitter: Twitter,
-	check: Check,
+	check: Check
 };

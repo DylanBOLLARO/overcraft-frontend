@@ -9,7 +9,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
+	DialogTrigger
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { PlusCircle } from "lucide-react";
@@ -20,13 +20,13 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
-	FormMessage,
+	FormMessage
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { publish_connected_user_build } from "../lib/networking";
 
 const formSchema = z.object({
-	name: z.string().min(2).max(50),
+	name: z.string().min(2).max(50)
 });
 
 export const DialogCreateBuild = ({ local_refresh_builds }: any) => {
@@ -35,8 +35,8 @@ export const DialogCreateBuild = ({ local_refresh_builds }: any) => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: "",
-		},
+			name: ""
+		}
 	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -45,7 +45,7 @@ export const DialogCreateBuild = ({ local_refresh_builds }: any) => {
 			title: name_of_build,
 			description: name_of_build,
 			race: "ZERG",
-			v_race: "TERRAN",
+			v_race: "TERRAN"
 		});
 		setOpen(false);
 		local_refresh_builds();
