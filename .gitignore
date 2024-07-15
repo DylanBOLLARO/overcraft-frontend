@@ -39,3 +39,4 @@ data
 letsencrypt
 .env
 package-lock.json
+.env

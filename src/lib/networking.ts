@@ -65,7 +65,7 @@ export const base_query_axios = async (
 		if (!data) throw new Error("Invalid response to the request.");
 		return data;
 	} catch (error: any) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -79,7 +79,7 @@ export const signin = async (values: any) => {
 		await create_cookie(tokens.access_token);
 		return tokens;
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -92,7 +92,7 @@ export const signup = async (values: any) => {
 			);
 		return tokens;
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -106,7 +106,7 @@ export const get_connected_user_id = async () => {
 		const { sub: user_id } = data;
 		return user_id;
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 		return undefined;
 	}
 };
@@ -120,7 +120,7 @@ export const get_connected_user_builds = async () => {
 			true
 		);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -136,7 +136,7 @@ export const publish_connected_user_build = async (build_metadata: any) => {
 			true
 		);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -144,7 +144,7 @@ export const add_step_build = async (build: any) => {
 	try {
 		await base_query_axios(ADD_STEP_OF_BUILD, build, true);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -157,7 +157,7 @@ export const get_all_step_build_by_build_id = async (build_id: number) => {
 			`/${build_id}`
 		);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -165,7 +165,7 @@ export const delete_build_by_build_id = async (id: number) => {
 	try {
 		await base_query_axios(DELETE_BUILD, null, true, `/${id}`);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -173,7 +173,7 @@ export const move_step_in_build_steps = async (data: any) => {
 	try {
 		await base_query_axios(MOVE_STEP_IN_BUILD_STEPS, data, true);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -186,7 +186,7 @@ export const delete_step_in_build_steps = async (id: number) => {
 			`/${id}`
 		);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -205,7 +205,7 @@ export const import_build = async (e: any) => {
 			});
 		});
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -229,7 +229,7 @@ export const patch_build = async (build_id: number, build_metadata: any) => {
 			`/${build_id}`
 		);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -242,7 +242,7 @@ export const get_all_publics_builds = async () => {
 			`/all`
 		);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
 
@@ -255,6 +255,6 @@ export const get_public_build_by_id = async (id: number) => {
 			`/${id}`
 		);
 	} catch (error) {
-		console.log(JSON.stringify(error));
+		console.error(JSON.stringify(error));
 	}
 };
