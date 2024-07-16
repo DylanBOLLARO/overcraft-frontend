@@ -2,6 +2,7 @@ import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 import { env } from "@/env.mjs";
+import { addSeconds, format, startOfDay } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -56,3 +57,11 @@ export const jsonFileUpload = (e: any): Promise<any> => {
 		fileReader.readAsText(e.target.files[0], "UTF-8");
 	});
 };
+
+// new
+
+export function secondsToMinutesAndSeconds(seconds: number) {
+	const date = addSeconds(startOfDay(new Date()), seconds);
+	const formattedDate = format(date, "mm:ss");
+	return formattedDate;
+}

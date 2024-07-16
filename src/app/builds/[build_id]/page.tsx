@@ -1,114 +1,143 @@
 "use client";
-import ExportButton from "@/src/components/ExportButton";
-import { Icons } from "@/src/components/icons";
-import { buttonVariants } from "@/src/components/ui/button";
-import { Separator } from "@/src/components/ui/separator";
+
+import { Button } from "@/src/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle
+} from "@/src/components/ui/card";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger
+} from "@/src/components/ui/dropdown-menu";
 import {
 	Table,
 	TableBody,
-	TableCaption,
 	TableCell,
-	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow
 } from "@/src/components/ui/table";
-import { pagePath } from "@/src/constants/enum";
-import {
-	get_all_step_build_by_build_id,
-	get_public_build_by_id
-} from "@/src/lib/networking";
-import { cn } from "@/src/lib/utils";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useOneBuild, useSteps } from "@/src/services/queries";
+import { formatDate } from "date-fns";
+import { Badge } from "@/src/components/ui/badge";
+import { secondsToMinutesAndSeconds } from "@/src/lib/utils";
 
 export default function Page({ params }: { params: { build_id: string } }) {
-	const [selectedUserBuild, setSelectedUserBuild] = useState<any>(null);
+	const { build_id } = params;
 
-	const local_refresh_steps = async () => {
-		const public_build = await get_public_build_by_id(+params.build_id);
+	const { data: build, isFetching: isFetchingBuild } = useOneBuild(build_id);
 
-		const public_build_steps = await get_all_step_build_by_build_id(
-			public_build.id
-		);
-		const steps = public_build_steps.sort(
-			(a: any, b: any) => a.position - b.position
-		);
-		setSelectedUserBuild({ ...public_build, steps });
-	};
+	const {
+		isPending,
+		error,
+		data: steps,
+		isFetching: isFetchingSteps
+	} = useSteps(build_id);
 
-	useEffect(() => {
-		(async () => {
-			local_refresh_steps();
-		})();
-	}, [params]);
-
-	if (!selectedUserBuild) return <></>;
+	if (isPending) return "Loading...";
+	if (error) return "An error has occurred: " + error.message;
 
 	return (
-		<div className="flex flex-col gap-5 flex-1 p-3">
-			<div className="flex flex-row gap-5">
-				<Link
-					href={pagePath.BUILDS}
-					className={cn(
-						buttonVariants({ variant: "secondary" }),
-						"left-4 top-4 md:left-8 md:top-8 self-start"
-					)}
-				>
-					<>
-						<Icons.chevronLeft className="mr-2 h-4 w-4" />
-						Back
-					</>
-				</Link>
-				<div className="flex flex-col items-center animate-fade animate-once animate-duration-300 gap-2 mx-auto">
-					<h2 className="font-medium leading-none self-center">
-						{selectedUserBuild.title}
-					</h2>
-					<div className="flex text-xs gap-2 font-mono text-muted-foreground">
-						<p className="animate-fade animate-once animate-duration-300 animate-delay-500">
-							{selectedUserBuild.race}
-						</p>
-						<Separator
-							className="animate-fade animate-once animate-duration-300 animate-delay-[2000ms]"
-							orientation="vertical"
-						/>
-						<p className="animate-fade animate-once animate-duration-300 animate-delay-[1000ms]">
-							VS
-						</p>
-						<Separator
-							className="animate-fade animate-once animate-duration-300 animate-delay-[2000ms]"
-							orientation="vertical"
-						/>
-						<p className="animate-fade animate-once animate-duration-300 animate-delay-[1500ms]">
-							{selectedUserBuild.v_race}
-						</p>
-					</div>
-				</div>
-			</div>
-			<p className="text-muted-foreground">
-				{selectedUserBuild.description}
-			</p>
+		<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+			<div className="flex flex-col gap-4">
+				{!isFetchingBuild && (
+					<Card
+						className="sm:col-span-2 bg-transparent"
+						x-chunk="dashboard-05-chunk-0"
+					>
+						<CardHeader className="pb-3">
+							<CardTitle>{build.title}</CardTitle>
+							<CardDescription className="">
+								{build.description}
+							</CardDescription>
+						</CardHeader>
+						<CardContent className="flex flex-wrap gap-3">
+							<Badge>
+								{build.race[0] + "v" + build.v_race[0]}
+							</Badge>
+							<Badge>
+								{formatDate(build.updatedAt, "dd MMMM yyyy")}
+							</Badge>
+						</CardContent>
+					</Card>
+				)}
 
-			<Table className="animate-fade animate-once animate-duration-300">
-				<TableHeader>
-					<TableRow>
-						<TableHead>Description</TableHead>
-						<TableHead>Population</TableHead>
-						<TableHead>Timer</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{selectedUserBuild.steps.map((step: any) => (
-						<TableRow key={step.invoice}>
-							<TableCell className="font-medium">
-								{step.description}
-							</TableCell>
-							<TableCell>{step.population}</TableCell>
-							<TableCell>{step.timer}</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
-		</div>
+				{!isFetchingSteps && (
+					<Card className="bg-transparent">
+						<CardContent className="pt-6">
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>Population</TableHead>
+										<TableHead>Description</TableHead>
+										<TableHead>Timer</TableHead>
+										{/* <TableHead>Actions</TableHead> */}
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{steps.map((step: any) => (
+										<TableRow
+											className="h-10"
+											key={`${step?.id}`}
+										>
+											<TableCell>
+												{step.population}
+											</TableCell>
+											<TableCell>
+												{step.description}
+											</TableCell>
+											<TableCell>
+												{secondsToMinutesAndSeconds(
+													step.timer || 0
+												)}
+											</TableCell>
+											{/* <TableCell>
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<Button
+														aria-haspopup="true"
+														size="icon"
+														variant="ghost"
+													>
+														<MoreHorizontal className="h-4 w-4" />
+														<span className="sr-only">
+															Toggle menu
+														</span>
+													</Button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent align="end">
+													<DropdownMenuItem>
+														Move up
+													</DropdownMenuItem>
+													<DropdownMenuItem>
+														Move down
+													</DropdownMenuItem>
+													<DropdownMenuItem>
+														Delete
+													</DropdownMenuItem>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</TableCell> */}
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</CardContent>
+						{/* <CardFooter>
+						<div className="text-xs text-muted-foreground">
+							Showing <strong>1-10</strong> of <strong>32</strong>{" "}
+							products
+						</div>
+					</CardFooter> */}
+					</Card>
+				)}
+			</div>
+		</main>
 	);
 }
