@@ -12,7 +12,7 @@ import {
 	DialogTrigger
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { PlusCircle } from "lucide-react";
+import { File, PlusCircle } from "lucide-react";
 import {
 	Form,
 	FormControl,
@@ -29,7 +29,7 @@ const formSchema = z.object({
 	name: z.string().min(2).max(50)
 });
 
-export const DialogCreateBuild = ({ local_refresh_builds }: any) => {
+export const DialogCreateBuild = () => {
 	const [open, setOpen] = React.useState(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -48,16 +48,15 @@ export const DialogCreateBuild = ({ local_refresh_builds }: any) => {
 			v_race: "TERRAN"
 		});
 		setOpen(false);
-		local_refresh_builds();
 		form.reset();
 	}
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="outline" className="gap-2">
-					<PlusCircle className="h-4 w-4" />
-					Create
+				<Button size="sm" className="h-7 gap-1 text-sm">
+					<File className="h-3.5 w-3.5" />
+					<span className="sr-only sm:not-sr-only">Create</span>
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">

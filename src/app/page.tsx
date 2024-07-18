@@ -19,21 +19,12 @@ import {
 } from "../components/ui/dropdown-menu";
 import { File, ListFilter } from "lucide-react";
 import { Button } from "../components/ui/button";
-import {
-	Card,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle
-} from "../components/ui/card";
-import { useState } from "react";
 
 export default function IndexPage() {
-	const [tabsValue, setTabsValue] = useState("all");
-
 	const { isPending, error, data: builds, isFetching } = useBuilds();
-	if (isPending) return "Loading...";
-	if (error) return "An error has occurred: " + error.message;
+
+	if (isPending) return;
+	if (error) return console.error("An error has occurred: " + error.message);
 
 	return (
 		!isFetching && (
@@ -41,10 +32,7 @@ export default function IndexPage() {
 				{/* <Header /> */}
 				<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
 					<div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-						<Tabs
-							defaultValue="all"
-							onValueChange={(value) => setTabsValue(value)}
-						>
+						<Tabs defaultValue="all">
 							<div className="flex items-center">
 								<TabsList>
 									<TabsTrigger value="all">All</TabsTrigger>
@@ -63,7 +51,6 @@ export default function IndexPage() {
 												variant="outline"
 												size="sm"
 												className="h-7 gap-1 text-sm"
-												disabled
 											>
 												<ListFilter className="h-3.5 w-3.5" />
 												<span className="sr-only sm:not-sr-only">
@@ -77,27 +64,13 @@ export default function IndexPage() {
 											</DropdownMenuLabel>
 											<DropdownMenuSeparator />
 											<DropdownMenuCheckboxItem checked>
-												Fulfilled
+												Most liked
 											</DropdownMenuCheckboxItem>
-											<DropdownMenuCheckboxItem>
-												Declined
-											</DropdownMenuCheckboxItem>
-											<DropdownMenuCheckboxItem>
-												Refunded
+											<DropdownMenuCheckboxItem disabled>
+												The most recent
 											</DropdownMenuCheckboxItem>
 										</DropdownMenuContent>
 									</DropdownMenu>
-									<Button
-										size="sm"
-										variant="outline"
-										className="h-7 gap-1 text-sm"
-										disabled
-									>
-										<File className="h-3.5 w-3.5" />
-										<span className="sr-only sm:not-sr-only">
-											Create
-										</span>
-									</Button>
 								</div>
 							</div>
 

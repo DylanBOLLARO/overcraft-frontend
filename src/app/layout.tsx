@@ -5,7 +5,7 @@ import { cn } from "@/src/lib/utils";
 import { TailwindIndicator } from "@/src/components/tailwind-indicator";
 import { ThemeProvider } from "@/src/components/theme-provider";
 import { useEffect, useState } from "react";
-import Navigation from "./navigation";
+import Navigation from "../components/new/navigation";
 import { deleteCookie, get_connected_user_id } from "../lib/networking";
 import { usePathname } from "next/navigation";
 import { Button } from "../components/ui/button";

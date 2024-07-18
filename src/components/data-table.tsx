@@ -148,42 +148,6 @@ export function DataTable({
 					</TableBody>
 				</Table>
 			</div>
-
-			<div className="flex flex-1 flex-row justify-between gap-3">
-				<Input
-					className="h-8"
-					placeholder="Description"
-					value={description}
-					onChange={(e) => setDescription(e.target.value)}
-				/>
-				<Input
-					className="h-8 w-24"
-					placeholder="Population"
-					value={population}
-					onChange={(e) => setPopulation(e.target.value)}
-				/>
-				<Input
-					className="h-8 w-24"
-					placeholder="Timer"
-					value={timer}
-					onChange={(e) => setTimer(e.target.value)}
-				/>
-				<Button
-					className="h-8"
-					variant="outline"
-					onClick={async () => {
-						await handleAddButtonClick();
-						local_refresh_steps();
-						setDescription("");
-						setPopulation("");
-						setTimer("");
-					}}
-					disabled={!description || !population || !timer}
-				>
-					<PlusCircle className="mr-2 h-4 w-4" />
-					Add
-				</Button>
-			</div>
 		</>
 	);
 }

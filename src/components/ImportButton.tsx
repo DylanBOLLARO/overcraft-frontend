@@ -5,7 +5,7 @@ import { Download } from "lucide-react";
 import { jsonFileUpload } from "../lib/utils";
 import { import_build } from "../lib/networking";
 
-export const ImportButton = ({ local_refresh_builds }: any) => {
+export const ImportButton = () => {
 	return (
 		<div>
 			<Input
@@ -17,7 +17,6 @@ export const ImportButton = ({ local_refresh_builds }: any) => {
 						.then((parsedJson) => {
 							import_build(JSON.stringify(parsedJson));
 						})
-						.then(local_refresh_builds)
 						.catch((error) => {
 							console.error(error);
 						});
@@ -27,9 +26,9 @@ export const ImportButton = ({ local_refresh_builds }: any) => {
 
 			<Label
 				htmlFor="btn-import"
-				className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-2 cursor-pointer"
+				className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 px-4 py-2 h-7 gap-1 text-sm text-secondary-foreground border border-input bg-background hover:bg-accent hover:text-accent-foreground"
 			>
-				<Download className="h-4 w-4" />
+				<Download className="h-3.5 w-3.5" />
 				<p>Import</p>
 			</Label>
 		</div>

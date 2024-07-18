@@ -20,10 +20,7 @@ import {
 import { Switch } from "./ui/switch";
 import { patch_build } from "../lib/networking";
 
-export const DialogEditBuild = ({
-	selectedUserBuild,
-	local_refresh_steps
-}: any) => {
+export const DialogEditBuild = ({ selectedUserBuild }: any) => {
 	const [open, setOpen] = useState(false);
 	const [editedBuild, setEditedBuild] = useState(selectedUserBuild);
 	const [isModified, setIsModified] = useState(false);
@@ -80,7 +77,6 @@ export const DialogEditBuild = ({
 				is_public
 			});
 		}
-		await local_refresh_steps();
 		setEditedBuild(selectedUserBuild);
 		setOpen(false);
 		setIsModified(false);

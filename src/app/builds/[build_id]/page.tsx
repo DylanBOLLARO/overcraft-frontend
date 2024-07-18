@@ -40,8 +40,8 @@ export default function Page({ params }: { params: { build_id: string } }) {
 		isFetching: isFetchingSteps
 	} = useSteps(build_id);
 
-	if (isPending) return "Loading...";
-	if (error) return "An error has occurred: " + error.message;
+	if (isPending) return;
+	if (error) return console.error("An error has occurred: " + error.message);
 
 	return (
 		<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -62,7 +62,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 								{build.race[0] + "v" + build.v_race[0]}
 							</Badge>
 							<Badge>
-								{formatDate(build.updatedAt, "dd MMMM yyyy")}
+								{formatDate(build.updatedAt, "MMMM yyyy")}
 							</Badge>
 						</CardContent>
 					</Card>
@@ -129,12 +129,6 @@ export default function Page({ params }: { params: { build_id: string } }) {
 								</TableBody>
 							</Table>
 						</CardContent>
-						{/* <CardFooter>
-						<div className="text-xs text-muted-foreground">
-							Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-							products
-						</div>
-					</CardFooter> */}
 					</Card>
 				)}
 			</div>

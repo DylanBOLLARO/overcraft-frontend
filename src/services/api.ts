@@ -1,9 +1,10 @@
 import {
 	GET_ALL_PUBLICS_BUILDS,
 	GET_ALL_STEPS_OF_BUILD_BY_BUILD_ID,
+	GET_CONNECTED_USER_BUILDS,
 	GET_PUBLIC_BUILD_BY_ID
 } from "../constants/api";
-import { base_query_axios } from "../lib/networking";
+import { base_query_axios, get_connected_user_id } from "../lib/networking";
 
 export const get_all_publics_builds = async () => {
 	try {
@@ -12,6 +13,19 @@ export const get_all_publics_builds = async () => {
 			null,
 			false,
 			`/all`
+		);
+	} catch (error) {
+		console.error(JSON.stringify(error));
+	}
+};
+
+export const get_connected_user_builds = async () => {
+	try {
+		const user_id = await get_connected_user_id();
+		return await base_query_axios(
+			GET_CONNECTED_USER_BUILDS,
+			{ user_id },
+			true
 		);
 	} catch (error) {
 		console.error(JSON.stringify(error));

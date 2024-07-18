@@ -17,11 +17,11 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger
-} from "../components/ui/alert-dialog";
-import { pagePath } from "../constants/enum";
-import { MainNav } from "../components/main-nav";
+} from "../ui/alert-dialog";
+import { pagePath } from "../../constants/enum";
+import { MainNav } from "../main-nav";
 import { useRouter } from "next/navigation";
-import { deleteCookie } from "../lib/networking";
+import { deleteCookie } from "../../lib/networking";
 import {
 	Book,
 	Home,
@@ -38,7 +38,7 @@ import {
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
-} from "../components/ui/tooltip";
+} from "../ui/tooltip";
 
 export default function NavigationBar() {
 	const router = useRouter();
@@ -86,30 +86,6 @@ export default function NavigationBar() {
 						</TooltipTrigger>
 						<TooltipContent side="right">Dashboard</TooltipContent>
 					</Tooltip>
-					{/*<Tooltip>
-						<TooltipTrigger asChild>
-							<Link
-								href="#"
-								className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-							>
-								<Users2 className="h-5 w-5 group-hover:scale-110" />
-								<span className="sr-only">Customers</span>
-							</Link>
-						</TooltipTrigger>
-						<TooltipContent side="right">Customers</TooltipContent>
-					</Tooltip>
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Link
-								href="#"
-								className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-							>
-								<LineChart className="h-5 w-5 group-hover:scale-110" />
-								<span className="sr-only">Analytics</span>
-							</Link>
-						</TooltipTrigger>
-						<TooltipContent side="right">Analytics</TooltipContent>
-					</Tooltip> */}
 				</TooltipProvider>
 			</nav>
 			<nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
@@ -129,63 +105,5 @@ export default function NavigationBar() {
 				</TooltipProvider>
 			</nav>
 		</div>
-
-		// <div className="flex flex-col mb-2">
-		// 	<header className="px-10 z-40 bg-background  border-b-[1px] border-muted-foreground/20">
-		// 		<div className="flex h-10 items-center justify-between py-4">
-		// 			<MainNav items={marketingConfig.mainNav} />
-		// 			<div className="flex flex-row gap-3 items-center">
-		// 				<ModeToggle />
-		// 				{userId ? (
-		// 					<AlertDialog>
-		// 						<AlertDialogTrigger asChild>
-		// 							<Button variant="outline" size={"xsm"}>
-		// 								logout
-		// 							</Button>
-		// 						</AlertDialogTrigger>
-		// 						<AlertDialogContent>
-		// 							<AlertDialogHeader>
-		// 								<AlertDialogTitle>
-		// 									Are you absolutely sure you want to
-		// 									log out?
-		// 								</AlertDialogTitle>
-		// 								<AlertDialogDescription>
-		// 									Logging out will disconnect you from
-		// 									your account, and your data will
-		// 									remain on our servers.
-		// 								</AlertDialogDescription>
-		// 							</AlertDialogHeader>
-		// 							<AlertDialogFooter>
-		// 								<AlertDialogCancel>
-		// 									Cancel
-		// 								</AlertDialogCancel>
-		// 								<AlertDialogAction
-		// 									onClick={async () => {
-		// 										await deleteCookie();
-		// 										router.push(pagePath.SIGNIN);
-		// 									}}
-		// 								>
-		// 									Continue
-		// 								</AlertDialogAction>
-		// 							</AlertDialogFooter>
-		// 						</AlertDialogContent>
-		// 					</AlertDialog>
-		// 				) : (
-		// 					<Link
-		// 						href={pagePath.SIGNIN}
-		// 						className={cn(
-		// 							buttonVariants({
-		// 								variant: "secondary",
-		// 								size: "xsm"
-		// 							})
-		// 						)}
-		// 					>
-		// 						Login
-		// 					</Link>
-		// 				)}
-		// 			</div>
-		// 		</div>
-		// 	</header>
-		// </div>
 	);
 }
