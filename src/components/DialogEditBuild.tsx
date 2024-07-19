@@ -20,7 +20,7 @@ import {
 import { Switch } from "./ui/switch";
 import { patch_build } from "../lib/networking";
 
-export const DialogEditBuild = ({ selectedUserBuild }: any) => {
+export const DialogEditBuild = ({ selectedUserBuild, refetch_build }: any) => {
 	const [open, setOpen] = useState(false);
 	const [editedBuild, setEditedBuild] = useState(selectedUserBuild);
 	const [isModified, setIsModified] = useState(false);
@@ -78,6 +78,7 @@ export const DialogEditBuild = ({ selectedUserBuild }: any) => {
 			});
 		}
 		setEditedBuild(selectedUserBuild);
+		refetch_build();
 		setOpen(false);
 		setIsModified(false);
 	};

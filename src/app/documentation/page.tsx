@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+
 const Page = () => {
 	const isProd = process.env.NODE_ENV === "production";
 	return (

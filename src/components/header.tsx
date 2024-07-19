@@ -32,11 +32,32 @@ import {
 	DropdownMenuTrigger
 } from "../components/ui/dropdown-menu";
 import Image from "next/image";
+import { useContext } from "react";
+import { useUserContext } from "../app/layout";
+import { deleteCookie } from "../lib/networking";
+import { pagePath } from "../constants/enum";
+import { usePathname, useRouter } from "next/navigation";
+import { capitalize } from "../lib/utils";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger
+} from "./ui/alert-dialog";
 
 function Header() {
+	const router = useRouter();
+	const { user, setUser } = useUserContext();
+	const pathname = usePathname();
+
 	return (
-		<div className="flex flex-col gap-4 py-4">
-			<header className="sticky top-0 z-30 flex items-center gap-4 h-auto bg-transparent px-6">
+		<div className="flex flex-col gap-4">
+			<header className="flex items-center gap-4 h-auto bg-transparent px-6">
 				{/* <Breadcrumb className="hidden md:flex">
 					<BreadcrumbList>
 						<BreadcrumbItem>
@@ -56,15 +77,74 @@ function Header() {
 						</BreadcrumbItem>
 					</BreadcrumbList>
 				</Breadcrumb> */}
+				{user && (
+					<h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-primary-foreground">
+						Welcome,{" "}
+						<span className="font-bold">
+							{capitalize(user.username)}
+						</span>
+					</h4>
+				)}
+
 				<div className="relative ml-auto flex-1 md:grow-0">
-					<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-					<Input
-						type="search"
-						placeholder="Search..."
-						className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-					/>
+					{(pathname === "/" || pathname === "/dashboard/builds") && (
+						<>
+							<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+							<Input
+								disabled
+								type="search"
+								placeholder="Search..."
+								className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
+							/>
+						</>
+					)}
 				</div>
-				<Button disabled>Login</Button>
+				{user ? (
+					<AlertDialog>
+						<AlertDialogTrigger asChild>
+							<Button variant="outline">Logout</Button>
+						</AlertDialogTrigger>
+						<AlertDialogContent>
+							<AlertDialogHeader>
+								<AlertDialogTitle>
+									Are you absolutely sure?
+								</AlertDialogTitle>
+								<AlertDialogDescription>
+									This action cannot be undone. This will
+									permanently delete your account and remove
+									your data from our servers.
+								</AlertDialogDescription>
+							</AlertDialogHeader>
+							<AlertDialogFooter>
+								<AlertDialogCancel>Cancel</AlertDialogCancel>
+								<AlertDialogAction
+									onClick={() => {
+										deleteCookie();
+										setUser(undefined);
+									}}
+								>
+									Continue
+								</AlertDialogAction>
+							</AlertDialogFooter>
+						</AlertDialogContent>
+					</AlertDialog>
+				) : (
+					<Button
+						onClick={() => {
+							router.push(pagePath.SIGNIN);
+						}}
+					>
+						Login
+					</Button>
+
+					// <Button
+					// 	onClick={() => {
+					// 		router.push(pagePath.SIGNIN);
+					// 	}}
+					// >
+					// 	Login
+					// </Button>
+				)}
 				{/* TODO: implémentation d'un btn login, sinon picture with dropdown menu */}
 				{/* <DropdownMenu>
 					<DropdownMenuTrigger asChild>

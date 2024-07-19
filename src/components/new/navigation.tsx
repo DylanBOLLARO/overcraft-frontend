@@ -40,9 +40,7 @@ import {
 	TooltipTrigger
 } from "../ui/tooltip";
 
-export default function NavigationBar() {
-	const router = useRouter();
-
+export default function Navigation() {
 	return (
 		<div className="fixed inset-y-0 left-0 z-10 w-14 flex-col border-r bg-transparent flex">
 			<nav className="flex flex-col items-center gap-4 px-2 py-4">

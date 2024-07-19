@@ -21,7 +21,7 @@ export const get_all_publics_builds = async () => {
 
 export const get_connected_user_builds = async () => {
 	try {
-		const user_id = await get_connected_user_id();
+		const { id: user_id } = await get_connected_user_id();
 		return await base_query_axios(
 			GET_CONNECTED_USER_BUILDS,
 			{ user_id },

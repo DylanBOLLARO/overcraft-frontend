@@ -10,7 +10,8 @@ export function useBuilds() {
 	return useQuery({
 		queryKey: ["builds"],
 		queryFn: () => get_all_publics_builds(),
-		refetchOnWindowFocus: false
+		refetchOnWindowFocus: false,
+		placeholderData: keepPreviousData
 	});
 }
 
@@ -18,7 +19,8 @@ export function useAllBuildsOfUser() {
 	return useQuery({
 		queryKey: ["onebuild"],
 		queryFn: () => get_connected_user_builds(),
-		refetchOnWindowFocus: false
+		refetchOnWindowFocus: false,
+		placeholderData: keepPreviousData
 	});
 }
 
@@ -26,7 +28,8 @@ export function useOneBuild(build_id: any) {
 	return useQuery({
 		queryKey: ["onebuild"],
 		queryFn: () => get_public_build_by_id(build_id),
-		refetchOnWindowFocus: false
+		refetchOnWindowFocus: false,
+		placeholderData: keepPreviousData
 	});
 }
 
@@ -34,6 +37,7 @@ export function useSteps(build_id: any) {
 	return useQuery({
 		queryKey: ["builds"],
 		queryFn: () => get_all_steps_build_by_build_id(build_id),
-		refetchOnWindowFocus: false
+		refetchOnWindowFocus: false,
+		placeholderData: keepPreviousData
 	});
 }

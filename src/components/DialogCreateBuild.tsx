@@ -29,7 +29,7 @@ const formSchema = z.object({
 	name: z.string().min(2).max(50)
 });
 
-export const DialogCreateBuild = () => {
+export const DialogCreateBuild = ({ refetch }: any) => {
 	const [open, setOpen] = React.useState(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -48,6 +48,7 @@ export const DialogCreateBuild = () => {
 			v_race: "TERRAN"
 		});
 		setOpen(false);
+		refetch();
 		form.reset();
 	}
 

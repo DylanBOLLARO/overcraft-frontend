@@ -2,21 +2,16 @@
 
 import { Icons } from "@/src/components/icons";
 import { Button, buttonVariants } from "@/src/components/ui/button";
-import { Separator } from "@/src/components/ui/separator";
 import { pagePath } from "@/src/constants/enum";
 import {
 	add_step_build,
 	delete_step_in_build_steps,
-	get_all_step_build_by_build_id,
-	get_connected_user_builds,
 	move_step_in_build_steps
 } from "@/src/lib/networking";
 import { cn, secondsToMinutesAndSeconds } from "@/src/lib/utils";
 import { formatDate } from "date-fns";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { columns } from "../../../../components/columns";
-import { DataTable } from "../../../../components/data-table";
+import { useState } from "react";
 import { DialogEditBuild } from "@/src/components/DialogEditBuild";
 import { DialogDeleteBuild } from "@/src/components/DialogDeleteBuild";
 import ExportButton from "@/src/components/ExportButton";
@@ -49,15 +44,25 @@ import { Badge } from "@/src/components/ui/badge";
 export default function Page({ params }: { params: { build_id: string } }) {
 	const [description, setDescription] = useState<string>("");
 	const [population, setPopulation] = useState<string>("");
-	const [timer, setTimer] = useState<string>("");
+	const [selectedMinute, setSelectedMinute] = useState<string>("");
+	const [selectedSeconds, setSelectedSeconds] = useState<string>("");
 
-	const handleAddButtonClick = async () => {
-		if (description && population && timer) {
+	const handleAddButtonClick = async (
+		description: any,
+		population: any,
+		selectedMinute: any,
+		selectedSeconds: any,
+		build: any
+	) => {
+		console.log(build);
+		if (description && population && selectedMinute && selectedSeconds) {
 			await add_step_build({
 				description,
 				build_id: "" + build.id,
 				position: "" + build.steps.length,
-				timer: "" + timer,
+				timer:
+					"" +
+					(parseInt(selectedMinute) * 60 + parseInt(selectedSeconds)),
 				population
 			});
 		}
@@ -65,13 +70,18 @@ export default function Page({ params }: { params: { build_id: string } }) {
 
 	const { build_id } = params;
 
-	const { data: build, isFetching: isFetchingBuild } = useOneBuild(build_id);
+	const {
+		data: build,
+		isFetching: isFetchingBuild,
+		refetch: refetch_build
+	} = useOneBuild(build_id);
 
 	const {
 		isPending,
 		error,
 		data: steps,
-		isFetching: isFetchingSteps
+		isFetching: isFetchingSteps,
+		refetch: refetch_steps
 	} = useSteps(build_id);
 
 	if (isPending) return;
@@ -84,7 +94,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 					<Link
 						href={pagePath.DASHBOARD}
 						className={cn(
-							buttonVariants({ variant: "secondary" }),
+							buttonVariants({ variant: "outline" }),
 							"left-4 top-4 md:left-8 md:top-8 self-start"
 						)}
 					>
@@ -95,10 +105,13 @@ export default function Page({ params }: { params: { build_id: string } }) {
 					</Link>
 
 					<div className="flex flex-row gap-2">
-						<ExportButton selectedUserBuild={build} />
-
-						<DialogEditBuild selectedUserBuild={build} />
-
+						<ExportButton
+							selectedUserBuild={{ ...build, steps: steps }}
+						/>
+						<DialogEditBuild
+							refetch_build={refetch_build}
+							selectedUserBuild={build}
+						/>
 						<DialogDeleteBuild selectedUserBuildId={build.id} />
 					</div>
 				</div>
@@ -190,6 +203,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 																			move: "DOWN"
 																		}
 																	);
+																	refetch_steps();
 																}}
 															>
 																Move up
@@ -210,6 +224,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 																			move: "UP"
 																		}
 																	);
+																	refetch_steps();
 																}}
 															>
 																Move down
@@ -221,6 +236,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 																			index
 																		]?.id
 																	);
+																	refetch_steps();
 																}}
 															>
 																Delete
@@ -235,7 +251,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 						</CardContent>
 					</Card>
 				)}
-				<div className="flex flex-1 flex-row justify-between gap-3 mb-28">
+				<div className="flex flex-1 flex-row justify-between gap-3">
 					<Input
 						className="h-8"
 						placeholder="Description"
@@ -248,22 +264,44 @@ export default function Page({ params }: { params: { build_id: string } }) {
 						value={population}
 						onChange={(e) => setPopulation(e.target.value)}
 					/>
-					<Input
-						className="h-8 w-24"
-						placeholder="Timer"
-						value={timer}
-						onChange={(e) => setTimer(e.target.value)}
-					/>
+					<div className="flex flex-row  gap-3">
+						<Input
+							className="h-8 w-24"
+							placeholder="Minutes"
+							value={selectedMinute}
+							onChange={(e) => setSelectedMinute(e.target.value)}
+						/>
+						<Input
+							className="h-8 w-24"
+							placeholder="Secondes"
+							value={selectedSeconds}
+							onChange={(e) => setSelectedSeconds(e.target.value)}
+						/>
+					</div>
+
 					<Button
 						className="h-8"
 						variant="outline"
 						onClick={async () => {
-							await handleAddButtonClick();
+							await handleAddButtonClick(
+								description,
+								population,
+								selectedMinute,
+								selectedSeconds,
+								{ ...build, steps: steps }
+							);
 							setDescription("");
 							setPopulation("");
-							setTimer("");
+							setSelectedMinute("");
+							setSelectedSeconds("");
+							refetch_steps();
 						}}
-						disabled={!description || !population || !timer}
+						disabled={
+							!description ||
+							!population ||
+							!selectedMinute ||
+							!selectedSeconds
+						}
 					>
 						<PlusCircle className="mr-2 h-4 w-4" />
 						Add

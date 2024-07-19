@@ -1,20 +1,12 @@
 "use client";
 
-import { Button } from "@/src/components/ui/button";
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle
 } from "@/src/components/ui/card";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger
-} from "@/src/components/ui/dropdown-menu";
 import {
 	Table,
 	TableBody,
@@ -77,7 +69,6 @@ export default function Page({ params }: { params: { build_id: string } }) {
 										<TableHead>Population</TableHead>
 										<TableHead>Description</TableHead>
 										<TableHead>Timer</TableHead>
-										{/* <TableHead>Actions</TableHead> */}
 									</TableRow>
 								</TableHeader>
 								<TableBody>
@@ -97,33 +88,6 @@ export default function Page({ params }: { params: { build_id: string } }) {
 													step.timer || 0
 												)}
 											</TableCell>
-											{/* <TableCell>
-											<DropdownMenu>
-												<DropdownMenuTrigger asChild>
-													<Button
-														aria-haspopup="true"
-														size="icon"
-														variant="ghost"
-													>
-														<MoreHorizontal className="h-4 w-4" />
-														<span className="sr-only">
-															Toggle menu
-														</span>
-													</Button>
-												</DropdownMenuTrigger>
-												<DropdownMenuContent align="end">
-													<DropdownMenuItem>
-														Move up
-													</DropdownMenuItem>
-													<DropdownMenuItem>
-														Move down
-													</DropdownMenuItem>
-													<DropdownMenuItem>
-														Delete
-													</DropdownMenuItem>
-												</DropdownMenuContent>
-											</DropdownMenu>
-										</TableCell> */}
 										</TableRow>
 									))}
 								</TableBody>

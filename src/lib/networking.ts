@@ -9,6 +9,7 @@ import {
 	DELETE_STEP_IN_BUILD_STEPS,
 	GET_ALL_PUBLICS_BUILDS,
 	GET_ALL_STEPS_OF_BUILD_BY_BUILD_ID,
+	GET_CONNECTED_USER,
 	GET_CONNECTED_USER_BUILDS,
 	GET_CONNECTED_USER_ID,
 	GET_PUBLIC_BUILD_BY_ID,
@@ -90,6 +91,7 @@ export const signup = async (values: any) => {
 			throw new Error(
 				"No tokens returned by the API during connection; authentication not possible."
 			);
+		await create_cookie(tokens.access_token);
 		return tokens;
 	} catch (error) {
 		console.error(JSON.stringify(error));
@@ -103,8 +105,7 @@ export const get_connected_user_id = async () => {
 			throw new Error(
 				"No user ID returned by the API during connection; authentication not possible."
 			);
-		const { sub: user_id } = data;
-		return user_id;
+		return data;
 	} catch (error) {
 		console.error(JSON.stringify(error));
 		return undefined;
@@ -113,7 +114,7 @@ export const get_connected_user_id = async () => {
 
 export const get_connected_user_builds = async () => {
 	try {
-		const user_id = await get_connected_user_id();
+		const { id: user_id } = await get_connected_user_id();
 		return await base_query_axios(
 			GET_CONNECTED_USER_BUILDS,
 			{ user_id },
@@ -126,7 +127,7 @@ export const get_connected_user_builds = async () => {
 
 export const publish_connected_user_build = async (build_metadata: any) => {
 	try {
-		const user_id = await get_connected_user_id();
+		const { id: user_id } = await get_connected_user_id();
 		return await base_query_axios(
 			PUBLISH_CONNECTED_USER_BUILD,
 			{
@@ -210,9 +211,11 @@ export const import_build = async (e: any) => {
 };
 
 export const patch_build = async (build_id: number, build_metadata: any) => {
+	console.log("build_id");
+	console.log(build_id);
 	const { title, description, race, v_race, is_public } = build_metadata;
 	try {
-		const user_id = await get_connected_user_id();
+		const { id: user_id } = await get_connected_user_id();
 		return await base_query_axios(
 			PATCH_BUILD,
 			{
@@ -256,5 +259,20 @@ export const get_public_build_by_id = async (id: number) => {
 		);
 	} catch (error) {
 		console.error(JSON.stringify(error));
+	}
+};
+
+// OVERCRAFT V2:
+export const getConnectedUser = async () => {
+	try {
+		const data = await base_query_axios(GET_CONNECTED_USER, null, true);
+		if (!data)
+			throw new Error(
+				"No user returned by the API during connection; authentication not possible."
+			);
+		return data;
+	} catch (error) {
+		console.error(JSON.stringify(error));
+		return undefined;
 	}
 };

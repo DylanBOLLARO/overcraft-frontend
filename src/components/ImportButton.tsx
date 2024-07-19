@@ -5,7 +5,7 @@ import { Download } from "lucide-react";
 import { jsonFileUpload } from "../lib/utils";
 import { import_build } from "../lib/networking";
 
-export const ImportButton = () => {
+export const ImportButton = ({ refetch }: any) => {
 	return (
 		<div>
 			<Input
@@ -16,6 +16,9 @@ export const ImportButton = () => {
 					jsonFileUpload(e)
 						.then((parsedJson) => {
 							import_build(JSON.stringify(parsedJson));
+						})
+						.then(() => {
+							refetch();
 						})
 						.catch((error) => {
 							console.error(error);

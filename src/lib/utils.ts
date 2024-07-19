@@ -65,3 +65,21 @@ export function secondsToMinutesAndSeconds(seconds: number) {
 	const formattedDate = format(date, "mm:ss");
 	return formattedDate;
 }
+
+export function throttle(fn: any, delay: any) {
+	let LastTime = 0;
+	console.log("called Throttle immediatly");
+	let id = 0;
+	return (...args: any) => {
+		const now = new Date().getTime();
+		id++;
+		if (now - LastTime < delay) return;
+		LastTime = now;
+		console.log(`evend id :${id}`);
+		fn(...args);
+	};
+}
+
+export function capitalize(string: string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}
