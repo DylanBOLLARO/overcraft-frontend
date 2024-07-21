@@ -23,7 +23,7 @@ import {
 	FormMessage
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { publish_connected_user_build } from "../lib/user";
+import { publish_connected_user_build } from "../services/api/build-private";
 
 const formSchema = z.object({
 	name: z.string().min(2).max(50)

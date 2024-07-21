@@ -15,10 +15,12 @@ export enum VERBES_HTTP {
 }
 
 export enum MODULE_NESTJS {
-	BUILD = "/build",
+	BUILD_PUBLIC = "/build-public",
+	BUILD_PRIVATE = "/build-private",
 	AUTH = "/auth",
 	USER = "/user",
-	BUILD_STEP = "/step"
+	BUILD_STEP = "/step",
+	LIKE = "/like"
 }
 
 export enum SERVICE_AUTH_MODULE {

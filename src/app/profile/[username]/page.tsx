@@ -10,13 +10,15 @@ import {
 	CardHeader,
 	CardTitle
 } from "@/src/components/ui/card";
-import { capitalize, formatDate, isRoleGuest } from "@/src/lib/utils";
+import { capitalize, formatDate, isRoleGuest } from "@/src/services/utils";
 import { Album, Heart } from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 import { format } from "date-fns";
 import { ProfileBuildsList } from "@/src/components/new/profile-builds-list";
-import { getUserProfileByConfig } from "@/src/services/api";
 import qs from "qs";
+import { getUserProfileByConfig } from "@/src/services/api/build-private";
+import { getAllPublicBuildsOfUserByUserId } from "@/src/services/api/build-public";
+import { getNumberOfLikeOfUserByUserId } from "@/src/services/api/like";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
@@ -24,21 +26,32 @@ export default function Page({ params }: { params: { username: string } }) {
 	const [profile, setProfile] = useState<any>(undefined);
 	const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
-		(async () => {
-			if (username === user?.username) {
-				setProfile(user);
-			} else {
-				const config = qs.stringify({ username }, { delimiter: ";" });
-				const user: any = await getUserProfileByConfig(config);
-				if (user) setProfile(user);
-			}
-		})();
+	const createUserProfile = async () => {
+		setIsLoading(true);
+		let profile = undefined;
+		if (username === user?.username) {
+			profile = user;
+		} else {
+			const config = qs.stringify({ username }, { delimiter: ";" });
+			const user: any = await getUserProfileByConfig(config);
+			if (user) profile = user;
+		}
+		if (profile) {
+			const builds = await getAllPublicBuildsOfUserByUserId(profile.id);
+			const likes = await getNumberOfLikeOfUserByUserId(profile.id);
+			profile = { ...profile, builds, likes };
+		}
+		setProfile({ ...profile });
 		setIsLoading(false);
-	}, [username, user]);
+	};
+
+	useEffect(() => {
+		createUserProfile();
+	}, []);
 
 	if (!profile) <p>{"No profile data to display"}</p>;
 
+	console.log(profile);
 	return (
 		!isLoading &&
 		profile && (
@@ -72,10 +85,12 @@ export default function Page({ params }: { params: { username: string } }) {
 							<CardTitle className="text-sm font-medium">
 								Total build published
 							</CardTitle>
-							<Album />
+							<Album className="hover:scale-110 hover:text-primary duration-100 transition-colors cursor-pointer" />
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">17</div>
+							<div className="text-2xl font-bold">
+								{profile?.builds?.length || 0}
+							</div>
 						</CardContent>
 					</Card>
 					<Card>
@@ -83,20 +98,25 @@ export default function Page({ params }: { params: { username: string } }) {
 							<CardTitle className="text-sm font-medium">
 								Number of likes
 							</CardTitle>
-							<Heart />
+							<Heart className="hover:scale-110 hover:text-pink-700 duration-100 transition-colors cursor-pointer" />
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">64</div>
+							<div className="text-2xl font-bold">
+								{profile?.likes || 0}
+							</div>
 						</CardContent>
 					</Card>
 				</div>
 				<Card className="col-span-3">
-					<CardHeader>
-						<CardTitle>All builds order published</CardTitle>
+					<CardHeader className="flex flex-row items-end justify-between">
+						<CardTitle>{`All builds order published`}</CardTitle>
+						<CardTitle className="text-sm text-muted-foreground">{`Total: ${profile?.builds?.length || 0}`}</CardTitle>
 					</CardHeader>
-					<CardContent>
-						<ProfileBuildsList />
-					</CardContent>
+					{profile?.builds && (
+						<CardContent>
+							<ProfileBuildsList builds={profile.builds} />
+						</CardContent>
+					)}
 				</Card>
 			</>
 		)

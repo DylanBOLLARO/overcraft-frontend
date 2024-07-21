@@ -14,8 +14,8 @@ import {
 import { useUserContext } from "../app/layout";
 import { PAGE_PATH } from "../constants/enum";
 import { usePathname, useRouter } from "next/navigation";
-import { capitalize } from "../lib/utils";
-import { deleteCookie } from "../lib/cookie";
+import { capitalize } from "../services/utils";
+import { deleteCookie } from "../services/cookie";
 
 function Header() {
 	const router = useRouter();

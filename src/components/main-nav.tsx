@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { siteConfig } from "@/src/config/site";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/src/services/utils";
 import { PAGE_PATH } from "../constants/enum";
 
 export function MainNav({ items }: any) {

@@ -23,7 +23,7 @@ import {
 	add_step_build,
 	delete_step_in_build_steps,
 	move_step_in_build_steps
-} from "../lib/user";
+} from "../services/user";
 
 export function DataTable({
 	columns,

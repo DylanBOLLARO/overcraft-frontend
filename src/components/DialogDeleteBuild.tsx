@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { PAGE_PATH } from "../constants/enum";
-import { delete_build_by_build_id } from "../lib/user";
+import { delete_build_by_build_id } from "../services/user";
 
 export const DialogDeleteBuild = ({ selectedUserBuildId }: any) => {
 	const router = useRouter();

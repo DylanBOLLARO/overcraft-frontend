@@ -1,10 +1,7 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { COOKIE_NAME } from "../constants/variable";
-
 import { env } from "@/env.mjs";
 import { addSeconds, format, startOfDay } from "date-fns";
-import { cookies } from "next/headers";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -60,9 +57,6 @@ export const jsonFileUpload = (e: any): Promise<any> => {
 	});
 };
 
-// new
-
-// OVERCRAFT V2:
 export function capitalize(string: string) {
 	return string?.charAt(0).toUpperCase() + string?.slice(1).toLowerCase();
 }

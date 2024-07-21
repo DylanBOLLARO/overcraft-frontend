@@ -3,14 +3,14 @@
 import { CardBuild } from "@/src/components/CardBuild";
 import { DialogCreateBuild } from "@/src/components/DialogCreateBuild";
 import { ImportButton } from "@/src/components/ImportButton";
-import { useAllBuildsOfUser } from "@/src/services/queries";
+import { usePrivateBuildOfUser } from "@/src/services/tanstack-queries/build-private";
 
 export default function Page() {
 	const {
 		data: builds,
 		isFetching: isFetchingBuild,
 		refetch
-	} = useAllBuildsOfUser();
+	} = usePrivateBuildOfUser();
 
 	return (
 		!isFetchingBuild && (

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/src/services/utils";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 

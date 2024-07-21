@@ -2,8 +2,8 @@ import React from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Download } from "lucide-react";
-import { jsonFileUpload } from "../lib/utils";
-import { import_build } from "../lib/user";
+import { jsonFileUpload } from "../services/utils";
+import { import_build } from "../services/user";
 
 export const ImportButton = ({ refetch }: any) => {
 	return (

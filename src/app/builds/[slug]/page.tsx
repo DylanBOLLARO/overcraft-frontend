@@ -15,18 +15,22 @@ import {
 	TableHeader,
 	TableRow
 } from "@/src/components/ui/table";
-import { useOneBuild, useSteps } from "@/src/services/queries";
+
 import { formatDate } from "date-fns";
 import { Badge } from "@/src/components/ui/badge";
-import { secondsToMinutesAndSeconds } from "@/src/lib/utils";
+import { secondsToMinutesAndSeconds } from "@/src/services/utils";
 import CreateComment from "@/src/components/new/card-create-comment";
 import { useUserContext } from "../../layout";
+import { useOnePublicBuild } from "@/src/services/tanstack-queries/build-public";
+import { useSteps } from "@/src/services/tanstack-queries/step";
+import { Album } from "lucide-react";
 
 export default function Page({ params }: { params: { slug: string } }) {
 	const { slug } = params;
 	const { user } = useUserContext();
 	const build_id = slug.split("-")[0];
-	const { data: build, isFetching: isFetchingBuild } = useOneBuild(build_id);
+	const { data: build, isFetching: isFetchingBuild } =
+		useOnePublicBuild(build_id);
 	const {
 		isPending,
 		error,
@@ -56,6 +60,17 @@ export default function Page({ params }: { params: { slug: string } }) {
 				</Card>
 			)}
 
+			<div className="flex flex-row gap-3">
+				<Card className="flex-1">
+					<CardHeader className="pb-3">
+						<CardTitle>Created by:</CardTitle>
+						<CardDescription className="text-balance leading-relaxed">
+							{"	getNameOfUserByUserId() in backend"}
+						</CardDescription>
+					</CardHeader>
+				</Card>
+			</div>
+
 			{!isFetchingSteps && (
 				<Card className="bg-transparent">
 					<CardContent className="pt-6">
@@ -63,8 +78,8 @@ export default function Page({ params }: { params: { slug: string } }) {
 							<TableHeader>
 								<TableRow>
 									<TableHead>Population</TableHead>
-									<TableHead>Description</TableHead>
 									<TableHead>Timer</TableHead>
+									<TableHead>Description</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
@@ -75,12 +90,12 @@ export default function Page({ params }: { params: { slug: string } }) {
 									>
 										<TableCell>{step.population}</TableCell>
 										<TableCell>
-											{step.description}
-										</TableCell>
-										<TableCell>
 											{secondsToMinutesAndSeconds(
 												step.timer || 0
 											)}
+										</TableCell>
+										<TableCell>
+											{step.description}
 										</TableCell>
 									</TableRow>
 								))}
@@ -89,7 +104,9 @@ export default function Page({ params }: { params: { slug: string } }) {
 					</CardContent>
 				</Card>
 			)}
-			{user && <CreateComment user={user} />}
+			{user && !isFetchingBuild && !isFetchingSteps && (
+				<CreateComment user={user} />
+			)}
 		</>
 	);
 }

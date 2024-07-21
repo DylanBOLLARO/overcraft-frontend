@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/src/services/utils";
 import { buttonVariants } from "@/src/components/ui/button";
 import { Icons } from "@/src/components/icons";
 import { Button } from "@/src/components/ui/button";
@@ -35,7 +35,7 @@ import {
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { PAGE_PATH } from "@/src/constants/enum";
-import { signin, signup } from "@/src/lib/user";
+import { signin, signup } from "@/src/services/user";
 
 export default function LoginPage() {
 	const router = useRouter();

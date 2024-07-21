@@ -7,7 +7,6 @@ import {
 	TabsTrigger
 } from "../components/ui/tabs";
 import CardDisplayBuild from "../components/new/card-display-build";
-import { useBuilds } from "../services/queries";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -18,12 +17,13 @@ import {
 } from "../components/ui/dropdown-menu";
 import { BadgeInfo, ListFilter } from "lucide-react";
 import { Button } from "../components/ui/button";
-import { capitalize } from "../lib/utils";
+import { capitalize } from "../services/utils";
 import { TAB_SELECTION } from "../constants/variable";
 import DevelopThisWebsite from "../components/new/help-me-to-develop-this-website";
+import { usePublicBuilds } from "../services/tanstack-queries/build-public";
 
 export default function IndexPage() {
-	const { isPending, error, data: builds, isFetching } = useBuilds();
+	const { isPending, error, data: builds, isFetching } = usePublicBuilds();
 
 	if (isPending) return;
 	if (error) return console.error("An error has occurred: " + error.message);
