@@ -1,15 +1,15 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
-	get_all_publics_builds,
 	get_all_steps_build_by_build_id,
 	get_connected_user_builds,
-	get_public_build_by_id
+	get_public_build_by_id,
+	getAllPublicbuilds
 } from "./api";
 
 export function useBuilds() {
 	return useQuery({
 		queryKey: ["builds"],
-		queryFn: () => get_all_publics_builds(),
+		queryFn: async () => getAllPublicbuilds(),
 		refetchOnWindowFocus: false,
 		placeholderData: keepPreviousData
 	});

@@ -15,16 +15,15 @@ import {
 	TableHeader,
 	TableRow
 } from "@/src/components/ui/table";
-import { ChevronDown, ChevronUp, PlusCircle, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 
-import { Input } from "@/src/components/ui/input";
 import { useState } from "react";
 import {
 	add_step_build,
 	delete_step_in_build_steps,
 	move_step_in_build_steps
-} from "@/src/lib/networking";
+} from "../lib/user";
 
 export function DataTable({
 	columns,

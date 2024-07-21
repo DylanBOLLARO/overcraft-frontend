@@ -51,7 +51,7 @@ export function CardBuild({
 					{build.race.slice(0, 1)}v{build.v_race.slice(0, 1)}
 				</p>
 				<p className="text-muted-foreground text-xs self-end">
-					{moment(build.updatedAt).format("LL")}
+					{moment(build.updated_at).format("LL")}
 				</p>
 			</div>
 		</div>

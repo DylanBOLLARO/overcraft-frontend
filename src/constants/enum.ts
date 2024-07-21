@@ -1,21 +1,11 @@
-export enum VIEW {
-	BUILD,
-	DRAFT,
-	UPDATE
-}
-
-export enum STYLE_VIEW {
-	LINE,
-	SQUARE
-}
-
-export enum pagePath {
+export enum PAGE_PATH {
 	HOME = "/",
 	DOCUMENTATION = "/documentation",
 	BUILDS = "/builds",
 	DASHBOARD = "/dashboard/builds",
 	SIGNIN = "/login",
-	UPDATE = "/update"
+	UPDATE = "/update",
+	PROFILE = "/profile"
 }
 export enum VERBES_HTTP {
 	GET = "GET",

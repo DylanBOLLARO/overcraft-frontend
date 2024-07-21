@@ -1,8 +1,10 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { COOKIE_NAME } from "../constants/variable";
 
 import { env } from "@/env.mjs";
 import { addSeconds, format, startOfDay } from "date-fns";
+import { cookies } from "next/headers";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -60,26 +62,17 @@ export const jsonFileUpload = (e: any): Promise<any> => {
 
 // new
 
+// OVERCRAFT V2:
+export function capitalize(string: string) {
+	return string?.charAt(0).toUpperCase() + string?.slice(1).toLowerCase();
+}
+
 export function secondsToMinutesAndSeconds(seconds: number) {
 	const date = addSeconds(startOfDay(new Date()), seconds);
 	const formattedDate = format(date, "mm:ss");
 	return formattedDate;
 }
 
-export function throttle(fn: any, delay: any) {
-	let LastTime = 0;
-	console.log("called Throttle immediatly");
-	let id = 0;
-	return (...args: any) => {
-		const now = new Date().getTime();
-		id++;
-		if (now - LastTime < delay) return;
-		LastTime = now;
-		console.log(`evend id :${id}`);
-		fn(...args);
-	};
-}
-
-export function capitalize(string: string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
+export function isRoleGuest(role: string) {
+	return role?.toLowerCase() === "guest";
 }

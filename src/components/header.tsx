@@ -1,27 +1,7 @@
 "use client";
 
-import {
-	CircleUserRound,
-	Home,
-	LineChart,
-	Package,
-	Package2,
-	PanelLeft,
-	Search,
-	ShoppingCart,
-	Users2
-} from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
+import { Search, User } from "lucide-react";
 import { Button } from "../components/ui/button";
-import Link from "next/link";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator
-} from "../components/ui/breadcrumb";
 import { Input } from "../components/ui/input";
 import {
 	DropdownMenu,
@@ -31,24 +11,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from "../components/ui/dropdown-menu";
-import Image from "next/image";
-import { useContext } from "react";
 import { useUserContext } from "../app/layout";
-import { deleteCookie } from "../lib/networking";
-import { pagePath } from "../constants/enum";
+import { PAGE_PATH } from "../constants/enum";
 import { usePathname, useRouter } from "next/navigation";
 import { capitalize } from "../lib/utils";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger
-} from "./ui/alert-dialog";
+import { deleteCookie } from "../lib/cookie";
 
 function Header() {
 	const router = useRouter();
@@ -57,26 +24,7 @@ function Header() {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<header className="flex items-center gap-4 h-auto bg-transparent px-6">
-				{/* <Breadcrumb className="hidden md:flex">
-					<BreadcrumbList>
-						<BreadcrumbItem>
-							<BreadcrumbLink asChild>
-								<Link href="#">Dashboard</Link>
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator />
-						<BreadcrumbItem>
-							<BreadcrumbLink asChild>
-								<Link href="#">Products</Link>
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator />
-						<BreadcrumbItem>
-							<BreadcrumbPage>All Products</BreadcrumbPage>
-						</BreadcrumbItem>
-					</BreadcrumbList>
-				</Breadcrumb> */}
+			<header className="flex items-center gap-4 h-auto bg-transparent px-4">
 				{user && (
 					<h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-primary-foreground">
 						Welcome,{" "}
@@ -99,78 +47,55 @@ function Header() {
 						</>
 					)}
 				</div>
+
 				{user ? (
-					<AlertDialog>
-						<AlertDialogTrigger asChild>
-							<Button variant="outline">Logout</Button>
-						</AlertDialogTrigger>
-						<AlertDialogContent>
-							<AlertDialogHeader>
-								<AlertDialogTitle>
-									Are you absolutely sure?
-								</AlertDialogTitle>
-								<AlertDialogDescription>
-									This action cannot be undone. This will
-									permanently delete your account and remove
-									your data from our servers.
-								</AlertDialogDescription>
-							</AlertDialogHeader>
-							<AlertDialogFooter>
-								<AlertDialogCancel>Cancel</AlertDialogCancel>
-								<AlertDialogAction
-									onClick={() => {
-										deleteCookie();
-										setUser(undefined);
-									}}
-								>
-									Continue
-								</AlertDialogAction>
-							</AlertDialogFooter>
-						</AlertDialogContent>
-					</AlertDialog>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								variant="outline"
+								size="icon"
+								className="overflow-hidden rounded-full"
+							>
+								<User />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuLabel className="text-muted-foreground">
+								{user.email}
+							</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem
+								onClick={() => {
+									router.push(
+										`${PAGE_PATH.PROFILE}/${user.username.toLowerCase()}`
+									);
+								}}
+							>
+								Profile
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem
+								onClick={() => {
+									deleteCookie();
+									setUser(undefined);
+									if (pathname.includes("dashboard")) {
+										router.push(PAGE_PATH.SIGNIN);
+									}
+								}}
+							>
+								Logout
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
 				) : (
 					<Button
 						onClick={() => {
-							router.push(pagePath.SIGNIN);
+							router.push(PAGE_PATH.SIGNIN);
 						}}
 					>
 						Login
 					</Button>
-
-					// <Button
-					// 	onClick={() => {
-					// 		router.push(pagePath.SIGNIN);
-					// 	}}
-					// >
-					// 	Login
-					// </Button>
 				)}
-				{/* TODO: implémentation d'un btn login, sinon picture with dropdown menu */}
-				{/* <DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							variant="outline"
-							size="icon"
-							className="overflow-hidden rounded-full"
-						>
-							<Image
-								src="/placeholder-user.jpg"
-								width={36}
-								height={36}
-								alt="Avatar"
-								className="overflow-hidden rounded-full"
-							/>
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>My Account</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>Settings</DropdownMenuItem>
-						<DropdownMenuItem>Support</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>Logout</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu> */}
 			</header>
 		</div>
 	);

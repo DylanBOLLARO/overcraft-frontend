@@ -1,19 +1,4 @@
-import { MODULE_NESTJS, SERVICE_AUTH_MODULE, VERBES_HTTP } from "./enum";
-
-export const SIGNUP = {
-	method: VERBES_HTTP.POST,
-	url: `${MODULE_NESTJS.AUTH}${SERVICE_AUTH_MODULE.SIGNUP}`
-};
-
-export const SIGNIN = {
-	method: VERBES_HTTP.POST,
-	url: `${MODULE_NESTJS.AUTH}${SERVICE_AUTH_MODULE.SIGNIN}`
-};
-
-export const GET_CONNECTED_USER_ID = {
-	method: VERBES_HTTP.POST,
-	url: `${MODULE_NESTJS.AUTH}${SERVICE_AUTH_MODULE.GET_CONNECTED_USER_ID}`
-};
+import { MODULE_NESTJS, VERBES_HTTP } from "./enum";
 
 export const GET_CONNECTED_USER_BUILDS = {
 	method: VERBES_HTTP.GET,
@@ -66,7 +51,27 @@ export const GET_PUBLIC_BUILD_BY_ID = {
 };
 
 // OVERCRAFT V2:
+export const SIGNUP = {
+	method: VERBES_HTTP.POST,
+	url: `${MODULE_NESTJS.AUTH}/signup`
+};
+
+export const SIGNIN = {
+	method: VERBES_HTTP.POST,
+	url: `${MODULE_NESTJS.AUTH}/signin`
+};
+
 export const GET_CONNECTED_USER = {
 	method: VERBES_HTTP.POST,
-	url: `${MODULE_NESTJS.AUTH}${SERVICE_AUTH_MODULE.GET_CONNECTED_USER_ID}`
+	url: `${MODULE_NESTJS.AUTH}/get-connected-user-id`
+};
+
+export const GET_USER_PROFILE_BY_ID = {
+	method: VERBES_HTTP.GET,
+	url: `${MODULE_NESTJS.USER}/username`
+};
+
+export const GET_USER_PROFILE_BY_CONFIG = {
+	method: VERBES_HTTP.GET,
+	url: `${MODULE_NESTJS.USER}/config`
 };

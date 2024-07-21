@@ -10,9 +10,9 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
-import { delete_build_by_build_id } from "../lib/networking";
 import { useRouter } from "next/navigation";
-import { pagePath } from "../constants/enum";
+import { PAGE_PATH } from "../constants/enum";
+import { delete_build_by_build_id } from "../lib/user";
 
 export const DialogDeleteBuild = ({ selectedUserBuildId }: any) => {
 	const router = useRouter();
@@ -43,7 +43,7 @@ export const DialogDeleteBuild = ({ selectedUserBuildId }: any) => {
 						className="text-destructive hover:text-destructive"
 						onClick={async () => {
 							await delete_build_by_build_id(selectedUserBuildId);
-							router.push(pagePath.DASHBOARD);
+							router.push(PAGE_PATH.DASHBOARD);
 						}}
 					>
 						<Trash2 className="mr-2 h-4 w-4" />

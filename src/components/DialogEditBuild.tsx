@@ -18,7 +18,7 @@ import {
 	SelectValue
 } from "./ui/select";
 import { Switch } from "./ui/switch";
-import { patch_build } from "../lib/networking";
+import { patch_build } from "../lib/user";
 
 export const DialogEditBuild = ({ selectedUserBuild, refetch_build }: any) => {
 	const [open, setOpen] = useState(false);

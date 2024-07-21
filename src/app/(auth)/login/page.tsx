@@ -34,8 +34,8 @@ import {
 
 import * as z from "zod";
 import { useRouter } from "next/navigation";
-import { pagePath } from "@/src/constants/enum";
-import { signin, signup } from "../../../lib/networking";
+import { PAGE_PATH } from "@/src/constants/enum";
+import { signin, signup } from "@/src/lib/user";
 
 export default function LoginPage() {
 	const router = useRouter();
@@ -70,12 +70,12 @@ export default function LoginPage() {
 
 	async function onSigninSubmit(values: z.infer<typeof formSignin>) {
 		await signin(values);
-		router.push(pagePath.DASHBOARD);
+		router.push(PAGE_PATH.DASHBOARD);
 	}
 
 	async function onSignupSubmit(values: z.infer<typeof formSignup>) {
 		await signup(values);
-		router.push(pagePath.DASHBOARD);
+		router.push(PAGE_PATH.DASHBOARD);
 	}
 
 	return (

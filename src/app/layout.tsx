@@ -51,9 +51,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
 						<UserContextProvider>
 							<Container>
 								<Navigation />
-								<div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+								<div className="flex flex-col gap-4 py-4 pl-14">
 									<Header />
-									{children}
+									<main className="flex flex-col gap-4 px-4">
+										{children}
+									</main>
 								</div>
 								<TailwindIndicator />
 							</Container>

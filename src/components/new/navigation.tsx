@@ -1,46 +1,21 @@
 "use client";
 
 import Link from "next/link";
-
-import { marketingConfig } from "@/src/config/navigation";
-import { cn } from "@/src/lib/utils";
-import { Button, buttonVariants } from "@/src/components/ui/button";
-import { ModeToggle } from "@/src/components/mode-toggle";
-
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger
-} from "../ui/alert-dialog";
-import { pagePath } from "../../constants/enum";
-import { MainNav } from "../main-nav";
-import { useRouter } from "next/navigation";
-import { deleteCookie } from "../../lib/networking";
-import {
-	Book,
-	Home,
-	LayoutDashboard,
-	LineChart,
-	Package,
-	Package2,
-	Settings,
-	ShoppingCart,
-	Users2
-} from "lucide-react";
+import { PAGE_PATH } from "../../constants/enum";
+import { Book, Home, LayoutDashboard, Settings, User } from "lucide-react";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "../ui/tooltip";
+import { useRouter } from "next/navigation";
+import { useUserContext } from "@/src/app/layout";
 
 export default function Navigation() {
+	const router = useRouter();
+	const { user } = useUserContext();
+
 	return (
 		<div className="fixed inset-y-0 left-0 z-10 w-14 flex-col border-r bg-transparent flex">
 			<nav className="flex flex-col items-center gap-4 px-2 py-4">
@@ -48,7 +23,7 @@ export default function Navigation() {
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
-								href={pagePath.HOME}
+								href={PAGE_PATH.HOME}
 								className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
 							>
 								<Home className="h-5 w-5 group-hover:scale-110" />
@@ -60,7 +35,7 @@ export default function Navigation() {
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
-								href={pagePath.DOCUMENTATION}
+								href={PAGE_PATH.DOCUMENTATION}
 								className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
 							>
 								<Book className="h-5 w-5 group-hover:scale-110" />
@@ -71,11 +46,10 @@ export default function Navigation() {
 							Documentation
 						</TooltipContent>
 					</Tooltip>
-
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
-								href={pagePath.DASHBOARD}
+								href={PAGE_PATH.DASHBOARD}
 								className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
 							>
 								<LayoutDashboard className="h-5 w-5 group-hover:scale-110" />
@@ -88,6 +62,26 @@ export default function Navigation() {
 			</nav>
 			<nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
 				<TooltipProvider>
+					{user && (
+						<Tooltip>
+							<TooltipTrigger
+								asChild
+								onClick={() => {
+									router.push(
+										`${PAGE_PATH.PROFILE}/${user.username.toLowerCase()}`
+									);
+								}}
+							>
+								<div className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 cursor-pointer">
+									<User className="h-5 w-5" />
+									<span className="sr-only">Profile</span>
+								</div>
+							</TooltipTrigger>
+							<TooltipContent side="right">
+								Profile
+							</TooltipContent>
+						</Tooltip>
+					)}
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link

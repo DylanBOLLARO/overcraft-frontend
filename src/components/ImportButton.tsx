@@ -3,7 +3,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Download } from "lucide-react";
 import { jsonFileUpload } from "../lib/utils";
-import { import_build } from "../lib/networking";
+import { import_build } from "../lib/user";
 
 export const ImportButton = ({ refetch }: any) => {
 	return (

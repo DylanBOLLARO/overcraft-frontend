@@ -5,14 +5,14 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { siteConfig } from "@/src/config/site";
 import { cn } from "@/src/lib/utils";
-import { pagePath } from "../constants/enum";
+import { PAGE_PATH } from "../constants/enum";
 
 export function MainNav({ items }: any) {
 	const segment = useSelectedLayoutSegment();
 	return (
 		<div className="flex gap-6 md:gap-10">
 			<Link
-				href={`${pagePath.HOME}`}
+				href={`${PAGE_PATH.HOME}`}
 				className="hidden items-center space-x-2 md:flex"
 			>
 				<span className="hidden font-bold sm:inline-block">
@@ -38,7 +38,7 @@ export function MainNav({ items }: any) {
 					))}
 
 					<Link
-						href={`${pagePath.DASHBOARD}`}
+						href={`${PAGE_PATH.DASHBOARD}`}
 						className={cn(
 							"flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm text-foreground/60"
 						)}

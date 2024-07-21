@@ -2,9 +2,10 @@
 
 import { useEffect } from "react";
 import { useUserContext } from "../app/layout";
-import { get_connected_user_id, getCookie } from "../lib/networking";
 import { usePathname, useRouter } from "next/navigation";
-import { pagePath } from "../constants/enum";
+import { PAGE_PATH } from "../constants/enum";
+import { getConnectedUser } from "../lib/user";
+import { getCookie } from "../lib/cookie";
 
 interface ContainerProps {
 	children: React.ReactNode;
@@ -18,13 +19,13 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
 	useEffect(() => {
 		(async () => {
 			const access_token = await getCookie();
-			if (pathname.includes(pagePath.DASHBOARD) && !access_token) {
-				router.push(pagePath.SIGNIN);
+			if (pathname.includes("dashboard") && !access_token) {
+				router.push(PAGE_PATH.SIGNIN);
 			}
 
 			if (!user) {
 				if (access_token) {
-					const user = await get_connected_user_id();
+					const user = await getConnectedUser();
 					setUser(user);
 				}
 			}
