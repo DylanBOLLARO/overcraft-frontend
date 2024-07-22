@@ -15,7 +15,7 @@ export enum VERBES_HTTP {
 }
 
 export enum MODULE_NESTJS {
-	BUILD_PUBLIC = "/build-public",
+	BUILD = "/build",
 	BUILD_PRIVATE = "/build-private",
 	AUTH = "/auth",
 	USER = "/user",

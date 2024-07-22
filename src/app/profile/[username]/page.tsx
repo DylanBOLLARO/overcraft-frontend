@@ -6,17 +6,15 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle
 } from "@/src/components/ui/card";
-import { capitalize, formatDate, isRoleGuest } from "@/src/services/utils";
+import { capitalize, isRoleGuest } from "@/src/services/utils";
 import { Album, Heart } from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 import { format } from "date-fns";
 import { ProfileBuildsList } from "@/src/components/new/profile-builds-list";
-import qs from "qs";
-import { getUserProfileByConfig } from "@/src/services/api/build-private";
+import { getUserProfileByUsername } from "@/src/services/api/build-private";
 import { getAllPublicBuildsOfUserByUserId } from "@/src/services/api/build-public";
 import { getNumberOfLikeOfUserByUserId } from "@/src/services/api/like";
 
@@ -32,8 +30,7 @@ export default function Page({ params }: { params: { username: string } }) {
 		if (username === user?.username) {
 			profile = user;
 		} else {
-			const config = qs.stringify({ username }, { delimiter: ";" });
-			const user: any = await getUserProfileByConfig(config);
+			const user: any = await getUserProfileByUsername(username);
 			if (user) profile = user;
 		}
 		if (profile) {
@@ -51,7 +48,6 @@ export default function Page({ params }: { params: { username: string } }) {
 
 	if (!profile) <p>{"No profile data to display"}</p>;
 
-	console.log(profile);
 	return (
 		!isLoading &&
 		profile && (

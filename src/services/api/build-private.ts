@@ -66,3 +66,13 @@ export const getUserProfileByConfig = async (config: string) => {
 		console.error(error);
 	}
 };
+
+export const getUserProfileByUsername = async (username: string) => {
+	try {
+		return await axiosQuery({
+			url: `${MODULE_NESTJS.USER}/username/${username}`
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};
