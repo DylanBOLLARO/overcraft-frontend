@@ -39,17 +39,18 @@ import {
 	delete_step_in_build_steps,
 	move_step_in_build_steps
 } from "@/src/services/user";
-import { useSteps } from "@/src/services/tanstack-queries/step";
-import { useOnePrivateBuild } from "@/src/services/tanstack-queries/build-private";
+import { useConnectedUserContext } from "@/src/app/layout";
+import { useBuildOfUser, useSteps } from "@/src/services/queries";
 
 export default function Page({ params }: { params: { build_id: string } }) {
+	const { connectedUser } = useConnectedUserContext();
 	const { build_id } = params;
 
 	const {
 		data: build,
 		isFetching: isFetchingBuild,
 		refetch: refetch_build
-	} = useOnePrivateBuild(build_id);
+	} = useBuildOfUser(connectedUser?.id, build_id);
 
 	const {
 		isPending,
@@ -83,7 +84,6 @@ export default function Page({ params }: { params: { build_id: string } }) {
 			});
 		}
 	};
-	console.log(build);
 	if (isPending) return;
 	if (!build) return;
 	if (error) return console.error("An error has occurred: " + error.message);

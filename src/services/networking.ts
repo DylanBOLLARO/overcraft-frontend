@@ -76,6 +76,8 @@ export const axiosQuery = async (config: RequestOptions = {}) => {
 
 		const axiosConfig = await createAxiosConfig(method, url, data);
 		const { data: response } = await axios.request(axiosConfig);
+		console.log("response from backend");
+		console.log(JSON.stringify(response));
 		return response;
 	} catch (error: any) {
 		console.error(error);

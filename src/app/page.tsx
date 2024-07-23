@@ -20,10 +20,10 @@ import { Button } from "../components/ui/button";
 import { capitalize } from "../services/utils";
 import { TAB_SELECTION } from "../constants/variable";
 import DevelopThisWebsite from "../components/new/help-me-to-develop-this-website";
-import { usePublicBuilds } from "../services/tanstack-queries/build-public";
+import { useBuilds } from "../services/queries";
 
 export default function IndexPage() {
-	const { isPending, error, data: builds, isFetching } = usePublicBuilds();
+	const { isPending, error, data: builds, isFetching } = useBuilds();
 
 	if (isPending) return;
 	if (error) return console.error("An error has occurred: " + error.message);

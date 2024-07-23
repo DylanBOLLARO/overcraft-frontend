@@ -12,12 +12,12 @@ export const PUBLISH_CONNECTED_USER_BUILD = {
 
 export const GET_ALL_STEPS_OF_BUILD_BY_BUILD_ID = {
 	method: VERBES_HTTP.GET,
-	url: `${MODULE_NESTJS.BUILD_STEP}`
+	url: `${MODULE_NESTJS.STEP}`
 };
 
 export const ADD_STEP_OF_BUILD = {
 	method: VERBES_HTTP.POST,
-	url: `${MODULE_NESTJS.BUILD_STEP}`
+	url: `${MODULE_NESTJS.STEP}`
 };
 
 export const DELETE_BUILD = {
@@ -27,12 +27,12 @@ export const DELETE_BUILD = {
 
 export const MOVE_STEP_IN_BUILD_STEPS = {
 	method: VERBES_HTTP.PATCH,
-	url: `${MODULE_NESTJS.BUILD_STEP}/move-position`
+	url: `${MODULE_NESTJS.STEP}/move-position`
 };
 
 export const DELETE_STEP_IN_BUILD_STEPS = {
 	method: VERBES_HTTP.DELETE,
-	url: `${MODULE_NESTJS.BUILD_STEP}`
+	url: `${MODULE_NESTJS.STEP}`
 };
 
 export const PATCH_BUILD = {

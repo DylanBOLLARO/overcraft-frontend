@@ -15,26 +15,28 @@ interface RootLayoutProps {
 }
 
 const queryClient = new QueryClient();
-const UserContext = createContext<any>(undefined);
+const ConnectedUserContext = createContext<any>(undefined);
 
-export const UserContextProvider = ({ children }: any) => {
-	const [user, setUser] = useState<string | null>(null);
+export const ConnectedUserContextProvider = ({ children }: any) => {
+	const [connectedUser, setConnectedUser] = useState<string | null>(null);
 
 	return (
-		<UserContext.Provider value={{ user, setUser }}>
+		<ConnectedUserContext.Provider
+			value={{ connectedUser, setConnectedUser }}
+		>
 			{children}
-		</UserContext.Provider>
+		</ConnectedUserContext.Provider>
 	);
 };
 
-export const useUserContext = () => {
-	const userContext = useContext(UserContext);
-	if (userContext === undefined) {
+export const useConnectedUserContext = () => {
+	const connectedUserContext = useContext(ConnectedUserContext);
+	if (connectedUserContext === undefined) {
 		throw new Error(
-			"useOnboardingContext must be inside a OnboardingProvider"
+			"useConnectedUserContext must be inside a ConnectedUserContextProvider"
 		);
 	}
-	return userContext;
+	return connectedUserContext;
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
@@ -48,7 +50,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 						defaultTheme="dark"
 						enableSystem
 					>
-						<UserContextProvider>
+						<ConnectedUserContextProvider>
 							<Container>
 								<Navigation />
 								<div className="flex flex-col gap-4 py-4 pl-14">
@@ -59,7 +61,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 								</div>
 								<TailwindIndicator />
 							</Container>
-						</UserContextProvider>
+						</ConnectedUserContextProvider>
 					</ThemeProvider>
 				</QueryClientProvider>
 			</body>

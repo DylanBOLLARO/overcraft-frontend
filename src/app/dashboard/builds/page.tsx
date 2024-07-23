@@ -3,21 +3,29 @@
 import { CardBuild } from "@/src/components/CardBuild";
 import { DialogCreateBuild } from "@/src/components/DialogCreateBuild";
 import { ImportButton } from "@/src/components/ImportButton";
-import { usePrivateBuildOfUser } from "@/src/services/tanstack-queries/build-private";
+import { useConnectedUserContext } from "../../layout";
+import { useBuildsOfUser } from "@/src/services/queries";
 
 export default function Page() {
+	const { connectedUser } = useConnectedUserContext();
 	const {
 		data: builds,
 		isFetching: isFetchingBuild,
 		refetch
-	} = usePrivateBuildOfUser();
+	} = useBuildsOfUser(connectedUser?.id);
 
 	return (
 		!isFetchingBuild && (
 			<>
 				<div className="flex flex-row gap-4 justify-end">
-					<ImportButton refetch={refetch} />
-					<DialogCreateBuild refetch={refetch} />
+					<ImportButton
+						refetch={refetch}
+						userId={connectedUser?.id}
+					/>
+					<DialogCreateBuild
+						refetch={refetch}
+						userId={connectedUser?.id}
+					/>
 				</div>
 				<div className="flex flex-col gap-1 p-1 border rounded">
 					{builds?.length > 0 ? (

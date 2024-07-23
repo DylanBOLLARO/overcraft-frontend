@@ -1,6 +1,5 @@
 "use client";
 
-import { useUserContext } from "../../layout";
 import { useEffect, useState } from "react";
 import {
 	Card,
@@ -14,30 +13,42 @@ import { Album, Heart } from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 import { format } from "date-fns";
 import { ProfileBuildsList } from "@/src/components/new/profile-builds-list";
-import { getUserProfileByUsername } from "@/src/services/api/build-private";
-import { getAllPublicBuildsOfUserByUserId } from "@/src/services/api/build-public";
-import { getNumberOfLikeOfUserByUserId } from "@/src/services/api/like";
+import { useConnectedUserContext } from "../../layout";
+import { getBuildsOfUser, getUserProfileByUsername } from "@/src/services/api";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
-	const { user } = useUserContext();
-	const [profile, setProfile] = useState<any>(undefined);
-	const [isLoading, setIsLoading] = useState(true);
+	const { connectedUser } = useConnectedUserContext();
+	const [profile, setProfile] = useState<any>(() => undefined);
+	const [isLoading, setIsLoading] = useState(() => true);
 
 	const createUserProfile = async () => {
 		setIsLoading(true);
 		let profile = undefined;
-		if (username === user?.username) {
-			profile = user;
+		if (username === connectedUser?.username) {
+			profile = connectedUser;
 		} else {
 			const user: any = await getUserProfileByUsername(username);
 			if (user) profile = user;
 		}
-		if (profile) {
-			const builds = await getAllPublicBuildsOfUserByUserId(profile.id);
-			const likes = await getNumberOfLikeOfUserByUserId(profile.id);
-			profile = { ...profile, builds, likes };
+		if (profile?.id) {
+			const userAllBuilds = await getBuildsOfUser(profile?.id);
+			console.log(userAllBuilds);
 		}
+		// if (profile) {
+		// 	const userAllBuilds = await getBuildsOfUser(profile?.id);
+		// if (userAllBuilds) {
+		// 	const builds = userAllBuilds?.filter(
+		// 		(build: any) => build?.is_public === true
+		// 	);
+		// 	profile = { ...profile, builds };
+		// }
+
+		// const likes = await getNumberOfLikeOfUserByUserId(profile.id);
+		// if (likes) {
+		// 	profile = { ...profile, likes };
+		// }
+		// }
 		setProfile({ ...profile });
 		setIsLoading(false);
 	};

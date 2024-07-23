@@ -20,23 +20,39 @@ import { formatDate } from "date-fns";
 import { Badge } from "@/src/components/ui/badge";
 import { secondsToMinutesAndSeconds } from "@/src/services/utils";
 import CreateComment from "@/src/components/new/card-create-comment";
-import { useUserContext } from "../../layout";
-import { useOnePublicBuild } from "@/src/services/tanstack-queries/build-public";
-import { useSteps } from "@/src/services/tanstack-queries/step";
-import { Album } from "lucide-react";
+import { useConnectedUserContext } from "../../layout";
+import { getUserById } from "@/src/services/api";
+import { useState, useEffect } from "react";
+import { Button } from "@/src/components/ui/button";
+import { useRouter } from "next/navigation";
+import { PAGE_PATH } from "@/src/constants/enum";
+import { useBuild, useSteps } from "@/src/services/queries";
 
 export default function Page({ params }: { params: { slug: string } }) {
+	const router = useRouter();
+
 	const { slug } = params;
-	const { user } = useUserContext();
-	const build_id = slug.split("-")[0];
-	const { data: build, isFetching: isFetchingBuild } =
-		useOnePublicBuild(build_id);
+	const { connectedUser } = useConnectedUserContext();
+	const buildId = slug.split("-")[0];
+	const { data: build, isFetching: isFetchingBuild } = useBuild(buildId);
+
+	const [userUsername, setUserUsername] = useState(() => undefined);
+
+	useEffect(() => {
+		(async () => {
+			const response = await getUserById(build?.user_id);
+			if (response && response?.username) {
+				setUserUsername(response.username);
+			}
+		})();
+	}, [build]);
+
 	const {
 		isPending,
 		error,
 		data: steps,
 		isFetching: isFetchingSteps
-	} = useSteps(build_id);
+	} = useSteps(buildId);
 
 	if (isPending) return;
 	if (error) return console.error("An error has occurred: " + error.message);
@@ -60,17 +76,28 @@ export default function Page({ params }: { params: { slug: string } }) {
 				</Card>
 			)}
 
-			<div className="flex flex-row gap-3">
-				<Card className="flex-1">
-					<CardHeader className="pb-3">
-						<CardTitle>Created by:</CardTitle>
-						<CardDescription className="text-balance leading-relaxed">
-							{"	getNameOfUserByUserId() in backend"}
-						</CardDescription>
-					</CardHeader>
-				</Card>
-			</div>
-
+			{userUsername && (
+				<div className="flex flex-row gap-3">
+					<Card className="flex-1">
+						<CardHeader className="pb-3">
+							<CardTitle>Created by:</CardTitle>
+							<CardDescription className="text-balance leading-relaxed">
+								<Button
+									className="p-0"
+									variant={"link"}
+									onClick={() =>
+										router.push(
+											`${PAGE_PATH.PROFILE}/${userUsername}`
+										)
+									}
+								>
+									{userUsername}
+								</Button>
+							</CardDescription>
+						</CardHeader>
+					</Card>
+				</div>
+			)}
 			{!isFetchingSteps && (
 				<Card className="bg-transparent">
 					<CardContent className="pt-6">
@@ -104,8 +131,8 @@ export default function Page({ params }: { params: { slug: string } }) {
 					</CardContent>
 				</Card>
 			)}
-			{user && !isFetchingBuild && !isFetchingSteps && (
-				<CreateComment user={user} />
+			{connectedUser && !isFetchingBuild && !isFetchingSteps && (
+				<CreateComment user={connectedUser} />
 			)}
 		</>
 	);

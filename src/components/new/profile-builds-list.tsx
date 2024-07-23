@@ -2,7 +2,6 @@ import { PAGE_PATH } from "@/src/constants/enum";
 import Link from "next/link";
 
 export function ProfileBuildsList({ builds }: any) {
-	console.log(builds);
 	return (
 		<>
 			{builds?.map((build: any) => {

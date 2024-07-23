@@ -23,13 +23,13 @@ import {
 	FormMessage
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { publish_connected_user_build } from "../services/api/build-private";
+import { createBuild } from "../services/api";
 
 const formSchema = z.object({
 	name: z.string().min(2).max(50)
 });
 
-export const DialogCreateBuild = ({ refetch }: any) => {
+export const DialogCreateBuild = ({ userId, refetch }: any) => {
 	const [open, setOpen] = React.useState(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -41,7 +41,7 @@ export const DialogCreateBuild = ({ refetch }: any) => {
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		const { name: name_of_build } = values;
-		await publish_connected_user_build({
+		await createBuild(userId, {
 			title: name_of_build,
 			description: name_of_build,
 			race: "ZERG",

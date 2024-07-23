@@ -5,7 +5,7 @@ import { Download } from "lucide-react";
 import { jsonFileUpload } from "../services/utils";
 import { import_build } from "../services/user";
 
-export const ImportButton = ({ refetch }: any) => {
+export const ImportButton = ({ refetch, userId }: any) => {
 	return (
 		<div>
 			<Input
@@ -15,7 +15,7 @@ export const ImportButton = ({ refetch }: any) => {
 				onChange={(e) => {
 					jsonFileUpload(e)
 						.then((parsedJson) => {
-							import_build(JSON.stringify(parsedJson));
+							import_build(JSON.stringify(parsedJson), userId);
 						})
 						.then(() => {
 							refetch();

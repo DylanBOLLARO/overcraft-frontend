@@ -12,7 +12,7 @@ import {
 	SIGNIN,
 	SIGNUP
 } from "../constants/api";
-import { publish_connected_user_build } from "./api/build-private";
+import { createBuild } from "./api";
 import { createCookie } from "./cookie";
 import { base_query_axios } from "./networking";
 
@@ -108,15 +108,16 @@ export const delete_step_in_build_steps = async (id: number) => {
 	}
 };
 
-export const import_build = async (e: any) => {
+export const import_build = async (json: any, userId: any) => {
 	try {
-		const { steps, ...build } = JSON.parse(e);
-		const { id: build_id } = await publish_connected_user_build(build);
+		const { steps, ...build } = JSON.parse(json);
+		const { id: buildId } = await createBuild(userId, build);
+
 		steps.map(async (step: any, index: number) => {
 			const { description, timer, population } = step;
 			await add_step_build({
 				description,
-				build_id: "" + build_id,
+				build_id: "" + buildId,
 				position: "" + index + 1,
 				timer: "" + timer,
 				population: "" + population

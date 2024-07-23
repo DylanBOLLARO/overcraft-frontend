@@ -1,36 +1,37 @@
 "use client";
 
 import { useEffect } from "react";
-import { useUserContext } from "../app/layout";
 import { usePathname, useRouter } from "next/navigation";
 import { PAGE_PATH } from "../constants/enum";
 import { getCookie } from "../services/cookie";
-import { getConnectedUser } from "../services/api/user";
+import { useConnectedUserContext } from "../app/layout";
+import { getConnectedUser } from "../services/api";
 
 interface ContainerProps {
 	children: React.ReactNode;
 }
 
 const Container: React.FC<ContainerProps> = ({ children }) => {
-	const { user, setUser } = useUserContext();
+	const { connectedUser, setConnectedUser } = useConnectedUserContext();
 	const pathname = usePathname();
 	const router = useRouter();
 
 	useEffect(() => {
 		(async () => {
 			const access_token = await getCookie();
+
 			if (pathname.includes("dashboard") && !access_token) {
 				router.push(PAGE_PATH.SIGNIN);
 			}
 
-			if (!user) {
+			if (!connectedUser) {
 				if (access_token) {
 					const user = await getConnectedUser();
-					setUser(user);
+					setConnectedUser(user);
 				}
 			}
 		})();
-	}, [pathname, user]);
+	}, [pathname, connectedUser]);
 
 	return children;
 };

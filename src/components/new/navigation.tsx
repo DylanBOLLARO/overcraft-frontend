@@ -10,11 +10,11 @@ import {
 	TooltipTrigger
 } from "../ui/tooltip";
 import { useRouter } from "next/navigation";
-import { useUserContext } from "@/src/app/layout";
+import { useConnectedUserContext } from "@/src/app/layout";
 
 export default function Navigation() {
 	const router = useRouter();
-	const { user } = useUserContext();
+	const { connectedUser } = useConnectedUserContext();
 
 	return (
 		<div className="fixed inset-y-0 left-0 z-10 w-14 flex-col border-r bg-transparent flex">
@@ -62,13 +62,13 @@ export default function Navigation() {
 			</nav>
 			<nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
 				<TooltipProvider>
-					{user && (
+					{connectedUser && (
 						<Tooltip>
 							<TooltipTrigger
 								asChild
 								onClick={() => {
 									router.push(
-										`${PAGE_PATH.PROFILE}/${user.username.toLowerCase()}`
+										`${PAGE_PATH.PROFILE}/${connectedUser.username.toLowerCase()}`
 									);
 								}}
 							>

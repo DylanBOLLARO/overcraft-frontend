@@ -11,7 +11,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from "../components/ui/dropdown-menu";
-import { useUserContext } from "../app/layout";
+import { useConnectedUserContext } from "../app/layout";
 import { PAGE_PATH } from "../constants/enum";
 import { usePathname, useRouter } from "next/navigation";
 import { capitalize } from "../services/utils";
@@ -19,17 +19,17 @@ import { deleteCookie } from "../services/cookie";
 
 function Header() {
 	const router = useRouter();
-	const { user, setUser } = useUserContext();
+	const { connectedUser, setConnectedUser } = useConnectedUserContext();
 	const pathname = usePathname();
 
 	return (
 		<div className="flex flex-col gap-4">
 			<header className="flex items-center gap-4 h-auto bg-transparent px-4">
-				{user && (
+				{connectedUser && (
 					<h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-primary-foreground">
 						Welcome,{" "}
 						<span className="font-bold">
-							{capitalize(user.username)}
+							{capitalize(connectedUser.username)}
 						</span>
 					</h4>
 				)}
@@ -48,7 +48,7 @@ function Header() {
 					)}
 				</div>
 
-				{user ? (
+				{connectedUser ? (
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button
@@ -61,13 +61,13 @@ function Header() {
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
 							<DropdownMenuLabel className="text-muted-foreground">
-								{user.email}
+								{connectedUser.email}
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem
 								onClick={() => {
 									router.push(
-										`${PAGE_PATH.PROFILE}/${user.username.toLowerCase()}`
+										`${PAGE_PATH.PROFILE}/${connectedUser.username.toLowerCase()}`
 									);
 								}}
 							>
@@ -77,7 +77,7 @@ function Header() {
 							<DropdownMenuItem
 								onClick={() => {
 									deleteCookie();
-									setUser(undefined);
+									setConnectedUser(undefined);
 									if (pathname.includes("dashboard")) {
 										router.push(PAGE_PATH.SIGNIN);
 									}
