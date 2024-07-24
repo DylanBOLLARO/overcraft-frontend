@@ -181,7 +181,7 @@ export const getSteps = async (buildId: any) => {
 	if (!buildId) return;
 	try {
 		return await axiosQuery({
-			url: `${MODULE_NESTJS.STEP}/${buildId}`
+			url: `${MODULE_NESTJS.BUILD}/${buildId}${MODULE_NESTJS.STEP}`
 		});
 	} catch (error) {
 		console.error(error);
