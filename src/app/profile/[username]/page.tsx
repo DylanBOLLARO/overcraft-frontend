@@ -14,11 +14,7 @@ import { Badge } from "@/src/components/ui/badge";
 import { format } from "date-fns";
 import { ProfileBuildsList } from "@/src/components/new/profile-builds-list";
 import { useConnectedUserContext } from "../../layout";
-import {
-	getBuildsOfUser,
-	getNumberOfLikeOfUserByUserId,
-	getUserProfileByUsername
-} from "@/src/services/api";
+import { getUserProfileByUsername } from "@/src/services/api";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
@@ -35,21 +31,8 @@ export default function Page({ params }: { params: { username: string } }) {
 			const user: any = await getUserProfileByUsername(username);
 			if (user) profile = user;
 		}
-		if (profile) {
-			const userAllBuilds = await getBuildsOfUser(profile?.id);
-			if (userAllBuilds) {
-				const builds = userAllBuilds?.filter(
-					(build: any) => build?.is_public === true
-				);
-				profile = { ...profile, builds };
-			}
 
-			const likes = await getNumberOfLikeOfUserByUserId(profile.id);
-			if (likes) {
-				profile = { ...profile, likes };
-			}
-		}
-		setProfile({ ...profile });
+		setProfile(profile);
 		setIsLoading(false);
 	};
 
@@ -96,7 +79,7 @@ export default function Page({ params }: { params: { username: string } }) {
 						</CardHeader>
 						<CardContent>
 							<div className="text-2xl font-bold">
-								{profile?.builds?.length || 0}
+								{profile?._count?.build || 0}
 							</div>
 						</CardContent>
 					</Card>
@@ -109,7 +92,7 @@ export default function Page({ params }: { params: { username: string } }) {
 						</CardHeader>
 						<CardContent>
 							<div className="text-2xl font-bold">
-								{profile?.likes || 0}
+								{profile?._count?.like || 0}
 							</div>
 						</CardContent>
 					</Card>
@@ -117,11 +100,11 @@ export default function Page({ params }: { params: { username: string } }) {
 				<Card className="col-span-3">
 					<CardHeader className="flex flex-row items-end justify-between">
 						<CardTitle>{`All builds order published`}</CardTitle>
-						<CardTitle className="text-sm text-muted-foreground">{`Total: ${profile?.builds?.length || 0}`}</CardTitle>
+						<CardTitle className="text-sm text-muted-foreground">{`Total: ${profile?.build?.length || 0}`}</CardTitle>
 					</CardHeader>
-					{profile?.builds && (
+					{profile?.build && (
 						<CardContent>
-							<ProfileBuildsList builds={profile.builds} />
+							<ProfileBuildsList builds={profile.build} />
 						</CardContent>
 					)}
 				</Card>
