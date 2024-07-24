@@ -14,7 +14,11 @@ import { Badge } from "@/src/components/ui/badge";
 import { format } from "date-fns";
 import { ProfileBuildsList } from "@/src/components/new/profile-builds-list";
 import { useConnectedUserContext } from "../../layout";
-import { getBuildsOfUser, getUserProfileByUsername } from "@/src/services/api";
+import {
+	getBuildsOfUser,
+	getNumberOfLikeOfUserByUserId,
+	getUserProfileByUsername
+} from "@/src/services/api";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
@@ -31,24 +35,20 @@ export default function Page({ params }: { params: { username: string } }) {
 			const user: any = await getUserProfileByUsername(username);
 			if (user) profile = user;
 		}
-		if (profile?.id) {
+		if (profile) {
 			const userAllBuilds = await getBuildsOfUser(profile?.id);
-			console.log(userAllBuilds);
-		}
-		// if (profile) {
-		// 	const userAllBuilds = await getBuildsOfUser(profile?.id);
-		// if (userAllBuilds) {
-		// 	const builds = userAllBuilds?.filter(
-		// 		(build: any) => build?.is_public === true
-		// 	);
-		// 	profile = { ...profile, builds };
-		// }
+			if (userAllBuilds) {
+				const builds = userAllBuilds?.filter(
+					(build: any) => build?.is_public === true
+				);
+				profile = { ...profile, builds };
+			}
 
-		// const likes = await getNumberOfLikeOfUserByUserId(profile.id);
-		// if (likes) {
-		// 	profile = { ...profile, likes };
-		// }
-		// }
+			const likes = await getNumberOfLikeOfUserByUserId(profile.id);
+			if (likes) {
+				profile = { ...profile, likes };
+			}
+		}
 		setProfile({ ...profile });
 		setIsLoading(false);
 	};

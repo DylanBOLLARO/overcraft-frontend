@@ -68,7 +68,6 @@ export const DialogEditBuild = ({ selectedUserBuild, refetch_build }: any) => {
 
 	const handleSaveChanges = async () => {
 		const { id, title, description, race, is_public, v_race } = editedBuild;
-		console.log({ id, title, description, race, is_public, v_race });
 		if (isModified) {
 			await patch_build(id, {
 				title,

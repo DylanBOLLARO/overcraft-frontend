@@ -73,13 +73,6 @@ export const createBuild = async (userId: any, buildMetadata: any) => {
 	if (!userId && !buildMetadata) return;
 
 	try {
-		console.log(
-			JSON.stringify({
-				...buildMetadata,
-				user_id: "" + userId,
-				slug: "" + userId
-			})
-		);
 		return await axiosQuery({
 			method: "POST",
 			url: `${MODULE_NESTJS.BUILD}`,
@@ -129,11 +122,9 @@ export const getBuildOfUser = async (userId: any, buildId: any) => {
 export const getBuildsOfUser = async (userId: any) => {
 	if (!userId) return;
 	try {
-		let data = await axiosQuery({
+		return await axiosQuery({
 			url: `${MODULE_NESTJS.USER}/${userId}${MODULE_NESTJS.BUILD}`
 		});
-		console.log(data);
-		return data;
 	} catch (error) {
 		console.error(error);
 	}

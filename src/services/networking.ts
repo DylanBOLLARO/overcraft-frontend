@@ -43,12 +43,23 @@ interface RequestOptions {
 	data?: any;
 }
 
-const createHeader = async () => {
-	const headers = {
+interface Headers {
+	"Content-Type": string;
+	Accept: string;
+	Authorization?: string; // Optional property
+}
+
+const createHeader = async (): Promise<{ headers: Headers }> => {
+	const token = await getCookie();
+
+	const headers: Headers = {
 		"Content-Type": "application/json",
-		Accept: "*/*",
-		Authorization: `Bearer ${(await getCookie()) || ""}`
+		Accept: "*/*"
 	};
+
+	if (token) {
+		headers.Authorization = `Bearer ${token}`;
+	}
 
 	return { headers };
 };
@@ -74,13 +85,11 @@ export const axiosQuery = async (config: RequestOptions = {}) => {
 			data = {}
 		} = config;
 
-		const axiosConfig = await createAxiosConfig(method, url, data);
+		const axiosConfig: any = await createAxiosConfig(method, url, data);
 		const { data: response } = await axios.request(axiosConfig);
-		console.log("response from backend");
-		console.log(JSON.stringify(response));
 		return response;
 	} catch (error: any) {
-		console.error(error);
+		// console.error(error);
 		throw new Error(error);
 	}
 };
