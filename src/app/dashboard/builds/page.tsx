@@ -9,44 +9,43 @@ import { useBuildsOfUser } from "@/src/services/queries";
 export default function Page() {
 	const { connectedUser } = useConnectedUserContext();
 	const {
+		isLoading,
+		error,
 		data: builds,
-		isFetching: isFetchingBuild,
 		refetch
 	} = useBuildsOfUser(connectedUser?.id);
 
+	if (isLoading) return <p>Loading...</p>;
+	if (error) return <p>Error: {error.message}</p>;
+
 	return (
-		!isFetchingBuild && (
-			<>
-				<div className="flex flex-row gap-4 justify-end">
-					<ImportButton
-						refetch={refetch}
-						userId={connectedUser?.id}
-					/>
-					<DialogCreateBuild
-						refetch={refetch}
-						userId={connectedUser?.id}
-					/>
-				</div>
-				<div className="flex flex-col gap-1 p-1 border rounded">
-					{builds?.length > 0 ? (
-						builds.map((build: any) => {
-							return (
-								<CardBuild
-									className={`animate-fade animate-once animate-duration-300`}
-									build={build}
-									key={build.id}
-									width={120}
-									height={120}
-								/>
-							);
-						})
-					) : (
-						<p className="p-5">
-							You have not yet created a build order.
-						</p>
-					)}
-				</div>
-			</>
-		)
+		<>
+			<div className="flex flex-row gap-4 justify-end">
+				<ImportButton refetch={refetch} userId={connectedUser?.id} />
+				<DialogCreateBuild
+					refetch={refetch}
+					userId={connectedUser?.id}
+				/>
+			</div>
+			<div className="flex flex-col gap-1 p-1 border rounded">
+				{builds?.length > 0 ? (
+					builds.map((build: any) => {
+						return (
+							<CardBuild
+								className={`animate-fade animate-once animate-duration-300`}
+								build={build}
+								key={build.id}
+								width={120}
+								height={120}
+							/>
+						);
+					})
+				) : (
+					<p className="p-5">
+						You have not yet created a build order.
+					</p>
+				)}
+			</div>
+		</>
 	);
 }
