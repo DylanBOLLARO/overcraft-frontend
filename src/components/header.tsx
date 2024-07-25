@@ -11,11 +11,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from "../components/ui/dropdown-menu";
-import { useConnectedUserContext } from "../app/layout";
 import { PAGE_PATH } from "../constants/enum";
 import { usePathname, useRouter } from "next/navigation";
 import { capitalize } from "../services/utils";
 import { deleteCookie } from "../services/cookie";
+import { useConnectedUserContext } from "./layout/providers";
 
 function Header() {
 	const router = useRouter();

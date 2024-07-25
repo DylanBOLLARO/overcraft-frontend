@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { PAGE_PATH } from "../constants/enum";
 import { getCookie } from "../services/cookie";
-import { useConnectedUserContext } from "../app/layout";
 import { getConnectedUser } from "../services/api";
+import { useConnectedUserContext } from "./layout/providers";
 
 interface ContainerProps {
 	children: React.ReactNode;

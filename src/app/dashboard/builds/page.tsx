@@ -3,7 +3,7 @@
 import { CardBuild } from "@/src/components/CardBuild";
 import { DialogCreateBuild } from "@/src/components/DialogCreateBuild";
 import { ImportButton } from "@/src/components/ImportButton";
-import { useConnectedUserContext } from "../../layout";
+import { useConnectedUserContext } from "@/src/components/layout/providers";
 import { useBuildsOfUser } from "@/src/services/queries";
 
 export default function Page() {

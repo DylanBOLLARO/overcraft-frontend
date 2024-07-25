@@ -20,13 +20,13 @@ import { formatDate } from "date-fns";
 import { Badge } from "@/src/components/ui/badge";
 import { secondsToMinutesAndSeconds } from "@/src/services/utils";
 import CreateComment from "@/src/components/new/card-create-comment";
-import { useConnectedUserContext } from "../../layout";
 import { getUserById } from "@/src/services/api";
 import { useState, useEffect } from "react";
 import { Button } from "@/src/components/ui/button";
 import { useRouter } from "next/navigation";
 import { PAGE_PATH } from "@/src/constants/enum";
 import { useBuild, useSteps } from "@/src/services/queries";
+import { useConnectedUserContext } from "@/src/components/layout/providers";
 
 export default function Page({ params }: { params: { slug: string } }) {
 	const router = useRouter();

@@ -4,8 +4,34 @@ import {
 	getBuildOfUser,
 	getBuilds,
 	getBuildsOfUser,
-	getSteps
+	getSteps,
+	getUserById,
+	getUserByUsername
 } from "./api";
+
+//-------------------------
+//---START--USER-----------
+//-------------------------
+
+// fetch one user
+export function useUser(input: any) {
+	const selectFunction = (input: any) => {
+		if (typeof input === "number") return getUserById(input);
+		if (typeof input === "string") return getUserByUsername(input);
+	};
+
+	return useQuery({
+		queryKey: ["useBuild"],
+		queryFn: () => selectFunction(input),
+		refetchOnWindowFocus: false,
+		placeholderData: keepPreviousData,
+		enabled: !!input
+	});
+}
+
+//-------------------------
+//-----END--USER-----------
+//-------------------------
 
 //-------------------------
 //---START--BUILD---------

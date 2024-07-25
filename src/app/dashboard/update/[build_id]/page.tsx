@@ -39,8 +39,8 @@ import {
 	delete_step_in_build_steps,
 	move_step_in_build_steps
 } from "@/src/services/user";
-import { useConnectedUserContext } from "@/src/app/layout";
 import { useBuildOfUser, useSteps } from "@/src/services/queries";
+import { useConnectedUserContext } from "@/src/components/layout/providers";
 
 export default function Page({ params }: { params: { build_id: string } }) {
 	const { connectedUser } = useConnectedUserContext();

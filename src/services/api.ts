@@ -21,23 +21,6 @@ export const getConnectedUser = async () => {
 	}
 };
 
-// export const publish_connected_user_build = async (build_metadata: any) => {
-// 	try {
-// 		const { id: user_id } = await getConnectedUser();
-// 		return await base_query_axios(
-// 			PUBLISH_CONNECTED_USER_BUILD,
-// 			{
-// 				...build_metadata,
-// 				user_id: "" + user_id,
-// 				slug: "" + user_id
-// 			},
-// 			true
-// 		);
-// 	} catch (error) {
-// 		console.error(error);
-// 	}
-// };
-
 export const getUserById = async (userId: number) => {
 	if (!userId) return;
 	try {
@@ -132,25 +115,6 @@ export const getBuildsOfUser = async (userId: any) => {
 
 //-------------------------
 //-----END--BUILD----------
-//-------------------------
-
-//-------------------------
-//-----START--PROFILE------
-//-------------------------
-
-export const getUserProfileByUsername = async (username: string) => {
-	if (!username) return;
-	try {
-		return await axiosQuery({
-			url: `${MODULE_NESTJS.USER}/username/${username}`
-		});
-	} catch (error) {
-		console.error(error);
-	}
-};
-
-//-------------------------
-//-----END--PROFILE--------
 //-------------------------
 
 //-------------------------

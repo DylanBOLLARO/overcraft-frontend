@@ -25,7 +25,7 @@ import {
 	X
 } from "lucide-react";
 
-export const Icons = {
+export const Icons: any = {
 	logo: Command,
 	close: X,
 	spinner: Loader2,

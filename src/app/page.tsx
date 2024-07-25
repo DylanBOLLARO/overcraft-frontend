@@ -21,6 +21,7 @@ import { capitalize } from "../services/utils";
 import { TAB_SELECTION } from "../constants/variable";
 import DevelopThisWebsite from "../components/new/help-me-to-develop-this-website";
 import { useBuilds } from "../services/queries";
+import Image from "next/image";
 
 export default function IndexPage() {
 	const { isPending, error, data: builds, isFetching } = useBuilds();
