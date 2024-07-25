@@ -4,16 +4,16 @@ import { CardBuild } from "@/src/components/CardBuild";
 import { DialogCreateBuild } from "@/src/components/DialogCreateBuild";
 import { ImportButton } from "@/src/components/ImportButton";
 import { useConnectedUserContext } from "@/src/components/layout/providers";
-import { useBuildsOfUser } from "@/src/services/queries";
+import { useUser } from "@/src/services/queries";
 
 export default function Page() {
 	const { connectedUser } = useConnectedUserContext();
 	const {
 		isLoading,
 		error,
-		data: builds,
+		data: user,
 		refetch
-	} = useBuildsOfUser(connectedUser?.id);
+	} = useUser(connectedUser?.id);
 
 	if (isLoading) return <p>Loading...</p>;
 	if (error) return <p>Error: {error.message}</p>;
@@ -28,8 +28,8 @@ export default function Page() {
 				/>
 			</div>
 			<div className="flex flex-col gap-1 p-1 border rounded">
-				{builds?.length > 0 ? (
-					builds.map((build: any) => {
+				{user?.build?.length > 0 ? (
+					user?.build.map((build: any) => {
 						return (
 							<CardBuild
 								className={`animate-fade animate-once animate-duration-300`}
