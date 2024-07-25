@@ -19,7 +19,7 @@ export default function Page() {
 	if (error) return <p>Error: {error.message}</p>;
 
 	return (
-		<>
+		<div className="flex-1 flex flex-col gap-5 p-5">
 			<div className="flex flex-row gap-4 justify-end">
 				<ImportButton refetch={refetch} userId={connectedUser?.id} />
 				<DialogCreateBuild
@@ -46,6 +46,6 @@ export default function Page() {
 					</p>
 				)}
 			</div>
-		</>
+		</div>
 	);
 }

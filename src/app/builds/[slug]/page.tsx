@@ -43,7 +43,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 	if (error) return <p>Error: {error.message}</p>;
 
 	return (
-		<>
+		<div className="flex-1 flex flex-col gap-5 p-5">
 			{!isFetchingBuild && (
 				<Card>
 					<CardHeader className="pb-3">
@@ -110,6 +110,6 @@ export default function Page({ params }: { params: { slug: string } }) {
 			</Card>
 
 			{connectedUser && <CreateComment user={connectedUser} />}
-		</>
+		</div>
 	);
 }

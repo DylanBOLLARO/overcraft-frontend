@@ -16,13 +16,13 @@ import { useUser } from "@/src/services/queries";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
-	const { isLoading, error, data: userData } = useUser(username);
+	const { isLoading, error, data: userData, isFetched } = useUser(username);
 
 	if (isLoading) return <p>Loading...</p>;
 	if (error) return <p>Error: {error.message}</p>;
 
 	return (
-		<>
+		<div className="flex-1 flex flex-col gap-5 p-5">
 			<div className="flex gap-5 items-end">
 				<h2 className="text-4xl font-bold tracking-tight text-primary">
 					{capitalize(userData?.username)}
@@ -74,17 +74,19 @@ export default function Page({ params }: { params: { username: string } }) {
 				</Card>
 			</div>
 
-			<Card className="col-span-3">
-				<CardHeader className="flex flex-row items-end justify-between">
-					<CardTitle>{`All builds order published`}</CardTitle>
-					<CardTitle className="text-sm text-muted-foreground">{`Total: ${userData?.build?.length || 0}`}</CardTitle>
-				</CardHeader>
-				{userData?.build && (
-					<CardContent>
-						<ProfileBuildsList builds={userData.build} />
-					</CardContent>
-				)}
-			</Card>
-		</>
+			{isFetched && (
+				<Card className="col-span-3">
+					<CardHeader className="flex flex-row items-end justify-between">
+						<CardTitle>{`All builds order published`}</CardTitle>
+						<CardTitle className="text-sm text-muted-foreground">{`Total: ${userData?.build?.length || 0}`}</CardTitle>
+					</CardHeader>
+					{userData?.build && (
+						<CardContent>
+							<ProfileBuildsList builds={userData.build} />
+						</CardContent>
+					)}
+				</Card>
+			)}
+		</div>
 	);
 }

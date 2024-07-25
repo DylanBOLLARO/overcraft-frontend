@@ -74,7 +74,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 	};
 
 	return (
-		<>
+		<div className="flex-1 flex flex-col gap-5 p-5">
 			<div className="flex flex-row gap-5 justify-between">
 				<Link
 					href={PAGE_PATH.DASHBOARD}
@@ -292,6 +292,6 @@ export default function Page({ params }: { params: { build_id: string } }) {
 					Add
 				</Button>
 			</div>
-		</>
+		</div>
 	);
 }

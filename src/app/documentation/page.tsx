@@ -4,7 +4,7 @@ import Image from "next/image";
 const Page = () => {
 	const isProd = process.env.NODE_ENV === "production";
 	return (
-		<div className="flex flex-col gap-3 pb-32">
+		<div className="flex-1 flex flex-col gap-5 p-5">
 			<h3 className="text-lg">{`1. Créez votre compte et connectez-vous`}</h3>
 			<p className="text-muted-foreground text-sm">
 				{`En haut à droite de l'écran se trouve un bouton

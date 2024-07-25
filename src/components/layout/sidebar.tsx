@@ -11,12 +11,7 @@ type SidebarProps = {
 
 export default function Sidebar({ className }: SidebarProps) {
 	return (
-		<nav
-			className={cn(
-				`relative hidden h-screen flex-none border-r z-10 pt-20 md:block`,
-				className
-			)}
-		>
+		<nav className={cn(`relative  flex border-r z-10 pt-20`, className)}>
 			<div className="space-y-4 py-4">
 				<div className="px-3 py-2">
 					<div className="mt-3 space-y-1">

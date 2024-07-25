@@ -21,7 +21,6 @@ import { capitalize } from "../services/utils";
 import { TAB_SELECTION } from "../constants/variable";
 import DevelopThisWebsite from "../components/new/help-me-to-develop-this-website";
 import { useBuilds } from "../services/queries";
-import Image from "next/image";
 
 export default function IndexPage() {
 	const { isPending, error, data: builds, isFetching } = useBuilds();
@@ -30,7 +29,7 @@ export default function IndexPage() {
 	if (error) return console.error("An error has occurred: " + error.message);
 
 	return (
-		<>
+		<div className="flex-1 flex flex-col gap-5 p-5">
 			<Tabs defaultValue="all">
 				<div className="flex items-center">
 					<TabsList>
@@ -118,6 +117,6 @@ export default function IndexPage() {
 				})}
 			</Tabs>
 			<DevelopThisWebsite />
-		</>
+		</div>
 	);
 }
