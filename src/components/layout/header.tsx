@@ -1,6 +1,5 @@
 import { UserNav } from "./user-nav";
 import ThemeToggle from "./ThemeToggle/theme-toggle";
-import { useConnectedUserContext } from "./providers";
 
 export default function Header() {
 	return (

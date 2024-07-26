@@ -79,7 +79,7 @@ export default function LoginPage() {
 	}
 
 	return (
-		<div className="container flex flex-col items-center gap-5">
+		<div className="flex-1 flex flex-col gap-5 p-5 items-center">
 			<Tabs defaultValue="signin" className="w-[500px] bg-">
 				<TabsList className="grid w-full grid-cols-2">
 					<TabsTrigger value="signin">Sign in</TabsTrigger>

@@ -10,6 +10,10 @@ const badgeVariants = cva(
 			variant: {
 				default:
 					"border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+				zerg: "border-transparent bg-zerg text-zerg-foreground hover:bg-zerg/80",
+				terran: "border-transparent bg-terran text-terran-foreground hover:bg-terran/80",
+				protoss:
+					"border-transparent bg-protoss text-protoss-foreground hover:bg-protoss/80",
 				secondary:
 					"border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
 				destructive:

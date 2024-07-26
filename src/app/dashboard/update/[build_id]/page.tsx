@@ -76,8 +76,8 @@ export default function Page({ params }: { params: { build_id: string } }) {
 	return (
 		<div className="flex-1 flex flex-col gap-5 p-5">
 			<div className="flex flex-row gap-5 justify-between">
-				<Link
-					href={PAGE_PATH.DASHBOARD}
+				<Button
+					onClick={() => window.history.back()}
 					className={cn(
 						buttonVariants({ variant: "outline" }),
 						"left-4 top-4 md:left-8 md:top-8 self-start"
@@ -87,7 +87,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 						<Icons.chevronLeft className="mr-2 h-4 w-4" />
 						Back
 					</>
-				</Link>
+				</Button>
 
 				<div className="flex flex-row gap-2">
 					<ExportButton selectedUserBuild={build} />

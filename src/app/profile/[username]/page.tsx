@@ -7,12 +7,14 @@ import {
 	CardHeader,
 	CardTitle
 } from "@/src/components/ui/card";
-import { capitalize, isRoleGuest } from "@/src/services/utils";
+import { capitalize, cn, isRoleGuest } from "@/src/services/utils";
 import { Album, Heart } from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 import { format } from "date-fns";
 import { ProfileBuildsList } from "@/src/components/new/profile-builds-list";
 import { useUser } from "@/src/services/queries";
+import { Button, buttonVariants } from "@/src/components/ui/button";
+import { Icons } from "@/src/components/icons";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
@@ -23,18 +25,33 @@ export default function Page({ params }: { params: { username: string } }) {
 
 	return (
 		<div className="flex-1 flex flex-col gap-5 p-5">
-			<div className="flex gap-5 items-end">
-				<h2 className="text-4xl font-bold tracking-tight text-primary">
+			<div className="flex flex-row gap-5 justify-between relative">
+				<Button
+					onClick={() => window.history.back()}
+					className={cn(
+						buttonVariants({ variant: "outline" }),
+						"left-4 top-4 md:left-8 md:top-8 self-start z-10"
+					)}
+				>
+					<>
+						<Icons.chevronLeft className="mr-2 h-4 w-4" />
+						Back
+					</>
+				</Button>
+				<h2 className="text-4xl font-bold tracking-tight text-primary absolute inset-0 text-center mx-auto">
 					{capitalize(userData?.username)}
 				</h2>
 			</div>
 
 			<Card>
-				<CardHeader>
-					<CardDescription className="">
-						{capitalize(userData?.description) || "No description"}
-					</CardDescription>
-				</CardHeader>
+				{userData?.description && (
+					<CardHeader>
+						<CardDescription className="">
+							{capitalize(userData?.description) ||
+								"No description"}
+						</CardDescription>
+					</CardHeader>
+				)}
 				<CardContent className="flex gap-4">
 					{!isRoleGuest(userData?.role) && (
 						<Badge className="bg-pink-700 hover:bg-pink-800">

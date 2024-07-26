@@ -49,6 +49,18 @@ module.exports = {
 				card: {
 					DEFAULT: "hsl(var(--card))",
 					foreground: "hsl(var(--card-foreground))"
+				},
+				zerg: {
+					DEFAULT: "hsl(var(--zerg))",
+					foreground: "hsl(var(--zerg-foreground))"
+				},
+				protoss: {
+					DEFAULT: "hsl(var(--protoss))",
+					foreground: "hsl(var(--protoss-foreground))"
+				},
+				terran: {
+					DEFAULT: "hsl(var(--terran))",
+					foreground: "hsl(var(--terran-foreground))"
 				}
 			},
 			borderRadius: {

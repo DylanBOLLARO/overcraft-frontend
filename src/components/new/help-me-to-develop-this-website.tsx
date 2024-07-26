@@ -13,7 +13,7 @@ export default function DevelopThisWebsite() {
 	const router = useRouter();
 
 	return (
-		<Card className="bg-muted w-fit">
+		<Card className="w-fit">
 			<CardHeader className="pb-3">
 				<CardTitle>Help me to develop this website 🥰</CardTitle>
 				<CardDescription className="text-balance leading-relaxed">
