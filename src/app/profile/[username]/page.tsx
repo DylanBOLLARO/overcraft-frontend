@@ -18,10 +18,10 @@ import { Icons } from "@/src/components/icons";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
-	const { isLoading, error, data: userData, isFetched } = useUser(username);
+	const { isLoading, error, data: userData } = useUser(username);
 
-	if (isLoading) return <p>Loading...</p>;
-	if (error) return <p>Error: {error.message}</p>;
+	if (isLoading) return;
+	if (error) return console.error("An error has occurred: " + error.message);
 
 	return (
 		<div className="flex-1 flex flex-col gap-5 p-5">
@@ -91,19 +91,17 @@ export default function Page({ params }: { params: { username: string } }) {
 				</Card>
 			</div>
 
-			{isFetched && (
-				<Card className="col-span-3">
-					<CardHeader className="flex flex-row items-end justify-between">
-						<CardTitle>{`All builds order published`}</CardTitle>
-						<CardTitle className="text-sm text-muted-foreground">{`Total: ${userData?.build?.length || 0}`}</CardTitle>
-					</CardHeader>
-					{userData?.build && (
-						<CardContent>
-							<ProfileBuildsList builds={userData.build} />
-						</CardContent>
-					)}
-				</Card>
-			)}
+			<Card className="col-span-3">
+				<CardHeader className="flex flex-row items-end justify-between">
+					<CardTitle>{`All builds order published`}</CardTitle>
+					<CardTitle className="text-sm text-muted-foreground">{`Total: ${userData?.build?.length || 0}`}</CardTitle>
+				</CardHeader>
+				{userData?.build && (
+					<CardContent>
+						<ProfileBuildsList builds={userData.build} />
+					</CardContent>
+				)}
+			</Card>
 		</div>
 	);
 }

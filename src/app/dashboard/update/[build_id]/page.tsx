@@ -50,8 +50,8 @@ export default function Page({ params }: { params: { build_id: string } }) {
 	const { build_id } = params;
 	const { isLoading, error, data: build, refetch } = useBuild(build_id);
 
-	if (isLoading) return <p>Loading...</p>;
-	if (error) return <p>Error: {error.message}</p>;
+	if (isLoading) return;
+	if (error) return console.error("An error has occurred: " + error.message);
 
 	const handleAddButtonClick = async (
 		description: any,

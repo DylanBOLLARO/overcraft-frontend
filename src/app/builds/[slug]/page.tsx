@@ -39,8 +39,8 @@ export default function Page({ params }: { params: { slug: string } }) {
 		isLoading
 	} = useBuild(buildId);
 
-	if (isLoading) return <p>Loading...</p>;
-	if (error) return <p>Error: {error.message}</p>;
+	if (isLoading) return;
+	if (error) return console.error("An error has occurred: " + error.message);
 
 	return (
 		<div className="flex-1 flex flex-col gap-5 p-5">

@@ -31,9 +31,9 @@ import {
 } from "../components/ui/select";
 
 export default function IndexPage() {
-	const { isPending, error, data: builds, isFetching } = useBuilds();
+	const { isLoading, error, data: builds, isFetching } = useBuilds();
 
-	if (isPending) return;
+	if (isLoading) return;
 	if (error) return console.error("An error has occurred: " + error.message);
 
 	return (
