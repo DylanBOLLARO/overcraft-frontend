@@ -7,14 +7,14 @@ import {
 	CardHeader,
 	CardTitle
 } from "@/src/components/ui/card";
-import { capitalize, cn, isRoleGuest } from "@/src/services/utils";
-import { Album, Heart } from "lucide-react";
+import { capitalize, isRoleGuest } from "@/src/services/utils";
+import { Blocks, CalendarPlus, Heart, Shield, ShieldPlus } from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 import { format } from "date-fns";
 import { ProfileBuildsList } from "@/src/components/new/profile-builds-list";
 import { useUser } from "@/src/services/queries";
-import { Button, buttonVariants } from "@/src/components/ui/button";
-import { Icons } from "@/src/components/icons";
+import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
+import InformationCard from "@/src/components/new/information-card";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
@@ -25,70 +25,70 @@ export default function Page({ params }: { params: { username: string } }) {
 
 	return (
 		<div className="flex-1 flex flex-col gap-5 p-5">
-			<div className="flex flex-row gap-5 justify-between relative">
-				<Button
-					onClick={() => window.history.back()}
-					className={cn(
-						buttonVariants({ variant: "outline" }),
-						"left-4 top-4 md:left-8 md:top-8 self-start z-10"
-					)}
-				>
-					<>
-						<Icons.chevronLeft className="mr-2 h-4 w-4" />
-						Back
-					</>
-				</Button>
-				<h2 className="text-4xl font-bold tracking-tight text-primary absolute inset-0 text-center mx-auto">
-					{capitalize(userData?.username)}
-				</h2>
-			</div>
+			<HeaderWithBackBtnAndTile title={userData?.username} />
 
-			<Card>
-				{userData?.description && (
+			{userData?.description && (
+				<Card>
 					<CardHeader>
 						<CardDescription className="">
 							{capitalize(userData?.description) ||
 								"No description"}
 						</CardDescription>
 					</CardHeader>
-				)}
-				<CardContent className="flex gap-4">
-					{!isRoleGuest(userData?.role) && (
-						<Badge className="bg-pink-700 hover:bg-pink-800">
-							{capitalize(userData?.role)}
-						</Badge>
-					)}
-					<Badge>{format(userData?.created_at, "MMMM yyyy")}</Badge>
-				</CardContent>
-			</Card>
+				</Card>
+			)}
 
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				<Card>
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">
-							Total build published
-						</CardTitle>
-						<Album className="hover:scale-110 hover:text-primary duration-100 transition-colors cursor-pointer" />
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold">
-							{userData?._count?.build || 0}
-						</div>
-					</CardContent>
-				</Card>
-				<Card>
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">
-							Number of likes
-						</CardTitle>
-						<Heart className="hover:scale-110 hover:text-pink-700 duration-100 transition-colors cursor-pointer" />
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold">
-							{userData?._count?.like || 0}
-						</div>
-					</CardContent>
-				</Card>
+			<div className="flex gap-2">
+				{userData?.role === "ADMIN" && (
+					<InformationCard
+						data={{
+							title: undefined,
+							content: capitalize(userData?.role),
+							icone: (
+								<ShieldPlus className="h-10 w-10 text-pink-700  opacity-75" />
+							)
+						}}
+					/>
+				)}
+
+				{userData?.role === "MEMBER" && (
+					<InformationCard
+						data={{
+							title: undefined,
+							content: capitalize(userData?.role),
+							icone: (
+								<Shield className="h-10 w-10 text-protoss-foreground opacity-75" />
+							)
+						}}
+					/>
+				)}
+
+				<InformationCard
+					data={{
+						title: "Total build published",
+						content: userData?._count?.build || 0,
+						icone: <Blocks className="h-8 w-8 opacity-75" />
+					}}
+				/>
+				<InformationCard
+					data={{
+						title: "Number of likes",
+						content: userData?._count?.like || 0,
+						icone: (
+							<Heart
+								strokeWidth={3}
+								className="h-8 w-8 text-pink-700 opacity-65"
+							/>
+						)
+					}}
+				/>
+				<InformationCard
+					data={{
+						title: "Profile created on",
+						content: format(userData?.created_at, "dd.MM.yy"),
+						icone: <CalendarPlus className="h-8 w-8 opacity-75" />
+					}}
+				/>
 			</div>
 
 			<Card className="col-span-3">

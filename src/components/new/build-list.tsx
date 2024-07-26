@@ -99,7 +99,7 @@ export function BuildsList({ build }: any) {
 						</h4>
 						<Heart
 							strokeWidth={3}
-							className="h-5 w-5 text-pink-700 opacity-65 "
+							className="h-5 w-5 text-pink-700 opacity-65"
 						/>
 					</>
 				)}
@@ -125,17 +125,6 @@ export function BuildsList({ build }: any) {
 					)}
 				</div>
 			</div>
-
-			{/* {build?.labels.length ? (
-					{build?.labels.map((label: any) => (
-						<Badge
-							key={label}
-							variant={getBadgeVariantFromLabel(label)}
-						>
-							{label}
-						</Badge>
-					))}
-			) : null} */}
 		</button>
 	);
 }
