@@ -23,9 +23,11 @@ export default function Page({ params }: { params: { username: string } }) {
 	if (isLoading) return;
 	if (error) return console.error("An error has occurred: " + error.message);
 
+	const configHeader = { title: userData?.username, share: false };
+
 	return (
 		<div className="flex-1 flex flex-col gap-5 p-5">
-			<HeaderWithBackBtnAndTile title={userData?.username} />
+			<HeaderWithBackBtnAndTile config={configHeader} />
 
 			{userData?.description && (
 				<Card>
@@ -89,6 +91,7 @@ export default function Page({ params }: { params: { username: string } }) {
 						icone: <CalendarPlus className="h-8 w-8 opacity-75" />
 					}}
 				/>
+				{/* Discord link */}
 			</div>
 
 			<Card className="col-span-3">

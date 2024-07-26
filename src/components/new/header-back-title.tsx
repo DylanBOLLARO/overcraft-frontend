@@ -1,8 +1,9 @@
 import { capitalize, cn } from "@/src/services/utils";
 import { Button, buttonVariants } from "../ui/button";
 import { Icons } from "../icons";
+import { ShareBuild } from "./share-build";
 
-export default function HeaderWithBackBtnAndTile({ title }: any) {
+export default function HeaderWithBackBtnAndTile({ config }: any) {
 	return (
 		<div className="flex flex-row gap-5 justify-between">
 			<Button
@@ -18,9 +19,14 @@ export default function HeaderWithBackBtnAndTile({ title }: any) {
 				</>
 			</Button>
 			<h4 className="text-3xl font-semibold tracking-tight">
-				{capitalize(title)}
+				{capitalize(config?.title)}
 			</h4>
-			<div className="px-20" />
+
+			{config?.share ? (
+				<ShareBuild link={config?.link} />
+			) : (
+				<div className="px-20" />
+			)}
 		</div>
 	);
 }

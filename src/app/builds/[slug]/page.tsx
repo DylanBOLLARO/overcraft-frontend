@@ -18,19 +18,13 @@ import {
 
 import { formatDate } from "date-fns";
 import { Badge } from "@/src/components/ui/badge";
-import {
-	capitalize,
-	cn,
-	secondsToMinutesAndSeconds
-} from "@/src/services/utils";
+import { secondsToMinutesAndSeconds } from "@/src/services/utils";
 import CreateComment from "@/src/components/new/card-create-comment";
-import { Button, buttonVariants } from "@/src/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import { useRouter } from "next/navigation";
 import { PAGE_PATH } from "@/src/constants/enum";
 import { useBuild } from "@/src/services/queries";
 import { useConnectedUserContext } from "@/src/components/layout/providers";
-import { Icons } from "@/src/components/icons";
-import { Blocks } from "lucide-react";
 import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
 
 export default function Page({ params }: { params: { slug: string } }) {
@@ -38,7 +32,6 @@ export default function Page({ params }: { params: { slug: string } }) {
 	const router = useRouter();
 	const { slug } = params;
 	const buildId = slug.split("-")[0];
-
 	const {
 		error,
 		data: build,
@@ -46,12 +39,19 @@ export default function Page({ params }: { params: { slug: string } }) {
 		isLoading
 	} = useBuild(buildId);
 
+	console.log(build);
+
 	if (isLoading) return;
 	if (error) return console.error("An error has occurred: " + error.message);
+	const configHeader = {
+		title: build?.title,
+		share: true,
+		link: window.location
+	};
 
 	return (
 		<div className="flex-1 flex flex-col gap-5 p-5">
-			<HeaderWithBackBtnAndTile title={build?.title} />
+			<HeaderWithBackBtnAndTile config={configHeader} />
 
 			{!isFetchingBuild && (
 				<Card>
@@ -117,6 +117,14 @@ export default function Page({ params }: { params: { slug: string } }) {
 					</Table>
 				</CardContent>
 			</Card>
+
+			{build?.comment && (
+				<>
+					{build?.comment?.map((comment: any) => (
+						<p>{comment?.content}</p>
+					))}
+				</>
+			)}
 
 			{connectedUser && <CreateComment user={connectedUser} />}
 		</div>
