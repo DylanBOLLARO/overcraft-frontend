@@ -79,10 +79,10 @@ export const getBuild = async (buildId: any) => {
 };
 
 // fetch all builds
-export const getBuilds = async () => {
+export const getBuilds = async (params: any) => {
 	try {
 		return await axiosQuery({
-			url: `${MODULE_NESTJS.BUILD}`
+			url: `${MODULE_NESTJS.BUILD}${params && `?${params}`}`
 		});
 	} catch (error) {
 		console.error(error);

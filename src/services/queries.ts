@@ -41,10 +41,10 @@ export function useBuild(buildId: any) {
 }
 
 // fetch all builds
-export function useBuilds() {
+export function useBuilds(params: any) {
 	return useQuery({
-		queryKey: ["useBuilds"],
-		queryFn: async () => getBuilds(),
+		queryKey: ["useBuilds", params || 0],
+		queryFn: async () => getBuilds(params),
 		refetchOnWindowFocus: false,
 		placeholderData: keepPreviousData
 	});
