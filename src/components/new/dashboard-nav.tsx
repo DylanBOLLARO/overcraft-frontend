@@ -17,75 +17,50 @@ export function DashboardNav() {
 	const router = useRouter();
 
 	return (
-		<nav className="grid items-start gap-2">
+		<nav className="flex flex-col p-2 gap-5">
 			<TooltipProvider>
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Link
 							href={PAGE_PATH.HOME}
-							className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors md:h-8 md:w-8 hover:bg-accent hover:text-accent-foreground"
+							className="group flex w-9 py-4 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-col text-xl text-pretty font-mono leading-none"
 						>
-							<Home className="h-5 w-5 group-hover:scale-110" />
-							<span className="sr-only">Home</span>
+							{"HOME".split("").map((letter) => {
+								return <p>{letter}</p>;
+							})}
 						</Link>
 					</TooltipTrigger>
 					<TooltipContent side="right">Home</TooltipContent>
 				</Tooltip>
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Link
-							href={PAGE_PATH.DOCUMENTATION}
-							className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors md:h-8 md:w-8 hover:bg-accent hover:text-accent-foreground"
-						>
-							<Book className="h-5 w-5 group-hover:scale-110" />
-							<span className="sr-only">Documentation</span>
-						</Link>
-					</TooltipTrigger>
-					<TooltipContent side="right">Documentation</TooltipContent>
-				</Tooltip>
+
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Link
 							href={PAGE_PATH.DASHBOARD}
-							className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors md:h-8 md:w-8 hover:bg-accent hover:text-accent-foreground"
+							className="group flex w-9 py-4 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-col  text-xl text-pretty font-mono leading-none"
 						>
-							<LayoutDashboard className="h-5 w-5 group-hover:scale-110" />
-							<span className="sr-only">Dashboard</span>
+							{"DASHBOARD".split("").map((letter) => {
+								return <p>{letter}</p>;
+							})}
 						</Link>
 					</TooltipTrigger>
 					<TooltipContent side="right">Dashboard</TooltipContent>
 				</Tooltip>
 
-				{connectedUser && (
+				<div className="mt-auto">
 					<Tooltip>
-						<TooltipTrigger
-							asChild
-							onClick={() => {
-								router.push(
-									`${PAGE_PATH.PROFILE}/${connectedUser.username.toLowerCase()}`
-								);
-							}}
-						>
-							<div className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 cursor-pointer">
-								<User className="h-5 w-5" />
-								<span className="sr-only">Profile</span>
-							</div>
+						<TooltipTrigger asChild>
+							<Link
+								href="#"
+								className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
+							>
+								<Settings className="h-5 w-5" />
+								<span className="sr-only">Settings</span>
+							</Link>
 						</TooltipTrigger>
-						<TooltipContent side="right">Profile</TooltipContent>
+						<TooltipContent side="right">Settings</TooltipContent>
 					</Tooltip>
-				)}
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Link
-							href="#"
-							className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-						>
-							<Settings className="h-5 w-5" />
-							<span className="sr-only">Settings</span>
-						</Link>
-					</TooltipTrigger>
-					<TooltipContent side="right">Settings</TooltipContent>
-				</Tooltip>
+				</div>
 			</TooltipProvider>
 		</nav>
 	);

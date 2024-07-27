@@ -10,7 +10,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { deleteCookie } from "@/src/services/cookie";
 import { usePathname, useRouter } from "next/navigation";
@@ -25,19 +24,8 @@ export function UserNav() {
 		return (
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button
-						variant="ghost"
-						className="relative h-8 w-8 rounded-full"
-					>
-						<Avatar className="h-8 w-8">
-							<AvatarImage
-								src={connectedUser.user?.image ?? ""}
-								alt={connectedUser?.username ?? ""}
-							/>
-							<AvatarFallback>
-								{connectedUser?.username?.[0]}
-							</AvatarFallback>
-						</Avatar>
+					<Button variant="outline" size="icon">
+						{connectedUser?.username?.[0]}
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="w-56" align="end" forceMount>

@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { PAGE_PATH } from "../../constants/enum";
-import { Info } from "lucide-react";
+import { Book, Info } from "lucide-react";
 import {
 	Dialog,
 	DialogContent,
@@ -29,7 +29,7 @@ export default function Header() {
 					<div className="ml-10 flex items-center space-x-2">
 						<UserNav />
 						<Dialog>
-							<DialogTrigger>
+							<DialogTrigger asChild>
 								<Button variant="outline" size="icon">
 									<Info className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
 								</Button>
@@ -58,6 +58,17 @@ export default function Header() {
 								</DialogHeader>
 							</DialogContent>
 						</Dialog>
+
+						<Button
+							variant="outline"
+							size="icon"
+							onClick={() => {
+								router.push(PAGE_PATH.DOCUMENTATION);
+							}}
+						>
+							<Book className="h-[1.2rem] w-[1.2rem] " />
+						</Button>
+
 						<ThemeToggle />
 					</div>
 				</div>
