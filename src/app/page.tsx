@@ -30,7 +30,18 @@ export default function IndexPage() {
 	const stringifyParamsForSearch = (params: any) => {
 		return qs.stringify(params);
 	};
-	const [filterSearchBuilds, setFilterSearchBuilds] = useState({ q: "" });
+
+	const defaultValueSearchFilterSearchBuilds = {
+		q: "",
+		type: "all",
+		difficulty: "all",
+		race: "all",
+		v_race: "all"
+	};
+
+	const [filterSearchBuilds, setFilterSearchBuilds] = useState(
+		defaultValueSearchFilterSearchBuilds
+	);
 
 	const {
 		isLoading,
@@ -64,6 +75,7 @@ export default function IndexPage() {
 		<div className="flex-1 flex flex-col gap-5 p-5">
 			<div className="flex items-center gap-4">
 				<Select
+					value={filterSearchBuilds.race}
 					onValueChange={(event) => {
 						setFilterSearchBuilds((prev) => ({
 							...prev,
@@ -89,6 +101,7 @@ export default function IndexPage() {
 				</Select>
 				<Swords className="opacity-75" />
 				<Select
+					value={filterSearchBuilds.v_race}
 					onValueChange={(event) => {
 						setFilterSearchBuilds((prev) => ({
 							...prev,
@@ -114,6 +127,7 @@ export default function IndexPage() {
 				</Select>
 
 				<Select
+					value={filterSearchBuilds.type}
 					onValueChange={(event) => {
 						setFilterSearchBuilds((prev) => ({
 							...prev,
@@ -133,6 +147,7 @@ export default function IndexPage() {
 				</Select>
 
 				<Select
+					value={filterSearchBuilds.difficulty}
 					onValueChange={(event) => {
 						setFilterSearchBuilds((prev) => ({
 							...prev,
@@ -154,28 +169,32 @@ export default function IndexPage() {
 				<div className="flex w-full max-w-sm items-center space-x-2">
 					<Input
 						type="email"
-						placeholder="Email"
+						placeholder="Search a build..."
 						onChange={(event) => {
 							setFilterSearchBuilds((prev) => ({
 								...prev,
 								q: event.target.value
 							}));
 						}}
+						value={filterSearchBuilds.q}
 					/>
-					<Button type="submit" variant={"outline"}>
-						Search
-					</Button>
 				</div>
 
-				{/* <TabsList>
-						{TAB_SELECTION.map((tabsValue: string) => {
-							return (
-								<TabsTrigger value={tabsValue} key={tabsValue}>
-									{capitalize(tabsValue)}
-								</TabsTrigger>
-							);
-						})}
-					</TabsList> */}
+				{qs.stringify(filterSearchBuilds) !==
+					qs.stringify(defaultValueSearchFilterSearchBuilds) && (
+					<Button
+						className="relative"
+						variant={"default"}
+						onClick={() =>
+							setFilterSearchBuilds(
+								defaultValueSearchFilterSearchBuilds
+							)
+						}
+					>
+						Reset
+					</Button>
+				)}
+
 				<div className="ml-auto flex items-center gap-2">
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
