@@ -39,8 +39,6 @@ export default function Page({ params }: { params: { slug: string } }) {
 		isLoading
 	} = useBuild(buildId);
 
-	console.log(build);
-
 	if (isLoading) return;
 	if (error) return console.error("An error has occurred: " + error.message);
 	const configHeader = {

@@ -59,7 +59,6 @@ export function ShareBuild({ link }: ShareBuildProps) {
 						className="px-3"
 						onClick={() => {
 							copyToClipboard(refCopyToClipboard);
-							console.log("Link copied to clipboard");
 						}}
 					>
 						<span className="sr-only">Copy</span>

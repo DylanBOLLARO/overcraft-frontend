@@ -1,18 +1,9 @@
 "use client";
 
-import {
-	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger
-} from "../components/ui/dropdown-menu";
-import { BadgeInfo, ListFilter, Swords } from "lucide-react";
+import { Frown, Swords } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { capitalize } from "../services/utils";
 import { TAB_SELECTION } from "../constants/variable";
-import DevelopThisWebsite from "../components/new/help-me-to-develop-this-website";
 import { useBuilds } from "../services/queries";
 import { BuildsList } from "../components/new/build-list";
 import {
@@ -36,7 +27,8 @@ export default function IndexPage() {
 		type: "all",
 		difficulty: "all",
 		race: "all",
-		v_race: "all"
+		v_race: "all",
+		sorted: "mostlike"
 	};
 
 	const [filterSearchBuilds, setFilterSearchBuilds] = useState(
@@ -53,20 +45,7 @@ export default function IndexPage() {
 
 	useEffect(() => {
 		refetch();
-		console.log(stringifyParamsForSearch(filterSearchBuilds));
 	}, [filterSearchBuilds]);
-
-	const filteredBuilds = (buildsList: Array<any>): Array<any> => {
-		if (!buildsList) return [];
-
-		if (!(buildsList.length > 1)) {
-			return buildsList;
-		}
-		const list = buildsList?.sort(
-			(a: any, b: any) => b?._count?.like - a?._count?.like
-		);
-		return list;
-	};
 
 	if (isLoading) return;
 	if (error) return console.error("An error has occurred: " + error.message);
@@ -196,58 +175,47 @@ export default function IndexPage() {
 				)}
 
 				<div className="ml-auto flex items-center gap-2">
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant="outline"
-								size="sm"
-								className="h-7 gap-1 text-sm"
-							>
-								<ListFilter className="h-3.5 w-3.5 mr-2" />
-								<span className="sr-only sm:not-sr-only">
-									Filter
-								</span>
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent
-							align="end"
-							className="min-w-[10rem]"
-						>
-							<DropdownMenuLabel>Filter by</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuCheckboxItem checked>
-								Most liked
-							</DropdownMenuCheckboxItem>
-							<DropdownMenuCheckboxItem>
-								Most difficult
-							</DropdownMenuCheckboxItem>
-							<DropdownMenuCheckboxItem>
-								Least difficult
-							</DropdownMenuCheckboxItem>
-							<DropdownMenuCheckboxItem>
-								Most recent
-							</DropdownMenuCheckboxItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
-					<Button
-						variant="outline"
-						size="sm"
-						className="h-7 gap-1 text-sm"
-						disabled
+					<Select
+						value={filterSearchBuilds.sorted}
+						onValueChange={(event) => {
+							setFilterSearchBuilds((prev) => ({
+								...prev,
+								sorted: event
+							}));
+						}}
 					>
-						<BadgeInfo className="h-3.5 w-3.5" />
-					</Button>
+						<SelectTrigger className="w-[180px]">
+							<SelectValue placeholder="Most liked" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="mostlike">Most liked</SelectItem>
+							<SelectItem value="mostdifficult">
+								Most difficult
+							</SelectItem>
+							<SelectItem value="leastdifficult">
+								Least difficult
+							</SelectItem>
+						</SelectContent>
+					</Select>
 				</div>
 			</div>
 
-			{!isFetching && (
+			{!isFetching && builds?.length > 0 && (
 				<div className="grid 2xl:grid-cols-3 lg:grid-cols-2 flex-wrap gap-2 mt-5">
-					{filteredBuilds(builds)?.map((build: any) => (
+					{builds?.map((build: any) => (
 						<BuildsList key={build?.slug} build={build} />
 					))}
 				</div>
 			)}
-			<DevelopThisWebsite />
+
+			{builds?.length == 0 && (
+				<div className="flex flex-1 justify-center">
+					<h4 className="flex text-3xl font-semibold my-10 ">
+						No results found
+						<Frown className="self-center ml-5 h-10 w-10" />
+					</h4>
+				</div>
+			)}
 		</div>
 	);
 }
