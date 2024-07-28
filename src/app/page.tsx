@@ -17,7 +17,7 @@ import { useState, useEffect } from "react";
 import qs from "qs";
 import { Input } from "../components/ui/input";
 import { BuildsList } from "../components/new/builds-list";
-import { NoBuildsFound } from "../components/new/no-builds-found";
+import { NoResultsFound } from "../components/new/no-builds-found";
 
 export default function IndexPage() {
 	const stringifyParamsForSearch = (params: any) => {
@@ -205,7 +205,7 @@ export default function IndexPage() {
 			{!isFetching && builds?.length > 0 ? (
 				<BuildsList builds={builds} />
 			) : (
-				<NoBuildsFound />
+				<NoResultsFound text={"builds"} />
 			)}
 		</div>
 	);

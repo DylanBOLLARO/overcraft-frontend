@@ -7,7 +7,7 @@ import { useUser } from "@/src/services/queries";
 import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
 import InformationCard from "@/src/components/new/information-card";
 import { BuildsList } from "@/src/components/new/builds-list";
-import { NoBuildsFound } from "@/src/components/new/no-builds-found";
+import { NoResultsFound } from "@/src/components/new/no-builds-found";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
@@ -25,10 +25,7 @@ export default function Page({ params }: { params: { username: string } }) {
 			{userData?.description && (
 				<Card>
 					<CardHeader>
-						<CardDescription className="">
-							{capitalize(userData?.description) ||
-								"No description"}
-						</CardDescription>
+						{capitalize(userData?.description) || "No description"}
 					</CardHeader>
 				</Card>
 			)}
@@ -60,7 +57,7 @@ export default function Page({ params }: { params: { username: string } }) {
 
 				<InformationCard
 					data={{
-						title: "Total build published",
+						title: "Total builds published",
 						content: userData?._count?.build || 0,
 						icone: <Blocks className="h-8 w-8 opacity-75" />
 					}}
@@ -79,7 +76,7 @@ export default function Page({ params }: { params: { username: string } }) {
 				/>
 			</div>
 
-			<div>
+			<div className="flex flex-col gap-5">
 				<div className="flex flex-row items-end justify-between px-3">
 					<h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
 						All builds order published
@@ -88,10 +85,11 @@ export default function Page({ params }: { params: { username: string } }) {
 						{`Total: ${userData?.build?.length || 0}`}
 					</h4>
 				</div>
+
 				{isFetched && userData.build?.length > 0 ? (
 					<BuildsList builds={userData?.build} />
 				) : (
-					<NoBuildsFound />
+					<NoResultsFound text={"builds"} />
 				)}
 			</div>
 		</div>

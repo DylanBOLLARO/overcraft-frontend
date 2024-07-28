@@ -17,6 +17,8 @@ import { useBuild } from "@/src/services/queries";
 import { useConnectedUserContext } from "@/src/components/layout/providers";
 import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
 import { BuildItem } from "@/src/components/new/build-item";
+import { NoResultsFound } from "@/src/components/new/no-builds-found";
+import { CommentItem } from "@/src/components/new/comment-item";
 
 export default function Page({ params }: { params: { slug: string } }) {
 	const { connectedUser } = useConnectedUserContext();
@@ -40,43 +42,58 @@ export default function Page({ params }: { params: { slug: string } }) {
 			{isFetched && (
 				<BuildItem
 					build={build}
-					classname={"hover:bg-transparent"}
+					classname={"hover:bg-transparent cursor-default"}
 					showHeader={false}
 					highlightCreator={true}
 				/>
 			)}
-
-			<Card className="bg-transparent">
-				<CardContent className="pt-6">
-					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead>Population</TableHead>
-								<TableHead>Timer</TableHead>
-								<TableHead>Description</TableHead>
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{build?.steps?.map((step: any) => (
-								<TableRow className="h-10" key={`${step?.id}`}>
-									<TableCell>{step.population}</TableCell>
-									<TableCell>
-										{secondsToMinutesAndSeconds(
-											step.timer || 0
-										)}
-									</TableCell>
-									<TableCell>{step.description}</TableCell>
+			{build?.steps?.length > 0 ? (
+				<Card className="bg-transparent">
+					<CardContent className="pt-6">
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead>Population</TableHead>
+									<TableHead>Timer</TableHead>
+									<TableHead>Description</TableHead>
 								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</CardContent>
-			</Card>
+							</TableHeader>
+							<TableBody>
+								{build?.steps?.map((step: any) => (
+									<TableRow
+										className="h-10"
+										key={`${step?.id}`}
+									>
+										<TableCell>{step.population}</TableCell>
+										<TableCell>
+											{secondsToMinutesAndSeconds(
+												step.timer || 0
+											)}
+										</TableCell>
+										<TableCell>
+											{step.description}
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</CardContent>
+				</Card>
+			) : (
+				<NoResultsFound text={"steps"} />
+			)}
 
-			{build?.comment && (
+			{build?.comment?.length > 0 && build?.comment && (
 				<>
+					<h4 className="text-xl font-semibold tracking-tight">
+						Comments
+					</h4>
 					{build?.comment?.map((comment: any) => (
-						<p>{comment?.content}</p>
+						<CommentItem
+							classname={"hover:bg-transparent cursor-default"}
+							comment={comment}
+							showHeader={false}
+						/>
 					))}
 				</>
 			)}
