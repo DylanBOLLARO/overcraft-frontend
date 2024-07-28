@@ -25,7 +25,13 @@ export default function Page({ params }: { params: { slug: string } }) {
 	const router = useRouter();
 	const { slug } = params;
 	const buildId = slug.split("-")[0];
-	const { error, data: build, isLoading, isFetched } = useBuild(buildId);
+	const {
+		error,
+		data: build,
+		isLoading,
+		isFetched,
+		refetch
+	} = useBuild(buildId);
 
 	if (isLoading) return;
 	if (error) return console.error("An error has occurred: " + error.message);
@@ -84,8 +90,8 @@ export default function Page({ params }: { params: { slug: string } }) {
 			)}
 
 			{build?.comment?.length > 0 && build?.comment && (
-				<>
-					<h4 className="text-xl font-semibold tracking-tight">
+				<div className="flex-1 flex flex-col gap-2">
+					<h4 className="text-xl font-semibold tracking-tight pb-2">
 						Comments
 					</h4>
 					{build?.comment?.map((comment: any) => (
@@ -95,10 +101,15 @@ export default function Page({ params }: { params: { slug: string } }) {
 							showHeader={false}
 						/>
 					))}
-				</>
+				</div>
 			)}
-
-			{connectedUser && <CreateComment user={connectedUser} />}
+			{connectedUser && (
+				<CreateComment
+					user={connectedUser}
+					buildId={build?.id}
+					refetch={refetch}
+				/>
+			)}
 		</div>
 	);
 }

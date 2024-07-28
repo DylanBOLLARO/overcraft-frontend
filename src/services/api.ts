@@ -91,3 +91,33 @@ export const getBuilds = async (params: any) => {
 //-------------------------
 //-----END--BUILD----------
 //-------------------------
+
+//-------------------------
+//---START--STEP-----------
+//-------------------------
+
+// create step
+export const createStep = async (
+	userId: any = 1,
+	buildId: any = 14,
+	content: string = "Ce build est tout simplement divin ! Les timmings sont parfaitement équilibrées, et le push est à la fois simple et raffiné. Je vais le refaire sans hésiter !"
+) => {
+	// if (!userId && !buildId && !content) return;
+	try {
+		return await axiosQuery({
+			method: "POST",
+			url: `${MODULE_NESTJS.COMMENT}`,
+			data: {
+				build_id: "" + buildId,
+				user_id: "" + userId,
+				content: "" + content
+			}
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+//-------------------------
+//-----END--STEP-----------
+//-------------------------

@@ -19,7 +19,8 @@ export enum MODULE_NESTJS {
 	AUTH = "/auth",
 	USER = "/user",
 	STEP = "/step",
-	LIKE = "/like"
+	LIKE = "/like",
+	COMMENT = "/comment"
 }
 
 export enum SERVICE_AUTH_MODULE {
