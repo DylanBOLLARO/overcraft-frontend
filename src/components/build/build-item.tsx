@@ -30,7 +30,7 @@ export function BuildItem({
 	return (
 		<button
 			onClick={() => {
-				router.push(`/builds/${build.slug}`);
+				if (showHeader) router.push(`/builds/${build.slug}`);
 			}}
 			key={build.id}
 			className={cn(
@@ -130,6 +130,11 @@ export function BuildItem({
 				>
 					{build?.user?.username && (
 						<Badge
+							onClick={() => {
+								router.push(
+									`/profile/${build?.user?.username}`
+								);
+							}}
 							className="ml-auto"
 							variant={highlightCreator ? "default" : "outline"}
 						>

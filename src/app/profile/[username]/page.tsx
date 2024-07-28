@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardDescription, CardHeader } from "@/src/components/ui/card";
+import { Card, CardHeader } from "@/src/components/ui/card";
 import { capitalize } from "@/src/services/utils";
 import { Blocks, Heart, Shield, ShieldPlus } from "lucide-react";
 import { useUser } from "@/src/services/queries";
