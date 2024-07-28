@@ -5,7 +5,12 @@ import { Heart, MessageSquareText, Star, Swords } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "../ui/separator";
 
-export function BuildItem({ build }: any) {
+export function BuildItem({
+	build,
+	classname,
+	showHeader = true,
+	highlightCreator = false
+}: any) {
 	const router = useRouter();
 
 	function getBadgeVariantFromLabel(label: string) {
@@ -29,33 +34,36 @@ export function BuildItem({ build }: any) {
 			}}
 			key={build.id}
 			className={cn(
-				"flex flex-col flex-1 items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent max-w-5xl"
+				"flex flex-col flex-1 items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent max-w-full",
+				classname
 			)}
 		>
-			<div className="flex w-full flex-col gap-1">
-				<div className="flex items-center">
-					<div className="flex items-center gap-2">
-						<h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
-							{build.title}
-						</h4>
-					</div>
-					<div
-						className={cn("ml-auto text-xs text-muted-foreground")}
-					>
-						{formatDistanceToNowStrict(
-							new Date(build?.created_at),
-							{
-								addSuffix: true
-							}
-						)}
+			{showHeader && (
+				<div className="flex w-full flex-col gap-1">
+					<div className="flex items-center">
+						<div className="flex items-center gap-2">
+							<h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
+								{build.title}
+							</h4>
+						</div>
+						<div
+							className={cn(
+								"ml-auto text-xs text-muted-foreground"
+							)}
+						>
+							{formatDistanceToNowStrict(
+								new Date(build?.created_at),
+								{
+									addSuffix: true
+								}
+							)}
+						</div>
 					</div>
 				</div>
-				<div className="text-xs font-medium">{build?.subject}</div>
-			</div>
+			)}
 			<div className="line-clamp-2 text-sm text-muted-foreground">
 				{build?.description.substring(0, 300)}
 			</div>
-
 			<div className="flex items-center justify-between gap-2 w-full mt-auto">
 				{build?.user?.username && (
 					<Badge
@@ -117,9 +125,14 @@ export function BuildItem({ build }: any) {
 					</>
 				)}
 
-				<div className="ml-auto flex items-center gap-2 opacity-50">
+				<div
+					className={`ml-auto flex items-center gap-2 ${highlightCreator ? "opacity-100" : "opacity-50"}`}
+				>
 					{build?.user?.username && (
-						<Badge className="ml-auto" variant={"outline"}>
+						<Badge
+							className="ml-auto"
+							variant={highlightCreator ? "default" : "outline"}
+						>
 							by {build?.user?.username}
 						</Badge>
 					)}
