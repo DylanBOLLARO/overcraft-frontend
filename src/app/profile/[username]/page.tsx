@@ -6,7 +6,7 @@ import { Blocks, Heart, Shield, ShieldPlus } from "lucide-react";
 import { useUser } from "@/src/services/queries";
 import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
 import InformationCard from "@/src/components/new/information-card";
-import { BuildsList } from "@/src/components/new/builds-list";
+import { BuildsList } from "@/src/components/build/builds-list";
 import { NoResultsFound } from "@/src/components/new/no-builds-found";
 
 export default function Page({ params }: { params: { username: string } }) {

@@ -5,7 +5,7 @@ import { Button } from "../components/ui/button";
 import { capitalize } from "../services/utils";
 import { TAB_SELECTION } from "../constants/variable";
 import { useBuilds } from "../services/queries";
-import { BuildItem } from "../components/new/build-item";
+import { BuildItem } from "../components/build/build-item";
 import {
 	Select,
 	SelectContent,
@@ -16,7 +16,7 @@ import {
 import { useState, useEffect } from "react";
 import qs from "qs";
 import { Input } from "../components/ui/input";
-import { BuildsList } from "../components/new/builds-list";
+import { BuildsList } from "../components/build/builds-list";
 import { NoResultsFound } from "../components/new/no-builds-found";
 
 export default function IndexPage() {

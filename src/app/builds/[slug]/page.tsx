@@ -11,14 +11,14 @@ import {
 } from "@/src/components/ui/table";
 
 import { secondsToMinutesAndSeconds } from "@/src/services/utils";
-import CreateComment from "@/src/components/new/card-create-comment";
+import CreateComment from "@/src/components/comment/card-create-comment";
 import { useRouter } from "next/navigation";
 import { useBuild } from "@/src/services/queries";
 import { useConnectedUserContext } from "@/src/components/layout/providers";
 import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
-import { BuildItem } from "@/src/components/new/build-item";
+import { BuildItem } from "@/src/components/build/build-item";
 import { NoResultsFound } from "@/src/components/new/no-builds-found";
-import { CommentItem } from "@/src/components/new/comment-item";
+import { CommentItem } from "@/src/components/comment/comment-item";
 
 export default function Page({ params }: { params: { slug: string } }) {
 	const { connectedUser } = useConnectedUserContext();
