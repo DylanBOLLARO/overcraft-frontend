@@ -39,6 +39,24 @@ export default function Sidebar({ className }: SidebarProps) {
 						<TooltipContent side="right">Home</TooltipContent>
 					</Tooltip>
 
+					{/* <Tooltip>
+						<TooltipTrigger asChild>
+							<Link
+								href={PAGE_PATH.HOME}
+								className="group flex w-9 py-4 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-col text-xl text-pretty font-mono leading-none"
+							>
+								{"FAVORITES".split("").map((letter, index) => {
+									return (
+										<p key={`favorites_${index}_${letter}`}>
+											{letter}
+										</p>
+									);
+								})}
+							</Link>
+						</TooltipTrigger>
+						<TooltipContent side="right">Favorites</TooltipContent>
+					</Tooltip> */}
+
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Link
