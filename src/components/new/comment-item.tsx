@@ -40,7 +40,7 @@ export function CommentItem({
 				</div>
 			)}
 			<div className="line-clamp-2 text-sm text-muted-foreground">
-				{comment?.content.substring(0, 300)}
+				{comment?.content?.substring(0, 300)}
 			</div>
 			<div className="flex items-center justify-between gap-2 w-full mt-auto">
 				<div

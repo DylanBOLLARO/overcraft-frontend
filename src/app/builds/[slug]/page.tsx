@@ -96,6 +96,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 					</h4>
 					{build?.comment?.map((comment: any) => (
 						<CommentItem
+							key={`comment_${comment.id}`}
 							classname={"hover:bg-transparent cursor-default"}
 							comment={comment}
 							showHeader={false}
