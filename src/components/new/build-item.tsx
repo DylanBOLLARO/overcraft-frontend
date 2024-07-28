@@ -5,7 +5,7 @@ import { Heart, MessageSquareText, Star, Swords } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "../ui/separator";
 
-export function BuildsList({ build }: any) {
+export function BuildItem({ build }: any) {
 	const router = useRouter();
 
 	function getBadgeVariantFromLabel(label: string) {

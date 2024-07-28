@@ -25,8 +25,12 @@ export function DashboardNav() {
 							href={PAGE_PATH.HOME}
 							className="group flex w-9 py-4 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-col text-xl text-pretty font-mono leading-none"
 						>
-							{"HOME".split("").map((letter) => {
-								return <p>{letter}</p>;
+							{"HOME".split("").map((letter, index) => {
+								return (
+									<p key={`home_${index}_${letter}`}>
+										{letter}
+									</p>
+								);
 							})}
 						</Link>
 					</TooltipTrigger>
@@ -39,8 +43,12 @@ export function DashboardNav() {
 							href={PAGE_PATH.DASHBOARD}
 							className="group flex w-9 py-4 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground flex-col  text-xl text-pretty font-mono leading-none"
 						>
-							{"DASHBOARD".split("").map((letter) => {
-								return <p>{letter}</p>;
+							{"DASHBOARD".split("").map((letter, index) => {
+								return (
+									<p key={`dashboard_${index}_${letter}`}>
+										{letter}
+									</p>
+								);
 							})}
 						</Link>
 					</TooltipTrigger>

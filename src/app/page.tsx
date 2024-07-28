@@ -5,7 +5,7 @@ import { Button } from "../components/ui/button";
 import { capitalize } from "../services/utils";
 import { TAB_SELECTION } from "../constants/variable";
 import { useBuilds } from "../services/queries";
-import { BuildsList } from "../components/new/build-list";
+import { BuildItem } from "../components/new/build-item";
 import {
 	Select,
 	SelectContent,
@@ -16,6 +16,8 @@ import {
 import { useState, useEffect } from "react";
 import qs from "qs";
 import { Input } from "../components/ui/input";
+import { BuildsList } from "../components/new/builds-list";
+import { NoBuildsFound } from "../components/new/no-builds-found";
 
 export default function IndexPage() {
 	const stringifyParamsForSearch = (params: any) => {
@@ -200,21 +202,10 @@ export default function IndexPage() {
 				</div>
 			</div>
 
-			{!isFetching && builds?.length > 0 && (
-				<div className="grid 2xl:grid-cols-3 lg:grid-cols-2 flex-wrap gap-2 mt-5">
-					{builds?.map((build: any) => (
-						<BuildsList key={build?.slug} build={build} />
-					))}
-				</div>
-			)}
-
-			{builds?.length == 0 && (
-				<div className="flex flex-1 justify-center">
-					<h4 className="flex text-3xl font-semibold my-10 ">
-						No results found
-						<Frown className="self-center ml-5 h-10 w-10" />
-					</h4>
-				</div>
+			{!isFetching && builds?.length > 0 ? (
+				<BuildsList builds={builds} />
+			) : (
+				<NoBuildsFound />
 			)}
 		</div>
 	);

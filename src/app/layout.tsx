@@ -21,7 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 					<>
 						<Header />
 						<div className="flex h-screen overflow-hidden">
-							<Sidebar className="fixe" />
+							<Sidebar />
 							<main className="flex-1 overflow-hidden pt-14">
 								<ScrollArea className="h-full">
 									{children}

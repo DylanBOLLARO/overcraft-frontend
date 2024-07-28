@@ -1,24 +1,17 @@
 "use client";
 
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle
-} from "@/src/components/ui/card";
-import { capitalize, isRoleGuest } from "@/src/services/utils";
-import { Blocks, CalendarPlus, Heart, Shield, ShieldPlus } from "lucide-react";
-import { Badge } from "@/src/components/ui/badge";
-import { format } from "date-fns";
-import { ProfileBuildsList } from "@/src/components/new/profile-builds-list";
+import { Card, CardDescription, CardHeader } from "@/src/components/ui/card";
+import { capitalize } from "@/src/services/utils";
+import { Blocks, Heart, Shield, ShieldPlus } from "lucide-react";
 import { useUser } from "@/src/services/queries";
 import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
 import InformationCard from "@/src/components/new/information-card";
+import { BuildsList } from "@/src/components/new/builds-list";
+import { NoBuildsFound } from "@/src/components/new/no-builds-found";
 
 export default function Page({ params }: { params: { username: string } }) {
 	const { username } = params;
-	const { isLoading, error, data: userData } = useUser(username);
+	const { isLoading, error, data: userData, isFetched } = useUser(username);
 
 	if (isLoading) return;
 	if (error) return console.error("An error has occurred: " + error.message);
@@ -84,27 +77,23 @@ export default function Page({ params }: { params: { username: string } }) {
 						)
 					}}
 				/>
-				<InformationCard
-					data={{
-						title: "Profile created on",
-						content: format(userData?.created_at, "dd.MM.yy"),
-						icone: <CalendarPlus className="h-8 w-8 opacity-75" />
-					}}
-				/>
-				{/* Discord link */}
 			</div>
 
-			<Card className="col-span-3">
-				<CardHeader className="flex flex-row items-end justify-between">
-					<CardTitle>{`All builds order published`}</CardTitle>
-					<CardTitle className="text-sm text-muted-foreground">{`Total: ${userData?.build?.length || 0}`}</CardTitle>
-				</CardHeader>
-				{userData?.build && (
-					<CardContent>
-						<ProfileBuildsList builds={userData.build} />
-					</CardContent>
+			<div>
+				<div className="flex flex-row items-end justify-between px-3">
+					<h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+						All builds order published
+					</h4>
+					<h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+						{`Total: ${userData?.build?.length || 0}`}
+					</h4>
+				</div>
+				{isFetched && userData.build?.length > 0 ? (
+					<BuildsList builds={userData?.build} />
+				) : (
+					<NoBuildsFound />
 				)}
-			</Card>
+			</div>
 		</div>
 	);
 }
