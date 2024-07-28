@@ -32,9 +32,7 @@ export function ShareBuild({ link }: ShareBuildProps) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="outline" className="ml-24">
-					Share
-				</Button>
+				<Button variant="outline">Share</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader>

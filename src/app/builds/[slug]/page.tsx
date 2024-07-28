@@ -12,7 +12,6 @@ import {
 
 import { secondsToMinutesAndSeconds } from "@/src/services/utils";
 import CreateComment from "@/src/components/comment/card-create-comment";
-import { useRouter } from "next/navigation";
 import { useBuild } from "@/src/services/queries";
 import { useConnectedUserContext } from "@/src/components/layout/providers";
 import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
@@ -22,7 +21,6 @@ import { CommentItem } from "@/src/components/comment/comment-item";
 
 export default function Page({ params }: { params: { slug: string } }) {
 	const { connectedUser } = useConnectedUserContext();
-	const router = useRouter();
 	const { slug } = params;
 	const buildId = slug.split("-")[0];
 	const {
@@ -39,12 +37,19 @@ export default function Page({ params }: { params: { slug: string } }) {
 	const configHeader = {
 		title: build?.title,
 		share: true,
-		link: window.location
+		link: window.location,
+		likeBtn: true
 	};
 
 	return (
 		<div className="flex-1 flex flex-col gap-5 p-5">
-			<HeaderWithBackBtnAndTile config={configHeader} />
+			<HeaderWithBackBtnAndTile
+				config={configHeader}
+				build={build}
+				userId={connectedUser?.id}
+				refetch={refetch}
+			/>
+
 			{isFetched && (
 				<BuildItem
 					build={build}

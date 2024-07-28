@@ -93,16 +93,16 @@ export const getBuilds = async (params: any) => {
 //-------------------------
 
 //-------------------------
-//---START--STEP-----------
+//---START--COMMENT-----------
 //-------------------------
 
 // create step
 export const createStep = async (
-	userId: any = 1,
-	buildId: any = 14,
-	content: string = "Ce build est tout simplement divin ! Les timmings sont parfaitement équilibrées, et le push est à la fois simple et raffiné. Je vais le refaire sans hésiter !"
+	userId: any,
+	buildId: any,
+	content: string
 ) => {
-	// if (!userId && !buildId && !content) return;
+	if (!userId && !buildId && !content) return;
 	try {
 		return await axiosQuery({
 			method: "POST",
@@ -119,5 +119,43 @@ export const createStep = async (
 };
 
 //-------------------------
-//-----END--STEP-----------
+//-----END--COMMENT-----------
+//-------------------------
+
+//-------------------------
+//---START--LIKE-----------
+//-------------------------
+
+// create like
+export const createLike = async (userId: any, buildId: any) => {
+	if (!userId && !buildId) return;
+	try {
+		return await axiosQuery({
+			method: "POST",
+			url: `${MODULE_NESTJS.LIKE}`,
+			data: {
+				build_id: "" + buildId,
+				user_id: "" + userId
+			}
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+// delete like
+export const deleteLike = async (likeId: any) => {
+	if (!likeId) return;
+	try {
+		return await axiosQuery({
+			method: "DELETE",
+			url: `${MODULE_NESTJS.LIKE}/${likeId}`
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+//-------------------------
+//-----END--LIKE-----------
 //-------------------------

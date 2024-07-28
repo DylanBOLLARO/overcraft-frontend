@@ -2,10 +2,31 @@ import { capitalize, cn } from "@/src/services/utils";
 import { Button, buttonVariants } from "../ui/button";
 import { Icons } from "../icons";
 import { ShareBuild } from "./share-build";
+import { createLike, deleteLike } from "@/src/services/api";
 
-export default function HeaderWithBackBtnAndTile({ config }: any) {
+export default function HeaderWithBackBtnAndTile({
+	config,
+	build,
+	userId,
+	refetch
+}: any) {
+	const isBuildLiked = (build: any) => {
+		return build?.like?.some((like: any) => like.user_id === userId);
+	};
+
+	const handleLikeOrUnlike = () => {
+		if (isBuildLiked(build)) {
+			deleteLike(
+				build?.like?.find((like: any) => like.user_id === userId)?.id
+			);
+		} else {
+			createLike(userId, build?.id);
+		}
+		refetch();
+	};
+
 	return (
-		<div className="flex flex-row gap-5 justify-between">
+		<div className="flex flex-row justify-between relative">
 			<Button
 				onClick={() => window.history.back()}
 				className={cn(
@@ -18,15 +39,24 @@ export default function HeaderWithBackBtnAndTile({ config }: any) {
 					Back
 				</>
 			</Button>
-			<h4 className="text-3xl font-semibold tracking-tight">
-				{capitalize(config?.title)}
-			</h4>
+			<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+				<h4 className="text-3xl font-semibold tracking-tight ">
+					{capitalize(config?.title)}
+				</h4>
+			</div>
 
-			{config?.share ? (
-				<ShareBuild link={config?.link} />
-			) : (
-				<div className="px-20" />
-			)}
+			<div className="flex gap-2">
+				{config?.likeBtn && isBuildLiked(build) ? (
+					<Button variant={"outline"} onClick={handleLikeOrUnlike}>
+						Unlike
+					</Button>
+				) : (
+					<Button variant={"secondary"} onClick={handleLikeOrUnlike}>
+						Like
+					</Button>
+				)}
+				{config?.share && <ShareBuild link={config?.link} />}
+			</div>
 		</div>
 	);
 }
