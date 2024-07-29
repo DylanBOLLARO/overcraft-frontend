@@ -2,12 +2,9 @@
 
 import { CardBuild } from "@/src/components/CardBuild";
 import { DialogCreateBuild } from "@/src/components/DialogCreateBuild";
-import { Icons } from "@/src/components/icons";
 import { ImportButton } from "@/src/components/ImportButton";
 import { useConnectedUserContext } from "@/src/components/layout/providers";
-import { Button, buttonVariants } from "@/src/components/ui/button";
 import { useUser } from "@/src/services/queries";
-import { cn } from "@/src/services/utils";
 
 export default function Page() {
 	const { connectedUser } = useConnectedUserContext();
@@ -18,6 +15,7 @@ export default function Page() {
 		refetch
 	} = useUser(connectedUser?.id);
 
+	console.log(user?.build);
 	if (isLoading) return;
 	if (error) return console.error("An error has occurred: " + error.message);
 

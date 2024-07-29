@@ -113,8 +113,17 @@ export const import_build = async (json: any, userId: any) => {
 	}
 };
 
-export const patch_build = async (build_id: number, build_metadata: any) => {
-	const { title, description, race, v_race, is_public } = build_metadata;
+export const patch_build = async (build_metadata: any) => {
+	const {
+		title,
+		description,
+		race,
+		v_race,
+		is_public,
+		id,
+		difficulty,
+		type
+	} = build_metadata;
 	try {
 		const { id: user_id } = await get_connected_user_id();
 		return await base_query_axios(
@@ -125,12 +134,14 @@ export const patch_build = async (build_id: number, build_metadata: any) => {
 					description: "" + description,
 					race: "" + race,
 					v_race: "" + v_race,
-					is_public: "" + is_public
+					is_public: "" + is_public,
+					difficulty: +difficulty,
+					type
 				},
 				user_id: "" + user_id
 			},
 			true,
-			`/${build_id}`
+			`/${id}`
 		);
 	} catch (error) {
 		console.error(JSON.stringify(error));

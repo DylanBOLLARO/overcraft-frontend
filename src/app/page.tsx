@@ -1,11 +1,10 @@
 "use client";
 
-import { Frown, Swords } from "lucide-react";
+import { Swords } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { capitalize } from "../services/utils";
 import { TAB_SELECTION } from "../constants/variable";
 import { useBuilds } from "../services/queries";
-import { BuildItem } from "../components/build/build-item";
 import {
 	Select,
 	SelectContent,

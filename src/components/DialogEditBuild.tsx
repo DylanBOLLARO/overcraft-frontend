@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import {
 	Dialog,
@@ -6,7 +8,7 @@ import {
 	DialogTrigger
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { ClipboardEdit } from "lucide-react";
+import { ClipboardEdit, Star } from "lucide-react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -17,70 +19,51 @@ import {
 	SelectTrigger,
 	SelectValue
 } from "./ui/select";
-import { Switch } from "./ui/switch";
 import { patch_build } from "../services/user";
+import qs from "qs";
 
-export const DialogEditBuild = ({ selectedUserBuild, refetch_build }: any) => {
+export const DialogEditBuild = ({ build, refetch_build }: any) => {
 	const [open, setOpen] = useState(false);
-	const [editedBuild, setEditedBuild] = useState(selectedUserBuild);
-	const [isModified, setIsModified] = useState(false);
 
-	const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const newTitle = e.target.value;
-		setEditedBuild((prevBuild: any) => ({ ...prevBuild, title: newTitle }));
-		setIsModified(true);
+	const extractKeyUpdateBuild = (build: any) => {
+		const {
+			id,
+			title,
+			description,
+			race,
+			is_public,
+			v_race,
+			difficulty,
+			type
+		} = build;
+		return {
+			id,
+			title,
+			description,
+			race,
+			is_public,
+			v_race,
+			difficulty,
+			type
+		};
 	};
 
-	const handleRaceChange = (e: any) => {
-		setEditedBuild((prevBuild: any) => ({
-			...prevBuild,
-			race: e
+	const defaultBuild = extractKeyUpdateBuild(build);
+	const [editedBuild, setEditedBuild] = useState({
+		...defaultBuild
+	});
+
+	useEffect(() => {
+		setEditedBuild((prev) => ({
+			...prev,
+			...extractKeyUpdateBuild(build)
 		}));
-		setIsModified(true);
-	};
-
-	const handleV_RaceChange = (e: any) => {
-		setEditedBuild((prevBuild: any) => ({
-			...prevBuild,
-			v_race: e
-		}));
-		setIsModified(true);
-	};
-
-	const handleIsPublicChange = (e: any) => {
-		setEditedBuild((prevBuild: any) => ({
-			...prevBuild,
-			is_public: e
-		}));
-		setIsModified(true);
-	};
-
-	const handleDescriptionChange = (
-		e: React.ChangeEvent<HTMLTextAreaElement>
-	) => {
-		const newDescription = e.target.value;
-		setEditedBuild((prevBuild: any) => ({
-			...prevBuild,
-			description: newDescription
-		}));
-		setIsModified(true);
-	};
+	}, [build]);
 
 	const handleSaveChanges = async () => {
-		const { id, title, description, race, is_public, v_race } = editedBuild;
-		if (isModified) {
-			await patch_build(id, {
-				title,
-				description,
-				race,
-				v_race,
-				is_public
-			});
-		}
-		setEditedBuild(selectedUserBuild);
+		await patch_build(editedBuild);
 		refetch_build();
 		setOpen(false);
-		setIsModified(false);
 	};
 
 	return (
@@ -97,8 +80,13 @@ export const DialogEditBuild = ({ selectedUserBuild, refetch_build }: any) => {
 					<Input
 						type="email"
 						id="email"
-						defaultValue={selectedUserBuild.title}
-						onChange={handleTitleChange}
+						defaultValue={editedBuild?.title}
+						onChange={(event) => {
+							setEditedBuild((prev) => ({
+								...prev,
+								title: event.target.value
+							}));
+						}}
 					/>
 				</div>
 
@@ -107,20 +95,31 @@ export const DialogEditBuild = ({ selectedUserBuild, refetch_build }: any) => {
 					<Textarea
 						autoFocus={false}
 						id="description"
-						className="h-56"
-						defaultValue={selectedUserBuild.description}
-						onChange={handleDescriptionChange}
+						className="h-20"
+						defaultValue={editedBuild?.description}
+						onChange={(event) => {
+							setEditedBuild((prev) => ({
+								...prev,
+								description: event.target.value
+							}));
+						}}
 					/>
 				</div>
 
 				<div className="flex flex-row gap-3">
 					<div className="flex flex-col gap-2 items-center flex-1">
 						<p>Play race</p>
-						<Select onValueChange={handleRaceChange}>
+						<Select
+							value={editedBuild.race}
+							onValueChange={(event) => {
+								setEditedBuild((prev) => ({
+									...prev,
+									race: event
+								}));
+							}}
+						>
 							<SelectTrigger className="flex-1">
-								<SelectValue
-									placeholder={selectedUserBuild.race}
-								/>
+								<SelectValue placeholder={build.race} />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectItem value="ZERG">ZERG</SelectItem>
@@ -132,11 +131,17 @@ export const DialogEditBuild = ({ selectedUserBuild, refetch_build }: any) => {
 
 					<div className="flex flex-col flex-1 gap-2 items-center">
 						<p>Opponent race</p>
-						<Select onValueChange={handleV_RaceChange}>
+						<Select
+							value={editedBuild.v_race}
+							onValueChange={(event) => {
+								setEditedBuild((prev) => ({
+									...prev,
+									v_race: event
+								}));
+							}}
+						>
 							<SelectTrigger className="flex-1">
-								<SelectValue
-									placeholder={selectedUserBuild.v_race}
-								/>
+								<SelectValue placeholder={build.v_race} />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectItem value="ZERG">ZERG</SelectItem>
@@ -147,17 +152,114 @@ export const DialogEditBuild = ({ selectedUserBuild, refetch_build }: any) => {
 					</div>
 				</div>
 				<div className="flex gap-2 items-center px-1">
-					<Switch
-						id="public_build"
-						onCheckedChange={handleIsPublicChange}
-						defaultChecked={selectedUserBuild.is_public}
-					/>
-					<Label htmlFor="public_build">Public build</Label>
+					<div className="flex flex-col gap-2 items-center flex-1">
+						<p>Privacy</p>
+						<Select
+							value={
+								editedBuild.is_public === true
+									? "public"
+									: "private"
+							}
+							onValueChange={(event) => {
+								setEditedBuild((prev) => ({
+									...prev,
+									is_public: event === "public"
+								}));
+							}}
+						>
+							<SelectTrigger className="flex-1">
+								<SelectValue
+									placeholder={
+										editedBuild.is_public === "public"
+											? "Public"
+											: "Private"
+									}
+								/>
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="public">Public</SelectItem>
+								<SelectItem value="private">Private</SelectItem>
+							</SelectContent>
+						</Select>
+					</div>
 				</div>
+				<div className="flex flex-row gap-3">
+					<div className="flex flex-col gap-2 items-center flex-1">
+						<p>Type</p>
+
+						<Select
+							value={"" + editedBuild.type}
+							onValueChange={(event) => {
+								setEditedBuild((prev) => ({
+									...prev,
+									type: event
+								}));
+							}}
+						>
+							<SelectTrigger className="flex-1">
+								<SelectValue placeholder={editedBuild.type} />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="macro">Macro</SelectItem>
+								<SelectItem value="cheese">Cheese</SelectItem>
+								<SelectItem value="allin">Allin</SelectItem>
+							</SelectContent>
+						</Select>
+					</div>
+					<div className="flex flex-col gap-2 items-center flex-1">
+						<p>Difficulty</p>
+						<Select
+							value={"" + editedBuild.difficulty}
+							onValueChange={(event) => {
+								setEditedBuild((prev) => ({
+									...prev,
+									difficulty: parseInt(event)
+								}));
+							}}
+						>
+							<SelectTrigger className="flex-1">
+								<SelectValue
+									placeholder={editedBuild.difficulty}
+								/>
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="1">
+									<div className="flex flew-row gap-2">
+										<Star />
+									</div>
+								</SelectItem>
+								<SelectItem value="2">
+									<div className="flex flew-row gap-2">
+										<Star />
+										<Star />
+									</div>
+								</SelectItem>
+								<SelectItem value="3">
+									<div className="flex flew-row gap-2">
+										<Star />
+										<Star />
+										<Star />
+									</div>
+								</SelectItem>
+							</SelectContent>
+						</Select>
+					</div>
+				</div>
+
 				<DialogFooter>
-					<Button type="submit" onClick={handleSaveChanges}>
-						Save changes
-					</Button>
+					{qs.stringify(editedBuild) !==
+						qs.stringify(defaultBuild) && (
+						<Button
+							className="relative"
+							variant={"secondary"}
+							onClick={() => {
+								handleSaveChanges();
+								setOpen(false);
+							}}
+						>
+							Save changes
+						</Button>
+					)}
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>

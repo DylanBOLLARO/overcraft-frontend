@@ -12,12 +12,12 @@ export function CardBuild({
 	...props
 }: any) {
 	const router = useRouter();
-
 	const isProd = process.env.NODE_ENV === "production";
 
 	const truncateText = (text: string) => {
 		return text.length > 75 ? `${text.slice(0, 75)}...` : text;
 	};
+
 	return (
 		<div
 			className={cn(

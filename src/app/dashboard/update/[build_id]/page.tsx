@@ -2,7 +2,6 @@
 
 import { Icons } from "@/src/components/icons";
 import { Button, buttonVariants } from "@/src/components/ui/button";
-import { PAGE_PATH } from "@/src/constants/enum";
 import { cn, secondsToMinutesAndSeconds } from "@/src/services/utils";
 import { formatDate } from "date-fns";
 import Link from "next/link";
@@ -48,9 +47,15 @@ export default function Page({ params }: { params: { build_id: string } }) {
 	const [selectedSeconds, setSelectedSeconds] = useState<string>("");
 
 	const { build_id } = params;
-	const { isLoading, error, data: build, refetch } = useBuild(build_id);
+	const {
+		isLoading,
+		error,
+		data: build,
+		refetch,
+		isFetched
+	} = useBuild(build_id);
 
-	if (isLoading) return;
+	if (isLoading && !isFetched) return;
 	if (error) return console.error("An error has occurred: " + error.message);
 
 	const handleAddButtonClick = async (
@@ -91,10 +96,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 
 				<div className="flex flex-row gap-2">
 					<ExportButton selectedUserBuild={build} />
-					<DialogEditBuild
-						refetch_build={refetch}
-						selectedUserBuild={build}
-					/>
+					<DialogEditBuild refetch_build={refetch} build={build} />
 					<DialogDeleteBuild selectedUserBuildId={build?.id} />
 				</div>
 			</div>
