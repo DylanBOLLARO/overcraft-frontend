@@ -58,6 +58,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 					highlightCreator={true}
 				/>
 			)}
+
 			{build?.steps?.length > 0 ? (
 				<Card className="bg-transparent">
 					<CardContent className="pt-6">

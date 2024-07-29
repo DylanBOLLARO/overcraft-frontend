@@ -3,19 +3,11 @@
 import { Icons } from "@/src/components/icons";
 import { Button, buttonVariants } from "@/src/components/ui/button";
 import { cn, secondsToMinutesAndSeconds } from "@/src/services/utils";
-import { formatDate } from "date-fns";
-import Link from "next/link";
 import { useState } from "react";
 import { DialogEditBuild } from "@/src/components/DialogEditBuild";
 import { DialogDeleteBuild } from "@/src/components/DialogDeleteBuild";
 import ExportButton from "@/src/components/ExportButton";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle
-} from "@/src/components/ui/card";
+import { Card, CardContent } from "@/src/components/ui/card";
 import {
 	Table,
 	TableBody,
@@ -32,13 +24,13 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import { Input } from "@/src/components/ui/input";
-import { Badge } from "@/src/components/ui/badge";
 import {
 	add_step_build,
 	delete_step_in_build_steps,
 	move_step_in_build_steps
 } from "@/src/services/user";
 import { useBuild } from "@/src/services/queries";
+import { BuildItem } from "@/src/components/build/build-item";
 
 export default function Page({ params }: { params: { build_id: string } }) {
 	const [description, setDescription] = useState<string>("");
@@ -66,6 +58,8 @@ export default function Page({ params }: { params: { build_id: string } }) {
 		build: any
 	) => {
 		if (description && population && selectedMinute && selectedSeconds) {
+			console.log(build);
+			console.log(build.steps.length);
 			await add_step_build({
 				description,
 				build_id: "" + build.id,
@@ -94,6 +88,10 @@ export default function Page({ params }: { params: { build_id: string } }) {
 					</>
 				</Button>
 
+				<h4 className="scroll-m-20 text-3xl font-semibold">
+					{build?.title}
+				</h4>
+
 				<div className="flex flex-row gap-2">
 					<ExportButton selectedUserBuild={build} />
 					<DialogEditBuild refetch_build={refetch} build={build} />
@@ -101,23 +99,14 @@ export default function Page({ params }: { params: { build_id: string } }) {
 				</div>
 			</div>
 
-			<Card
-				className="sm:col-span-2 bg-transparent"
-				x-chunk="dashboard-05-chunk-0"
-			>
-				<CardHeader className="pb-3">
-					<CardTitle>{build.title}</CardTitle>
-					<CardDescription className="">
-						{build.description}
-					</CardDescription>
-				</CardHeader>
-				<CardContent className="flex flex-wrap gap-3">
-					{build?.race && build?.v_race && (
-						<Badge>{build.race[0] + "v" + build.v_race[0]}</Badge>
-					)}
-					<Badge>{formatDate(build?.updated_at, "MMMM yyyy")}</Badge>
-				</CardContent>
-			</Card>
+			{isFetched && (
+				<BuildItem
+					build={build}
+					classname={"hover:bg-transparent cursor-default"}
+					showHeader={false}
+					highlightCreator={true}
+				/>
+			)}
 
 			{build?.steps && (
 				<Card className="bg-transparent">
@@ -132,12 +121,8 @@ export default function Page({ params }: { params: { build_id: string } }) {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{build?.steps
-									.sort(
-										(a: any, b: any) =>
-											a.position - b.position
-									)
-									.map((step: any, index: number) => (
+								{build?.steps.map(
+									(step: any, index: number) => (
 										<TableRow
 											className="h-10"
 											key={`${step?.id}`}
@@ -231,7 +216,8 @@ export default function Page({ params }: { params: { build_id: string } }) {
 												</DropdownMenu>
 											</TableCell>
 										</TableRow>
-									))}
+									)
+								)}
 							</TableBody>
 						</Table>
 					</CardContent>
@@ -275,7 +261,7 @@ export default function Page({ params }: { params: { build_id: string } }) {
 							population,
 							selectedMinute,
 							selectedSeconds,
-							{ ...build, steps: build?.steps }
+							build
 						);
 						setDescription("");
 						setPopulation("");
