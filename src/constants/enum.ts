@@ -5,7 +5,8 @@ export enum PAGE_PATH {
 	DASHBOARD = "/dashboard/builds",
 	SIGNIN = "/login",
 	UPDATE = "/update",
-	PROFILE = "/profile"
+	PROFILE = "/profile",
+	LIKE = "/likes"
 }
 export enum VERBES_HTTP {
 	GET = "GET",

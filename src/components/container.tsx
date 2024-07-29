@@ -20,7 +20,11 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
 		(async () => {
 			const access_token = await getCookie();
 
-			if (pathname.includes("dashboard") && !access_token) {
+			if (
+				(pathname.includes("dashboard") ||
+					pathname.includes("likes")) &&
+				!access_token
+			) {
 				router.push(PAGE_PATH.SIGNIN);
 			}
 

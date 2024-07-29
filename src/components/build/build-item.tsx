@@ -62,7 +62,7 @@ export function BuildItem({
 				</div>
 			)}
 			<div className="line-clamp-2 text-sm text-muted-foreground">
-				{build?.description.substring(0, 300)}
+				{build?.description?.substring(0, 300)}
 			</div>
 			<div className="flex items-center justify-between gap-2 w-full mt-auto">
 				{build?.user?.username && (
