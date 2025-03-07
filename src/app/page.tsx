@@ -13,14 +13,16 @@ import {
 	SelectValue
 } from "../components/ui/select";
 import { useState, useEffect } from "react";
-import qs from "qs";
+
+import queryString from "query-string";
+
 import { Input } from "../components/ui/input";
 import { BuildsList } from "../components/build/builds-list";
 import { NoResultsFound } from "../components/new/no-builds-found";
 
 export default function IndexPage() {
 	const stringifyParamsForSearch = (params: any) => {
-		return qs.stringify(params);
+		return queryString.stringify(params);
 	};
 
 	const defaultValueSearchFilterSearchBuilds = {
@@ -160,8 +162,10 @@ export default function IndexPage() {
 					/>
 				</div>
 
-				{qs.stringify(filterSearchBuilds) !==
-					qs.stringify(defaultValueSearchFilterSearchBuilds) && (
+				{queryString.stringify(filterSearchBuilds) !==
+					queryString.stringify(
+						defaultValueSearchFilterSearchBuilds
+					) && (
 					<Button
 						className="relative"
 						variant={"default"}

@@ -1,13 +1,12 @@
 "use client";
 
-import "@/src/styles/globals.css";
 import React from "react";
-import { TailwindIndicator } from "@/src/components/tailwind-indicator";
 import Providers from "../components/layout/providers";
 import Sidebar from "../components/layout/sidebar";
 import Header from "../components/layout/header";
 import { ScrollArea } from "../components/ui/scroll-area";
-
+import { TailwindIndicator } from "@/components/tailwind-indicator";
+import "./globals.css";
 interface RootLayoutProps {
 	children: React.ReactNode;
 }

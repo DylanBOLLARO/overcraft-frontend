@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { cn } from "@/src/services/utils";
 import {
 	Tooltip,
 	TooltipContent,
@@ -9,12 +8,11 @@ import {
 	TooltipTrigger
 } from "../ui/tooltip";
 import Link from "next/link";
-import { PAGE_PATH } from "@/src/constants/enum";
 import { Settings } from "lucide-react";
+import { cn } from "@/services/utils";
+import { PAGE_PATH } from "@/constants/enum";
 
-type SidebarProps = {
-	className?: string;
-};
+type SidebarProps = { className?: string };
 
 export default function Sidebar({ className }: SidebarProps) {
 	return (

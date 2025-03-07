@@ -1,23 +1,22 @@
 "use client";
 
-import { Card, CardContent } from "@/src/components/ui/card";
+import { BuildItem } from "@/components/build/build-item";
+import CreateComment from "@/components/comment/card-create-comment";
+import { CommentItem } from "@/components/comment/comment-item";
+import { useConnectedUserContext } from "@/components/layout/providers";
+import HeaderWithBackBtnAndTile from "@/components/new/header-back-title";
+import { NoResultsFound } from "@/components/new/no-builds-found";
+import { Card, CardContent } from "@/components/ui/card";
 import {
-	Table,
 	TableBody,
 	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow
-} from "@/src/components/ui/table";
-
-import { secondsToMinutesAndSeconds } from "@/src/services/utils";
-import CreateComment from "@/src/components/comment/card-create-comment";
-import { useBuild } from "@/src/services/queries";
-import { useConnectedUserContext } from "@/src/components/layout/providers";
-import HeaderWithBackBtnAndTile from "@/src/components/new/header-back-title";
-import { BuildItem } from "@/src/components/build/build-item";
-import { NoResultsFound } from "@/src/components/new/no-builds-found";
-import { CommentItem } from "@/src/components/comment/comment-item";
+} from "@/components/ui/table";
+import { useBuild } from "@/services/queries";
+import { secondsToMinutesAndSeconds } from "@/services/utils";
+import { Table } from "lucide-react";
 
 export default function Page({ params }: { params: { slug: string } }) {
 	const { connectedUser } = useConnectedUserContext();

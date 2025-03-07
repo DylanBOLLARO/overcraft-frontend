@@ -1,30 +1,30 @@
 "use client";
 
-import { Swords } from "lucide-react";
-
-import { useState, useEffect } from "react";
-import qs from "qs";
-import { useBuilds } from "@/src/services/queries";
-import { TAB_SELECTION } from "@/src/constants/variable";
+import { BuildsList } from "@/components/build/builds-list";
+import { useConnectedUserContext } from "@/components/layout/providers";
+import { NoResultsFound } from "@/components/new/no-builds-found";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue
-} from "@/src/components/ui/select";
-import { capitalize } from "@/src/services/utils";
-import { Input } from "@/src/components/ui/input";
-import { Button } from "@/src/components/ui/button";
-import { BuildsList } from "@/src/components/build/builds-list";
-import { NoResultsFound } from "@/src/components/new/no-builds-found";
-import { useConnectedUserContext } from "@/src/components/layout/providers";
+} from "@/components/ui/select";
+import { TAB_SELECTION } from "@/constants/variable";
+import { useBuilds } from "@/services/queries";
+import { capitalize } from "@/services/utils";
+import { Swords } from "lucide-react";
+import queryString from "query-string";
+
+import { useState, useEffect } from "react";
 
 export default function IndexPage() {
 	const { connectedUser } = useConnectedUserContext();
 
 	const stringifyParamsForSearch = (params: any) => {
-		return qs.stringify(params);
+		return queryString.stringify(params);
 	};
 
 	const defaultValueSearchFilterSearchBuilds = {
@@ -167,8 +167,10 @@ export default function IndexPage() {
 					/>
 				</div>
 
-				{qs.stringify(filterSearchBuilds) !==
-					qs.stringify(defaultValueSearchFilterSearchBuilds) && (
+				{queryString.stringify(filterSearchBuilds) !==
+					queryString.stringify(
+						defaultValueSearchFilterSearchBuilds
+					) && (
 					<Button
 						className="relative"
 						variant={"default"}

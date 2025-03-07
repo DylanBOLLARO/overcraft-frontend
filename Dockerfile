@@ -1,4 +1,6 @@
-FROM node:20-alpine AS base
+# syntax=docker.io/docker/dockerfile:1
+
+FROM node:22-alpine AS base
 
 # Step 1. Rebuild the source code only when needed
 FROM base AS builder
@@ -6,7 +8,7 @@ FROM base AS builder
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
 # Omit --production flag for TypeScript devDependencies
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
@@ -16,23 +18,35 @@ RUN \
   else echo "Warning: Lockfile not found. It is recommended to commit lockfiles to version control." && yarn install; \
   fi
 
+
 COPY src ./src
 COPY public ./public
-COPY next.config.mjs .
 COPY tsconfig.json .
-COPY postcss.config.js .
+COPY next.config.mjs .
+COPY postcss.config.mjs .
 COPY tailwind.config.ts .
 COPY components.json .
-COPY env.mjs .
 
 # Environment variables must be present at build time
 # https://github.com/vercel/next.js/discussions/14030
 ARG NEXT_PUBLIC_BACKEND_URL
 ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+ARG NEXT_PUBLIC_BACKEND_STUDENT_PORTAL_URL
+ENV NEXT_PUBLIC_BACKEND_STUDENT_PORTAL_URL=${NEXT_PUBLIC_BACKEND_STUDENT_PORTAL_URL}
+ARG NEXT_PUBLIC_NGINX_PREFIX
+ENV NEXT_PUBLIC_NGINX_PREFIX=${NEXT_PUBLIC_NGINX_PREFIX}
+ARG NEXT_PUBLIC_REDIRECT_URI
+ENV NEXT_PUBLIC_REDIRECT_URI=${NEXT_PUBLIC_REDIRECT_URI}
+ARG NEXT_PUBLIC_KEYCLOAK_URL
+ENV NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
+ARG NEXT_PUBLIC_KEYCLOAK_REALM
+ENV NEXT_PUBLIC_KEYCLOAK_REALM=${NEXT_PUBLIC_KEYCLOAK_REALM}
+ARG NEXT_PUBLIC_KEYCLOAK_CLIENT_ID
+ENV NEXT_PUBLIC_KEYCLOAK_CLIENT_ID=${NEXT_PUBLIC_KEYCLOAK_CLIENT_ID}
 
 # Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line to disable telemetry at build time
-ENV NEXT_TELEMETRY_DISABLED 1
+# ENV NEXT_TELEMETRY_DISABLED 1
 
 # Build Next.js based on the preferred package manager
 RUN \
@@ -64,8 +78,22 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Environment variables must be redefined at run time
 ARG NEXT_PUBLIC_BACKEND_URL
 ENV NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+ARG NEXT_PUBLIC_BACKEND_STUDENT_PORTAL_URL
+ENV NEXT_PUBLIC_BACKEND_STUDENT_PORTAL_URL=${NEXT_PUBLIC_BACKEND_STUDENT_PORTAL_URL}
+ARG NEXT_PUBLIC_NGINX_PREFIX
+ENV NEXT_PUBLIC_NGINX_PREFIX=${NEXT_PUBLIC_NGINX_PREFIX}
+ARG NEXT_PUBLIC_REDIRECT_URI
+ENV NEXT_PUBLIC_REDIRECT_URI=${NEXT_PUBLIC_REDIRECT_URI}
+ARG NEXT_PUBLIC_KEYCLOAK_URL
+ENV NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
+ARG NEXT_PUBLIC_KEYCLOAK_REALM
+ENV NEXT_PUBLIC_KEYCLOAK_REALM=${NEXT_PUBLIC_KEYCLOAK_REALM}
+ARG NEXT_PUBLIC_KEYCLOAK_CLIENT_ID
+ENV NEXT_PUBLIC_KEYCLOAK_CLIENT_ID=${NEXT_PUBLIC_KEYCLOAK_CLIENT_ID}
 
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV PORT 23000
+# Uncomment the following line to disable telemetry at run time
+# ENV NEXT_TELEMETRY_DISABLED 1
+
+# Note: Don't expose ports here, Compose will handle that for us
 
 CMD ["node", "server.js"]

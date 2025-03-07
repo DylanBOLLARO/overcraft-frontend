@@ -1,9 +1,9 @@
 import { Badge } from "../ui/badge";
-import { capitalize, cn } from "@/src/services/utils";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Heart, MessageSquareText, Star, Swords } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "../ui/separator";
+import { capitalize, cn } from "@/services/utils";
 
 export function BuildItem({
 	build,
@@ -53,9 +53,7 @@ export function BuildItem({
 						>
 							{formatDistanceToNowStrict(
 								new Date(build?.created_at),
-								{
-									addSuffix: true
-								}
+								{ addSuffix: true }
 							)}
 						</div>
 					</div>

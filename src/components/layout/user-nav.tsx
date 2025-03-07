@@ -1,6 +1,5 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,10 +10,10 @@ import {
 	DropdownMenuTrigger
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { deleteCookie } from "@/src/services/cookie";
 import { usePathname, useRouter } from "next/navigation";
-import { PAGE_PATH } from "@/src/constants/enum";
 import { useConnectedUserContext } from "./providers";
+import { PAGE_PATH } from "@/constants/enum";
+import { deleteCookie } from "@/services/cookie";
 export function UserNav() {
 	const { connectedUser, setConnectedUser } = useConnectedUserContext();
 	const router = useRouter();

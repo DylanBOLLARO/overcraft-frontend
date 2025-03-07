@@ -2,8 +2,6 @@
 
 import axios from "axios";
 import { getCookie } from "./cookie";
-import { env } from "@/env.mjs";
-import { absoluteUrlApi } from "./utils";
 
 export const base_query_axios = async (
 	api: any,
@@ -21,7 +19,7 @@ export const base_query_axios = async (
 		}
 		const options = {
 			method,
-			url: absoluteUrlApi(url + path),
+			// url: absoluteUrlApi(url + path),
 			headers: {
 				Authorization: `Bearer ${jwt ?? ""}`,
 				"Content-Type": "application/json",
@@ -67,27 +65,24 @@ const createHeader = async (): Promise<{ headers: Headers }> => {
 const createAxiosConfig = async (method: string, url: string, data: any) => {
 	const config = {
 		method,
-		url: `${env.NEXT_PUBLIC_BACKEND_URL}${url}`,
+		// url: `${env.NEXT_PUBLIC_BACKEND_URL}${url}`,
 		data
 	};
 
-	return {
-		...config,
-		...(await createHeader())
-	};
+	return { ...config, ...(await createHeader()) };
 };
 
 export const axiosQuery = async (config: RequestOptions = {}) => {
 	try {
 		const {
 			method = "GET",
-			url = `${env.NEXT_PUBLIC_BACKEND_URL}/`,
+			// url = `${env.NEXT_PUBLIC_BACKEND_URL}/`,
 			data = {}
 		} = config;
 
-		const axiosConfig: any = await createAxiosConfig(method, url, data);
-		const { data: response } = await axios.request(axiosConfig);
-		return response;
+		// const axiosConfig: any = await createAxiosConfig(method, url, data);
+		// const { data: response } = await axios.request(axiosConfig);
+		return "response";
 	} catch (error: any) {
 		// console.error(error);
 		throw new Error(error);

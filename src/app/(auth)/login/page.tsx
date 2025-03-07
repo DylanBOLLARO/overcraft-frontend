@@ -1,28 +1,19 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
-import { cn } from "@/src/services/utils";
-import { buttonVariants } from "@/src/components/ui/button";
-import { Icons } from "@/src/components/icons";
-import { Button } from "@/src/components/ui/button";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signin, signup } from "@/services/user";
+import { PAGE_PATH } from "@/constants/enum";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle
-} from "@/src/components/ui/card";
-
-import { Input } from "@/src/components/ui/input";
-
-import {
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger
-} from "@/src/components/ui/tabs";
+} from "@/components/ui/card";
 import {
 	Form,
 	FormControl,
@@ -30,12 +21,9 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage
-} from "@/src/components/ui/form";
-
-import * as z from "zod";
-import { useRouter } from "next/navigation";
-import { PAGE_PATH } from "@/src/constants/enum";
-import { signin, signup } from "@/src/services/user";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
 	const router = useRouter();
@@ -47,10 +35,7 @@ export default function LoginPage() {
 
 	const formSigninInstance = useForm<z.infer<typeof formSignin>>({
 		resolver: zodResolver(formSignin),
-		defaultValues: {
-			email: "",
-			password: ""
-		}
+		defaultValues: { email: "", password: "" }
 	});
 
 	const formSignup = z.object({
@@ -61,11 +46,7 @@ export default function LoginPage() {
 
 	const formSignupInstance = useForm<z.infer<typeof formSignup>>({
 		resolver: zodResolver(formSignup),
-		defaultValues: {
-			username: "",
-			email: "",
-			password: ""
-		}
+		defaultValues: { username: "", email: "", password: "" }
 	});
 
 	async function onSigninSubmit(values: z.infer<typeof formSignin>) {

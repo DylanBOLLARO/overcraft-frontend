@@ -1,6 +1,5 @@
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { env } from "@/env.mjs";
 import { addSeconds, format, startOfDay } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
@@ -16,10 +15,6 @@ export function formatDate(input: string | number): string {
 	});
 }
 
-export function absoluteUrlApi(path: string) {
-	return `${env.NEXT_PUBLIC_BACKEND_URL}${path}`;
-}
-
 export const jsonFileDownload = (build: any) => {
 	delete build.id;
 	delete build.user_id;
@@ -29,9 +24,7 @@ export const jsonFileDownload = (build: any) => {
 	);
 	build.steps = resultArray;
 	const fileName = `${build.title}.json`;
-	const data = new Blob([JSON.stringify(build)], {
-		type: "text/json"
-	});
+	const data = new Blob([JSON.stringify(build)], { type: "text/json" });
 	const jsonURL = window.URL.createObjectURL(data);
 	const link = document.createElement("a");
 	link.href = jsonURL;

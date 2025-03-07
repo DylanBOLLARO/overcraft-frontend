@@ -1,18 +1,17 @@
 /** @type {import('next').NextConfig} */
 
-const isProd = process.env.NODE_ENV === "production";
-
 const nextConfig = {
-	basePath: isProd ? "/overcraft" : "",
-	output: isProd ? "standalone" : null,
-	// reactStrictMode: false,
 	images: {
-		unoptimized: true,
 		remotePatterns: [
 			{
-				hostname: "localhost"
+				protocol: "https",
+				hostname: "**",
+				port: "",
+				pathname: "**",
+				search: ""
 			}
 		]
 	}
 };
+
 export default nextConfig;
