@@ -3,7 +3,7 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { Heart, MessageSquareText, Star, Swords } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "../ui/separator";
-import { capitalize, cn } from "@/services/utils";
+import { capitalize, cn } from "@/lib/utils";
 
 export function BuildItem({
 	build,
@@ -128,11 +128,6 @@ export function BuildItem({
 				>
 					{build?.user?.username && (
 						<Badge
-							onClick={() => {
-								router.push(
-									`/profile/${build?.user?.username}`
-								);
-							}}
 							className="ml-auto"
 							variant={highlightCreator ? "default" : "outline"}
 						>

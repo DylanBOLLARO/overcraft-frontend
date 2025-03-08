@@ -1,121 +1,117 @@
-"use client";
+'use client'
 
-import { BuildItem } from "@/components/build/build-item";
-import CreateComment from "@/components/comment/card-create-comment";
-import { CommentItem } from "@/components/comment/comment-item";
-import { useConnectedUserContext } from "@/components/layout/providers";
-import HeaderWithBackBtnAndTile from "@/components/new/header-back-title";
-import { NoResultsFound } from "@/components/new/no-builds-found";
-import { Card, CardContent } from "@/components/ui/card";
+import { BuildItem } from '@/components/build/build-item'
+import HeaderWithBackBtnAndTile from '@/components/new/header-back-title'
+import { NoResultsFound } from '@/components/new/no-builds-found'
+import { Card, CardContent } from '@/components/ui/card'
 import {
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow
-} from "@/components/ui/table";
-import { useBuild } from "@/services/queries";
-import { secondsToMinutesAndSeconds } from "@/services/utils";
-import { Table } from "lucide-react";
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
+import { useBuild } from '@/lib/queries'
+import { extractUUID, secondsToMinutesAndSeconds } from '@/lib/utils'
 
 export default function Page({ params }: { params: { slug: string } }) {
-	const { connectedUser } = useConnectedUserContext();
-	const { slug } = params;
-	const buildId = slug.split("-")[0];
-	const {
-		error,
-		data: build,
-		isLoading,
-		isFetched,
-		refetch
-	} = useBuild(buildId);
+    const { slug } = params
 
-	if (isLoading) return;
-	if (error) return console.error("An error has occurred: " + error.message);
+    const buildId = extractUUID(slug)
 
-	const configHeader = {
-		title: build?.title,
-		share: true,
-		link: window.location,
-		likeBtn: true
-	};
+    const {
+        error,
+        data: build,
+        isLoading,
+        isFetched,
+        refetch,
+    } = useBuild(buildId)
+    console.log(build)
+    // useEffect(() => {
+    //     // Create a scoped async function in the hook
+    //     async function runAsync() {
+    //         try {
+    //             const response = await fetch(
+    //                 'http://localhost:5000/api/v1/build/48652719-d710-4939-aa74-f21b36018852',
+    //                 {
+    //                     credentials: 'include',
+    //                 }
+    //             )
+    //             const userResponse = await response.text()
+    //             console.log({ userResponse })
+    //         } catch (error) {
+    //             // add better error handling here
+    //         }
+    //     }
+    //     // Execute the created function directly
+    //     runAsync()
+    //     // https://stackoverflow.com/a/55854902/1098564
+    //     // eslint-disable-next-line
+    // }, [])
 
-	return (
-		<div className="flex-1 flex flex-col gap-5 p-5">
-			<HeaderWithBackBtnAndTile
-				config={configHeader}
-				build={build}
-				userId={connectedUser?.id}
-				refetch={refetch}
-			/>
+    if (isLoading) return
+    if (error) return console.error('An error has occurred: ' + error.message)
 
-			{isFetched && (
-				<BuildItem
-					build={build}
-					classname={"hover:bg-transparent cursor-default"}
-					showHeader={false}
-					highlightCreator={true}
-				/>
-			)}
+    const configHeader = {
+        title: build?.title,
+        share: true,
+        link: window.location,
+        likeBtn: true,
+    }
+    return (
+        <div className="flex-1 flex flex-col gap-5 p-5">
+            <HeaderWithBackBtnAndTile
+                config={configHeader}
+                build={build}
+                userId={null}
+                refetch={refetch}
+            />
 
-			{build?.steps?.length > 0 ? (
-				<Card className="bg-transparent">
-					<CardContent className="pt-6">
-						<Table>
-							<TableHeader>
-								<TableRow>
-									<TableHead>Population</TableHead>
-									<TableHead>Timer</TableHead>
-									<TableHead>Description</TableHead>
-								</TableRow>
-							</TableHeader>
-							<TableBody>
-								{build?.steps?.map((step: any) => (
-									<TableRow
-										className="h-10"
-										key={`${step?.id}`}
-									>
-										<TableCell>{step.population}</TableCell>
-										<TableCell>
-											{secondsToMinutesAndSeconds(
-												step.timer || 0
-											)}
-										</TableCell>
-										<TableCell>
-											{step.description}
-										</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
-						</Table>
-					</CardContent>
-				</Card>
-			) : (
-				<NoResultsFound text={"steps"} />
-			)}
+            {isFetched && (
+                <BuildItem
+                    build={build}
+                    classname={'hover:bg-transparent cursor-default'}
+                    showHeader={false}
+                    highlightCreator={true}
+                />
+            )}
 
-			{build?.comment?.length > 0 && build?.comment && (
-				<div className="flex-1 flex flex-col gap-2">
-					<h4 className="text-xl font-semibold tracking-tight pb-2">
-						Comments
-					</h4>
-					{build?.comment?.map((comment: any) => (
-						<CommentItem
-							key={`comment_${comment.id}`}
-							classname={"hover:bg-transparent cursor-default"}
-							comment={comment}
-							showHeader={false}
-						/>
-					))}
-				</div>
-			)}
-			{connectedUser && (
-				<CreateComment
-					user={connectedUser}
-					buildId={build?.id}
-					refetch={refetch}
-				/>
-			)}
-		</div>
-	);
+            <Card className="bg-transparent">
+                <CardContent className="pt-6">
+                    {build?.steps?.length > 0 ? (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Population</TableHead>
+                                    <TableHead>Timer</TableHead>
+                                    <TableHead>Description</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {build?.steps?.map((step: any) => (
+                                    <TableRow
+                                        className="h-10"
+                                        key={`${step?.id}`}
+                                    >
+                                        <TableCell>{step.population}</TableCell>
+                                        <TableCell>
+                                            {secondsToMinutesAndSeconds(
+                                                step.timer || 0
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {step.description}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <NoResultsFound text={'steps'} />
+                    )}
+                </CardContent>
+            </Card>
+        </div>
+    )
 }

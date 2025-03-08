@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
 export const columns = [
-	{
-		accessorKey: "description",
-		header: "Description"
-	},
-	{
-		accessorKey: "population",
-		header: "Population"
-	},
-	{
-		accessorKey: "timer",
-		header: "Timer"
-	}
-];
+    {
+        accessorKey: 'description',
+        header: 'Description',
+    },
+    {
+        accessorKey: 'population',
+        header: 'Population',
+    },
+    {
+        accessorKey: 'timer',
+        header: 'Timer',
+    },
+]
