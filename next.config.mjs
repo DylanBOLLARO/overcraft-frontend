@@ -13,7 +13,6 @@ const nextConfig = {
             },
         ],
     },
-
     async redirects() {
         return process.env.NODE_ENV === 'production'
             ? [
