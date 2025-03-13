@@ -3,11 +3,11 @@
     "version": "3.0.0",
     "private": true,
     "scripts": {
+        "prettier": "npx prettier . --write",
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
-        "prettier": "npx prettier . --write"
+        "lint": "next lint"
     },
     "dependencies": {
         "@hookform/resolvers": "^4.1.3",

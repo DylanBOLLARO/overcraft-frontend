@@ -17,8 +17,8 @@ export function useBuild(buildId: string) {
 
 export function useBuilds(params: any) {
     return useQuery({
-        queryKey: ['useBuilds', params || 0],
-        queryFn: async () => await getBuilds(params),
+        queryKey: ['useBuilds', params],
+        queryFn: async () => (await getBuilds(params)) || [],
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
     })

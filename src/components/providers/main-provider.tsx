@@ -1,8 +1,8 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import AuthProvider from './context-provider/auth-context'
 import { ThemeProvider } from '../theme-provider'
+import { AuthProvider, SearchProvider } from './context-provider'
 
 export function MainProvider({ children }: { children: React.ReactNode }) {
     const queryClient = new QueryClient({
@@ -18,9 +18,11 @@ export function MainProvider({ children }: { children: React.ReactNode }) {
                 disableTransitionOnChange
             >
                 <AuthProvider>
-                    <div className="flex min-h-screen w-full flex-col">
-                        {children}
-                    </div>
+                    <SearchProvider>
+                        <div className="flex min-h-screen w-full flex-col">
+                            {children}
+                        </div>
+                    </SearchProvider>
                 </AuthProvider>
             </ThemeProvider>
         </QueryClientProvider>

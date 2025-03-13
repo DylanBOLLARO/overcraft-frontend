@@ -12,12 +12,9 @@ export const getBuild = async (buildId: string) => {
     }
 }
 
-export const getBuilds = async (params: any) => {
+export const getBuilds = async (params: string) => {
     try {
-        const { data } = await axiosInstance(
-            `${MODULE_NESTJS.BUILD}${params && `?${params}`}`
-        )
-        return data
+        return (await axiosInstance(`${MODULE_NESTJS.BUILD}${params}`))?.data
     } catch (error) {
         console.error(error)
     }

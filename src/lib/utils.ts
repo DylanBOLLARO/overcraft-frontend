@@ -31,3 +31,15 @@ export function getBadgeVariantFromLabel(label: string) {
         return 'protoss'
     }
 }
+
+export const objectToQueryString = (obj: any) => {
+    const urlParams = Object.entries(obj)
+        .filter(([_, value]) => !!value)
+        .reduce((acc, [key, value]: any) => {
+            acc.set(key, value.toString())
+
+            return acc
+        }, new URLSearchParams())
+
+    return urlParams.toString().length ? `?${urlParams.toString()}` : ''
+}

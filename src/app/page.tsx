@@ -2,42 +2,38 @@
 
 import { BuildsList } from '@/components/builds-list'
 import { FilterSelectBuild } from '@/components/filter-select-build'
-import { useBuilds } from '@/lib/queries'
-import { useEffect, useState } from 'react'
-import queryString from 'query-string'
-import { DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS } from '@/constants/constants'
+import { useSearch } from '@/components/providers/context-provider'
+import { Spinner } from '@/components/spinner'
+import _ from 'lodash'
 
 export default function Home() {
-    const stringifyParamsForSearch = (params: any) => {
-        return queryString.stringify(params)
-    }
-
-    const [filterSearchBuilds, setFilterSearchBuilds] = useState(
-        DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS
-    )
-
-    const {
-        isLoading,
-        error,
-        data: builds,
-        refetch,
-    } = useBuilds(stringifyParamsForSearch(filterSearchBuilds))
-
-    useEffect(() => {
-        refetch()
-    }, [filterSearchBuilds])
-
-    if (isLoading) return
-
-    if (error) return console.error('An error has occurred: ' + error.message)
+    const { builds, isFetched } = useSearch()
 
     return (
         <div className="flex flex-col gap-y-5">
-            <FilterSelectBuild
-                filterSearchBuilds={filterSearchBuilds}
-                setFilterSearchBuilds={setFilterSearchBuilds}
-            />
-            {builds?.length > 0 && <BuildsList builds={builds} />}
+            <FilterSelectBuild />
+
+            {!isFetched && (
+                <div className="py-10">
+                    <Spinner size={'large'}>
+                        <p className="text-xl">Loading...</p>
+                    </Spinner>
+                </div>
+            )}
+
+            {isFetched && (
+                <>
+                    {_.isEmpty(builds) && (
+                        <div className="py-10">
+                            <p className="text-xl text-center">
+                                No results for your search
+                            </p>
+                        </div>
+                    )}
+
+                    {!_.isEmpty(builds) && <BuildsList builds={builds} />}
+                </>
+            )}
         </div>
     )
 }

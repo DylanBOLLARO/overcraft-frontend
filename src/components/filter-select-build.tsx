@@ -8,22 +8,29 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import {
-    DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS,
+    DEFAULT_VALUES_SEARCH_FILTERS_BUILDS_PROPERTIES,
     TAB_SELECTION,
 } from '@/constants/constants'
 import _ from 'lodash'
 import { Swords } from 'lucide-react'
+import { useSearch } from './providers/context-provider'
 
-export const FilterSelectBuild = ({
-    filterSearchBuilds,
-    setFilterSearchBuilds,
-}: any) => {
+export const FilterSelectBuild = () => {
+    const {
+        searchFiltersBuildsProperties,
+        setSearchFiltersBuildsProperties,
+        builds,
+        isLoading,
+        error,
+        isFetched,
+    } = useSearch()
+
     return (
         <div className="flex items-center gap-4 h-12 z-10">
             <Select
-                value={filterSearchBuilds.race}
+                value={searchFiltersBuildsProperties.race}
                 onValueChange={(event) => {
-                    setFilterSearchBuilds((prev: any) => ({
+                    setSearchFiltersBuildsProperties((prev: any) => ({
                         ...prev,
                         race: event,
                     }))
@@ -50,9 +57,9 @@ export const FilterSelectBuild = ({
             </Select>
             <Swords />
             <Select
-                value={filterSearchBuilds.v_race}
+                value={searchFiltersBuildsProperties.v_race}
                 onValueChange={(event) => {
-                    setFilterSearchBuilds((prev: any) => ({
+                    setSearchFiltersBuildsProperties((prev: any) => ({
                         ...prev,
                         v_race: event,
                     }))
@@ -79,9 +86,9 @@ export const FilterSelectBuild = ({
             </Select>
 
             <Select
-                value={filterSearchBuilds.type}
+                value={searchFiltersBuildsProperties.type}
                 onValueChange={(event) => {
-                    setFilterSearchBuilds((prev: any) => ({
+                    setSearchFiltersBuildsProperties((prev: any) => ({
                         ...prev,
                         type: event,
                     }))
@@ -102,9 +109,9 @@ export const FilterSelectBuild = ({
             </Select>
 
             <Select
-                value={filterSearchBuilds.difficulty}
+                value={searchFiltersBuildsProperties.difficulty}
                 onValueChange={(event) => {
-                    setFilterSearchBuilds((prev: any) => ({
+                    setSearchFiltersBuildsProperties((prev: any) => ({
                         ...prev,
                         difficulty: event,
                     }))
@@ -129,24 +136,24 @@ export const FilterSelectBuild = ({
                 type="email"
                 placeholder="Search"
                 onChange={(event) => {
-                    setFilterSearchBuilds((prev: any) => ({
+                    setSearchFiltersBuildsProperties((prev: any) => ({
                         ...prev,
                         q: event.target.value,
                     }))
                 }}
-                value={filterSearchBuilds.q}
+                value={searchFiltersBuildsProperties.q}
             />
 
             <Button
                 disabled={_.isEqual(
-                    filterSearchBuilds,
-                    DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS
+                    searchFiltersBuildsProperties,
+                    DEFAULT_VALUES_SEARCH_FILTERS_BUILDS_PROPERTIES
                 )}
                 className="h-full px-10 border-none bg-black"
                 variant={'outline'}
                 onClick={() =>
-                    setFilterSearchBuilds(
-                        DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS
+                    setSearchFiltersBuildsProperties(
+                        DEFAULT_VALUES_SEARCH_FILTERS_BUILDS_PROPERTIES
                     )
                 }
             >
