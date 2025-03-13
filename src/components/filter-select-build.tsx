@@ -7,15 +7,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { TAB_SELECTION } from '@/constants/variable'
+import {
+    DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS,
+    TAB_SELECTION,
+} from '@/constants/constants'
 import _ from 'lodash'
 import { Swords } from 'lucide-react'
-import queryString from 'query-string'
 
 export const FilterSelectBuild = ({
     filterSearchBuilds,
     setFilterSearchBuilds,
-    defaultValueSearchFilterSearchBuilds,
 }: any) => {
     return (
         <div className="flex items-center gap-4 h-12 z-10">
@@ -47,7 +48,7 @@ export const FilterSelectBuild = ({
                     })}
                 </SelectContent>
             </Select>
-            <Swords className="opacity-75" />
+            <Swords />
             <Select
                 value={filterSearchBuilds.v_race}
                 onValueChange={(event) => {
@@ -136,19 +137,21 @@ export const FilterSelectBuild = ({
                 value={filterSearchBuilds.q}
             />
 
-            {queryString.stringify(filterSearchBuilds) !==
-                queryString.stringify(defaultValueSearchFilterSearchBuilds) && (
-                <Button
-                    className="relative h-full px-5"
-                    onClick={() =>
-                        setFilterSearchBuilds(
-                            defaultValueSearchFilterSearchBuilds
-                        )
-                    }
-                >
-                    Reset
-                </Button>
-            )}
+            <Button
+                disabled={_.isEqual(
+                    filterSearchBuilds,
+                    DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS
+                )}
+                className="h-full px-10 border-none bg-black"
+                variant={'outline'}
+                onClick={() =>
+                    setFilterSearchBuilds(
+                        DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS
+                    )
+                }
+            >
+                Reset
+            </Button>
         </div>
     )
 }

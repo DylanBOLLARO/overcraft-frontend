@@ -5,22 +5,15 @@ import { FilterSelectBuild } from '@/components/filter-select-build'
 import { useBuilds } from '@/lib/queries'
 import { useEffect, useState } from 'react'
 import queryString from 'query-string'
+import { DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS } from '@/constants/constants'
 
 export default function Home() {
     const stringifyParamsForSearch = (params: any) => {
         return queryString.stringify(params)
     }
 
-    const defaultValueSearchFilterSearchBuilds = {
-        q: '',
-        type: 'all',
-        difficulty: 'all',
-        race: 'all',
-        v_race: 'all',
-    }
-
     const [filterSearchBuilds, setFilterSearchBuilds] = useState(
-        defaultValueSearchFilterSearchBuilds
+        DEFAULT_VALUES_SEARCH_FILTER_SEARCH_BUILDS
     )
 
     const {
@@ -43,9 +36,6 @@ export default function Home() {
             <FilterSelectBuild
                 filterSearchBuilds={filterSearchBuilds}
                 setFilterSearchBuilds={setFilterSearchBuilds}
-                defaultValueSearchFilterSearchBuilds={
-                    defaultValueSearchFilterSearchBuilds
-                }
             />
             {builds?.length > 0 && <BuildsList builds={builds} />}
         </div>
