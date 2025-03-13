@@ -14,16 +14,11 @@ import {
 import _ from 'lodash'
 import { Swords } from 'lucide-react'
 import { useSearch } from './providers/context-provider'
+import { PaginationWithLinks } from './ui/pagination-with-links'
 
 export const FilterSelectBuild = () => {
-    const {
-        searchFiltersBuildsProperties,
-        setSearchFiltersBuildsProperties,
-        builds,
-        isLoading,
-        error,
-        isFetched,
-    } = useSearch()
+    const { searchFiltersBuildsProperties, setSearchFiltersBuildsProperties } =
+        useSearch()
 
     return (
         <div className="flex items-center gap-4 h-10 z-10">
@@ -132,7 +127,7 @@ export const FilterSelectBuild = () => {
             </Select>
 
             <Input
-                className="border-none bg-black h-full w-fit min-w-96"
+                className="border-none bg-black h-full w-fit min-w-72"
                 type="email"
                 placeholder="Search"
                 onChange={(event) => {
@@ -159,6 +154,8 @@ export const FilterSelectBuild = () => {
             >
                 Reset
             </Button>
+
+            {/* <PaginationWithLinks page={1} pageSize={20} totalCount={500} /> */}
         </div>
     )
 }
