@@ -13,7 +13,7 @@ export default function Header() {
     const router = useRouter()
 
     return (
-        <div className="fixed left-0 right-0 top-0 border-b z-50 bg-background flex p-3 px-16 justify-between items-center gap-5 h-16 bg-black border-black">
+        <div className="fixed left-0 right-0 top-0 border-b z-50 bg-background flex p-3 px-16 justify-between items-center gap-5 h-16 bg-black border-none">
             <h4
                 className="text-2xl tracking-wider cursor-pointer font-bold"
                 onClick={() => router.push(PAGE_PATH.HOME)}

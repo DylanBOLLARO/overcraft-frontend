@@ -25,7 +25,7 @@ export function BuildItem({ build, update }: any) {
                     : `/dashboard/update/${build.slug}`
             }
         >
-            <Card className="flex flex-col p-4 gap-3  duration-100 h-full bg-black hover:bg-accent border-black">
+            <Card className="flex flex-col p-4 gap-3  duration-100 h-full bg-black hover:bg-accent border-none">
                 <CardHeader className="p-0">
                     <CardTitle>
                         <div className="flex">

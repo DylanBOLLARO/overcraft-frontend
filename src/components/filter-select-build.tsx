@@ -26,7 +26,7 @@ export const FilterSelectBuild = () => {
     } = useSearch()
 
     return (
-        <div className="flex items-center gap-4 h-12 z-10">
+        <div className="flex items-center gap-4 h-10 z-10">
             <Select
                 value={searchFiltersBuildsProperties.race}
                 onValueChange={(event) => {
@@ -36,7 +36,7 @@ export const FilterSelectBuild = () => {
                     }))
                 }}
             >
-                <SelectTrigger className="border-none bg-black h-full w-32">
+                <SelectTrigger className="border-none bg-black h-full w-40">
                     <SelectValue
                         placeholder="All"
                         className="border-none bg-black"
@@ -65,7 +65,7 @@ export const FilterSelectBuild = () => {
                     }))
                 }}
             >
-                <SelectTrigger className="border-none bg-black h-full w-32">
+                <SelectTrigger className="border-none bg-black h-full w-40">
                     <SelectValue
                         placeholder="All"
                         className="border-none bg-black"
@@ -94,7 +94,7 @@ export const FilterSelectBuild = () => {
                     }))
                 }}
             >
-                <SelectTrigger className="border-none bg-black h-full w-32">
+                <SelectTrigger className="border-none bg-black h-full w-40">
                     <SelectValue
                         placeholder="All Types"
                         className="border-none bg-black"
@@ -117,7 +117,7 @@ export const FilterSelectBuild = () => {
                     }))
                 }}
             >
-                <SelectTrigger className="border-none bg-black h-full w-32">
+                <SelectTrigger className="border-none bg-black h-full w-40">
                     <SelectValue
                         placeholder="All Stars"
                         className="border-none bg-black"
