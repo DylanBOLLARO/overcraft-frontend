@@ -18,14 +18,14 @@ import _ from 'lodash'
 export function BuildItem({ build, update }: any) {
     return (
         <Link
-            className="flex-1 "
+            className="z-10"
             href={
                 !update
                     ? `/builds/${build.slug}`
                     : `/dashboard/update/${build.slug}`
             }
         >
-            <Card className="flex flex-col p-4 gap-3 hover:bg-accent/75 duration-100 h-full">
+            <Card className="flex flex-col p-4 gap-3  duration-100 h-full bg-black hover:bg-accent border-black">
                 <CardHeader className="p-0">
                     <CardTitle>
                         <div className="flex">
@@ -45,8 +45,8 @@ export function BuildItem({ build, update }: any) {
                         </div>
                     </CardTitle>
 
-                    <CardDescription>
-                        {build.description.substring(0, 300)}
+                    <CardDescription className="line-clamp-1">
+                        {build.description}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">

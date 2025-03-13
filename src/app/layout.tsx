@@ -31,6 +31,8 @@ export default function RootLayout({
             >
                 <MainProvider>
                     <Header />
+                    <div className="absolute w-20 h-52 bg-indigo-700 blur-[250px] translate-x-1/2 translate-y-1/2"></div>
+                    <div className="absolute right-0 w-52 h-20 bg-blue-700 blur-[250px] -translate-x-1/2 translate-y-1/2"></div>
                     <div className="container mx-auto flex flex-1 flex-col pt-[4rem]">
                         <div className="py-5 px-2">{children}</div>
                     </div>

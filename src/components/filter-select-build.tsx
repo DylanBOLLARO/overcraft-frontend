@@ -18,7 +18,7 @@ export const FilterSelectBuild = ({
     defaultValueSearchFilterSearchBuilds,
 }: any) => {
     return (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 h-12 z-10">
             <Select
                 value={filterSearchBuilds.race}
                 onValueChange={(event) => {
@@ -28,10 +28,13 @@ export const FilterSelectBuild = ({
                     }))
                 }}
             >
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="All" />
+                <SelectTrigger className="border-none bg-black h-full w-32">
+                    <SelectValue
+                        placeholder="All"
+                        className="border-none bg-black"
+                    />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-none bg-black">
                     {TAB_SELECTION.map((tabsValue: string) => {
                         return (
                             <SelectItem
@@ -54,10 +57,13 @@ export const FilterSelectBuild = ({
                     }))
                 }}
             >
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="All" />
+                <SelectTrigger className="border-none bg-black h-full w-32">
+                    <SelectValue
+                        placeholder="All"
+                        className="border-none bg-black"
+                    />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-none bg-black">
                     {TAB_SELECTION.map((tabsValue: string) => {
                         return (
                             <SelectItem
@@ -80,10 +86,13 @@ export const FilterSelectBuild = ({
                     }))
                 }}
             >
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="All Types" />
+                <SelectTrigger className="border-none bg-black h-full w-32">
+                    <SelectValue
+                        placeholder="All Types"
+                        className="border-none bg-black"
+                    />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-none bg-black">
                     <SelectItem value="all">All Types</SelectItem>
                     <SelectItem value="macro">Macro</SelectItem>
                     <SelectItem value="cheese">Cheese</SelectItem>
@@ -100,10 +109,13 @@ export const FilterSelectBuild = ({
                     }))
                 }}
             >
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="All Stars" />
+                <SelectTrigger className="border-none bg-black h-full w-32">
+                    <SelectValue
+                        placeholder="All Stars"
+                        className="border-none bg-black"
+                    />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-none bg-black">
                     <SelectItem value="all">All Stars</SelectItem>
                     <SelectItem value="1">1 Star</SelectItem>
                     <SelectItem value="2">2 Stars</SelectItem>
@@ -111,25 +123,23 @@ export const FilterSelectBuild = ({
                 </SelectContent>
             </Select>
 
-            <div className="flex w-full max-w-sm items-center space-x-2">
-                <Input
-                    type="email"
-                    placeholder="Search a build..."
-                    onChange={(event) => {
-                        setFilterSearchBuilds((prev: any) => ({
-                            ...prev,
-                            q: event.target.value,
-                        }))
-                    }}
-                    value={filterSearchBuilds.q}
-                />
-            </div>
+            <Input
+                className="border-none bg-black h-full w-fit min-w-96"
+                type="email"
+                placeholder="Search"
+                onChange={(event) => {
+                    setFilterSearchBuilds((prev: any) => ({
+                        ...prev,
+                        q: event.target.value,
+                    }))
+                }}
+                value={filterSearchBuilds.q}
+            />
 
             {queryString.stringify(filterSearchBuilds) !==
                 queryString.stringify(defaultValueSearchFilterSearchBuilds) && (
                 <Button
-                    className="relative"
-                    variant={'default'}
+                    className="relative h-full px-5"
                     onClick={() =>
                         setFilterSearchBuilds(
                             defaultValueSearchFilterSearchBuilds
