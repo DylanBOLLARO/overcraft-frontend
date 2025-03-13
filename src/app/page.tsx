@@ -32,7 +32,7 @@ export default function Home() {
     if (error) return console.error('An error has occurred: ' + error.message)
 
     return (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-y-5">
             <FilterSelectBuild
                 filterSearchBuilds={filterSearchBuilds}
                 setFilterSearchBuilds={setFilterSearchBuilds}

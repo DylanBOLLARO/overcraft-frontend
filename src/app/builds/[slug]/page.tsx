@@ -5,7 +5,13 @@ import { Button } from '@/components/ui/button'
 import { extractUUID, getBadgeVariantFromLabel } from '@/lib/utils'
 import { BuildItem } from '@/components/build-item'
 import { StepsRowContainer } from '@/components/steps-row-container'
-import { TypographyH3 } from '../../../components/typography'
+import {
+    TypographyH2,
+    TypographyH3,
+    TypographyLarge,
+    TypographyLead,
+    TypographySmall,
+} from '../../../components/typography'
 import {
     Card,
     CardContent,
@@ -19,6 +25,7 @@ import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/components/providers/context-provider'
 import _ from 'lodash'
 import { useRouter } from 'next/navigation'
+import { ChevronLeft, FileSliders, Plus } from 'lucide-react'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
@@ -36,18 +43,31 @@ export default function Page({ params }: { params: { slug: string } }) {
 
     return (
         <div className="flex flex-col gap-y-5">
-            <div className="flex justify-between">
-                <Button className="w-fit" onClick={() => window.history.back()}>
-                    Back
+            <div className="relative flex items-center justify-between gap-4 h-12 z-10 ">
+                <Button
+                    variant="ghost"
+                    className="h-full font-semibold px-10 bg-black border-black gap-5"
+                    onClick={() => {
+                        router.replace('/auth/login')
+                    }}
+                >
+                    <ChevronLeft />
+                    <TypographySmall str={'Back'} />
                 </Button>
+
+                <div className="absolute left-1/2 -translate-x-1/2 bg-black border-black px-10 h-full flex items-center justify-center w-1/3">
+                    <TypographyH2 str={build?.name} />
+                </div>
 
                 {!!user && user?.userinfo?.id == build?.userId && (
                     <Button
-                        className="w-fit"
+                        variant="ghost"
+                        className="h-full font-semibold px-10 bg-black border-black gap-5"
                         onClick={() =>
                             router.push(`/dashboard/update/${build.slug}`)
                         }
                     >
+                        <FileSliders />
                         Edit
                     </Button>
                 )}

@@ -35,9 +35,5 @@ export function TypographyH3({ str }: any) {
 }
 
 export function TypographyH2({ str }: any) {
-    return (
-        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-            {str}
-        </h2>
-    )
+    return <h2 className="text-2xl font-semibold">{str}</h2>
 }
