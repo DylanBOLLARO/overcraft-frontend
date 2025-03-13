@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "prettier": "npx prettier . --write",
-        "dev": "next dev",
+        "dev": "npm run prettier && next dev",
         "build": "next build",
         "start": "next start",
         "lint": "next lint"
