@@ -48,7 +48,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                     variant="ghost"
                     className="h-full font-semibold px-10 bg-black border-black gap-5"
                     onClick={() => {
-                        router.replace('/auth/login')
+                        router.replace('/')
                     }}
                 >
                     <ChevronLeft />
