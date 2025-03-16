@@ -1,10 +1,29 @@
-export const DEFAULT_VALUES_SEARCH_FILTERS_BUILDS_PROPERTIES = {
-    q: undefined,
-    type: undefined,
-    difficulty: undefined,
-    race: undefined,
-    v_race: undefined,
-}
+export const ResponseFormat = {
+    data: 'data',
+    totalItems: 'totalItems',
+    page: 'page',
+    take: 'take',
+} as const
 
-export const COOKIE_NAME = 'overcraft_jwt'
-export const TAB_SELECTION = ['all', 'terran', 'zerg', 'protoss']
+export const PlayableRaces = {
+    all: 'all',
+    terran: 'terran',
+    zerg: 'zerg',
+    protoss: 'protoss',
+} as const
+
+export const RequestParameters = {
+    query: 'query',
+    page: 'page',
+    take: 'take',
+    race: 'race',
+    v_race: 'v_race',
+} as const
+
+export const RequestParametersDefaultValues = {
+    [RequestParameters.query]: '',
+    [RequestParameters.page]: 1,
+    [RequestParameters.take]: 18,
+    [RequestParameters.race]: 'all',
+    [RequestParameters.v_race]: 'all',
+}

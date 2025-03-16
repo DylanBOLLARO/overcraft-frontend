@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import Header from '@/components/header'
 import { MainProvider } from '@/components/providers'
 import { BackgroundColors } from '@/components/background-colors/background-colors'
+import { Suspense } from 'react'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -35,7 +36,9 @@ export default function RootLayout({
                     <BackgroundColors />
                     {/* div below with "pt-[4rem]" cause Header has 64px height, to avoid unvisible content (below header)*/}
                     <div className="container mx-auto flex flex-1 flex-col pt-[4rem]">
-                        <div className="py-5 px-2">{children}</div>
+                        <div className="py-5 px-2">
+                            <Suspense>{children}</Suspense>
+                        </div>
                     </div>
                 </MainProvider>
             </body>

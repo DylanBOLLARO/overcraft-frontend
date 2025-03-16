@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from '../theme-provider'
-import { AuthProvider, SearchProvider } from './context-provider'
+import { AuthProvider } from './context-provider'
 
 export function MainProvider({ children }: { children: React.ReactNode }) {
     const queryClient = new QueryClient({
@@ -18,11 +18,9 @@ export function MainProvider({ children }: { children: React.ReactNode }) {
                 disableTransitionOnChange
             >
                 <AuthProvider>
-                    <SearchProvider>
-                        <div className="flex min-h-screen w-full flex-col">
-                            {children}
-                        </div>
-                    </SearchProvider>
+                    <div className="flex min-h-screen w-full flex-col">
+                        {children}
+                    </div>
                 </AuthProvider>
             </ThemeProvider>
         </QueryClientProvider>

@@ -8,154 +8,182 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import {
-    DEFAULT_VALUES_SEARCH_FILTERS_BUILDS_PROPERTIES,
-    TAB_SELECTION,
+    PlayableRaces,
+    RequestParameters,
+    RequestParametersDefaultValues,
 } from '@/constants/constants'
 import _ from 'lodash'
 import { Swords } from 'lucide-react'
-import { useSearch } from './providers/context-provider'
-import { PaginationWithLinks } from './ui/pagination-with-links'
+import { usePathname, useRouter } from 'next/navigation'
+import { objectToQueryString } from '@/lib/utils'
 
-export const FilterSelectBuild = () => {
-    const { searchFiltersBuildsProperties, setSearchFiltersBuildsProperties } =
-        useSearch()
+export const FilterSelectBuild = ({
+    searchFiltersBuildsProperties,
+    setSearchFiltersBuildsProperties,
+    builds,
+}: any) => {
+    const router = useRouter()
+    const pathname = usePathname()
+
+    const RequestParametersToDisplay = [
+        RequestParameters.race,
+        RequestParameters.v_race,
+    ]
+
+    const debouncedSearch = _.debounce((event) => {
+        const newSelectedFilters = {
+            ...searchFiltersBuildsProperties,
+            [RequestParameters.query]: event.target.value,
+            [RequestParameters.page]: 1,
+        }
+        router.replace(`${pathname}${objectToQueryString(newSelectedFilters)}`)
+        setSearchFiltersBuildsProperties(newSelectedFilters)
+    }, 500)
 
     return (
-        <div className="flex items-center gap-4 h-10 z-10">
-            <Select
-                value={searchFiltersBuildsProperties.race}
-                onValueChange={(event) => {
-                    setSearchFiltersBuildsProperties((prev: any) => ({
-                        ...prev,
-                        race: event,
-                    }))
-                }}
-            >
-                <SelectTrigger className="border-none bg-black h-full w-40">
-                    <SelectValue
-                        placeholder="All"
-                        className="border-none bg-black"
-                    />
-                </SelectTrigger>
-                <SelectContent className="border-none bg-black">
-                    {TAB_SELECTION.map((tabsValue: string) => {
-                        return (
-                            <SelectItem
-                                key={`race_${tabsValue}`}
-                                value={tabsValue}
-                            >
-                                {_.capitalize(tabsValue)}
-                            </SelectItem>
-                        )
-                    })}
-                </SelectContent>
-            </Select>
-            <Swords />
-            <Select
-                value={searchFiltersBuildsProperties.v_race}
-                onValueChange={(event) => {
-                    setSearchFiltersBuildsProperties((prev: any) => ({
-                        ...prev,
-                        v_race: event,
-                    }))
-                }}
-            >
-                <SelectTrigger className="border-none bg-black h-full w-40">
-                    <SelectValue
-                        placeholder="All"
-                        className="border-none bg-black"
-                    />
-                </SelectTrigger>
-                <SelectContent className="border-none bg-black">
-                    {TAB_SELECTION.map((tabsValue: string) => {
-                        return (
-                            <SelectItem
-                                key={`v_race_${tabsValue}`}
-                                value={tabsValue}
-                            >
-                                {_.capitalize(tabsValue)}
-                            </SelectItem>
-                        )
-                    })}
-                </SelectContent>
-            </Select>
-
-            <Select
-                value={searchFiltersBuildsProperties.type}
-                onValueChange={(event) => {
-                    setSearchFiltersBuildsProperties((prev: any) => ({
-                        ...prev,
-                        type: event,
-                    }))
-                }}
-            >
-                <SelectTrigger className="border-none bg-black h-full w-40">
-                    <SelectValue
-                        placeholder="All Types"
-                        className="border-none bg-black"
-                    />
-                </SelectTrigger>
-                <SelectContent className="border-none bg-black">
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="macro">Macro</SelectItem>
-                    <SelectItem value="cheese">Cheese</SelectItem>
-                    <SelectItem value="allin">All-in</SelectItem>
-                </SelectContent>
-            </Select>
-
-            <Select
-                value={searchFiltersBuildsProperties.difficulty}
-                onValueChange={(event) => {
-                    setSearchFiltersBuildsProperties((prev: any) => ({
-                        ...prev,
-                        difficulty: event,
-                    }))
-                }}
-            >
-                <SelectTrigger className="border-none bg-black h-full w-40">
-                    <SelectValue
-                        placeholder="All Stars"
-                        className="border-none bg-black"
-                    />
-                </SelectTrigger>
-                <SelectContent className="border-none bg-black">
-                    <SelectItem value="all">All Stars</SelectItem>
-                    <SelectItem value="1">1 Star</SelectItem>
-                    <SelectItem value="2">2 Stars</SelectItem>
-                    <SelectItem value="3">3 Stars</SelectItem>
-                </SelectContent>
-            </Select>
-
-            <Input
-                className="border-none bg-black h-full w-fit min-w-72"
-                type="email"
-                placeholder="Search"
-                onChange={(event) => {
-                    setSearchFiltersBuildsProperties((prev: any) => ({
-                        ...prev,
-                        q: event.target.value,
-                    }))
-                }}
-                value={searchFiltersBuildsProperties.q}
-            />
-
-            <Button
-                disabled={_.isEqual(
-                    searchFiltersBuildsProperties,
-                    DEFAULT_VALUES_SEARCH_FILTERS_BUILDS_PROPERTIES
-                )}
-                className="h-full px-10 border-none bg-black"
-                variant={'outline'}
-                onClick={() =>
-                    setSearchFiltersBuildsProperties(
-                        DEFAULT_VALUES_SEARCH_FILTERS_BUILDS_PROPERTIES
+        <div className="flex items-center justify-between gap-3 h-10 z-10">
+            <div className="flex items-center gap-3">
+                {RequestParametersToDisplay.map((item: any) => {
+                    return (
+                        <div
+                            key={`select_${item}`}
+                            className="flex items-center gap-3"
+                        >
+                            <>
+                                <Select
+                                    onValueChange={(value) => {
+                                        const newSelectedFilters = {
+                                            ...searchFiltersBuildsProperties,
+                                            page: 1,
+                                            [item]: value,
+                                        }
+                                        router.replace(
+                                            `${pathname}${objectToQueryString(
+                                                newSelectedFilters
+                                            )}`
+                                        )
+                                        setSearchFiltersBuildsProperties(
+                                            newSelectedFilters
+                                        )
+                                    }}
+                                    defaultValue={
+                                        searchFiltersBuildsProperties[item]
+                                    }
+                                >
+                                    <SelectTrigger className="w-40 border-none bg-black focus:ring-0">
+                                        <SelectValue placeholder={item} />
+                                    </SelectTrigger>
+                                    <SelectContent className="border-none bg-black focus:ring-0">
+                                        {_.keys(PlayableRaces).map((race) => {
+                                            return (
+                                                <SelectItem
+                                                    key={`${item}_${race}`}
+                                                    value={race}
+                                                    className="border-none bg-black focus:ring-0"
+                                                >
+                                                    {_.capitalize(race)}
+                                                </SelectItem>
+                                            )
+                                        })}
+                                    </SelectContent>
+                                </Select>
+                                {item === RequestParameters.race && (
+                                    <Swords className="text-muted-foreground" />
+                                )}
+                            </>
+                        </div>
                     )
-                }
-            >
-                Reset
-            </Button>
-
-            {/* <PaginationWithLinks page={1} pageSize={20} totalCount={500} /> */}
+                })}
+            </div>
+            <div className="flex gap-3 items-center h-full">
+                <Input
+                    className="border-none bg-black h-full min-w-72"
+                    placeholder="Search"
+                    onChange={(event) => {
+                        debouncedSearch(event)
+                    }}
+                />
+                <Button
+                    disabled={_.isEqual(
+                        searchFiltersBuildsProperties,
+                        RequestParametersDefaultValues
+                    )}
+                    variant={
+                        _.isEqual(
+                            searchFiltersBuildsProperties,
+                            RequestParametersDefaultValues
+                        )
+                            ? 'ghost'
+                            : 'default'
+                    }
+                    onClick={() => {
+                        router.replace(
+                            pathname +
+                                objectToQueryString(
+                                    RequestParametersDefaultValues
+                                )
+                        )
+                        setSearchFiltersBuildsProperties(
+                            RequestParametersDefaultValues
+                        )
+                    }}
+                >
+                    reset
+                </Button>
+            </div>
+            <div className="flex gap-3 items-center">
+                <Button
+                    variant={'outline'}
+                    className="border-none bg-black"
+                    disabled={searchFiltersBuildsProperties?.page <= 1}
+                    onClick={() => {
+                        const newSelectedFilters = {
+                            ...searchFiltersBuildsProperties,
+                            page:
+                                searchFiltersBuildsProperties?.page > 1
+                                    ? searchFiltersBuildsProperties?.page - 1
+                                    : 1,
+                        }
+                        router.replace(
+                            `${pathname}${objectToQueryString(
+                                newSelectedFilters
+                            )}`
+                        )
+                        setSearchFiltersBuildsProperties(newSelectedFilters)
+                    }}
+                >
+                    Prev
+                </Button>
+                <p>{`${searchFiltersBuildsProperties?.page}/${Math.ceil(builds?.totalItems / builds?.take)}`}</p>
+                <Button
+                    variant={'outline'}
+                    className="border-none bg-black"
+                    disabled={
+                        searchFiltersBuildsProperties?.page >=
+                        Math.ceil(builds?.totalItems / builds?.take)
+                    }
+                    onClick={() => {
+                        const newSelectedFilters = {
+                            ...searchFiltersBuildsProperties,
+                            page:
+                                searchFiltersBuildsProperties?.page <
+                                Math.ceil(builds?.totalItems / builds?.take)
+                                    ? searchFiltersBuildsProperties?.page + 1
+                                    : Math.ceil(
+                                          builds?.totalItems / builds?.take
+                                      ),
+                        }
+                        router.replace(
+                            `${pathname}${objectToQueryString(
+                                newSelectedFilters
+                            )}`
+                        )
+                        setSearchFiltersBuildsProperties(newSelectedFilters)
+                    }}
+                >
+                    Next
+                </Button>
+            </div>
         </div>
     )
 }

@@ -15,16 +15,8 @@ export enum VERBES_HTTP {
 }
 
 export enum MODULE_NESTJS {
-    BUILD = '/build',
+    BUILD = '/builds',
     AUTH = '/auth',
     USER = '/user',
     STEP = '/step',
-    LIKE = '/like',
-    COMMENT = '/comment',
-}
-
-export enum SERVICE_AUTH_MODULE {
-    SIGNUP = '/signup',
-    SIGNIN = '/signin',
-    GET_CONNECTED_USER_ID = '/get-connected-user-id',
 }

@@ -7,7 +7,7 @@ const AuthContext = createContext<any>(undefined)
 export const AuthProvider = ({ children }: any) => {
     const [user, setUser] = useState(undefined)
 
-    const isEmpty = (obj: Object) => {
+    const isEmpty = (obj: any) => {
         return Object.keys(obj).length === 0 && obj.constructor === Object
     }
 

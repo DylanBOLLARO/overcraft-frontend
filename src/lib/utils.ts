@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { format } from 'date-fns'
+import _ from 'lodash'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
@@ -32,12 +33,22 @@ export function getBadgeVariantFromLabel(label: string) {
     }
 }
 
-export const objectToQueryString = (obj: any) => {
-    const urlParams = Object.entries(obj)
-        .filter(([_, value]) => !!value)
-        .reduce((acc, [key, value]: any) => {
-            acc.set(key, value.toString())
+export const objectToQueryString = (obj: Record<string, unknown>): string => {
+    if (!obj) return ''
 
+    const urlParams = Object.entries(obj)
+        .filter(([key, value]) => {
+            return (
+                value !== undefined &&
+                value !== null &&
+                value !== '' &&
+                value !== 'all' &&
+                !(key === 'page' && value === 1) &&
+                !(key === 'take' && value === 18)
+            )
+        })
+        .reduce((acc, [key, value]) => {
+            acc.set(key, String(value))
             return acc
         }, new URLSearchParams())
 

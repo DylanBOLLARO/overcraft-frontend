@@ -39,15 +39,11 @@ import {
 } from '@/lib/utils'
 import { format } from 'date-fns'
 import { MoreHorizontal, PlusCircle } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
-    const router = useRouter()
-    const buildId: string | null = extractUUID(slug) || null
-    const { user } = useAuth()
-    if (!buildId) return <></>
+    const buildId: any = extractUUID(slug) || null
 
     const [description, setDescription] = useState<string>('')
     const [population, setPopulation] = useState<string>('')

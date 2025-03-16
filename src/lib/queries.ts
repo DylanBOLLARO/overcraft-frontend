@@ -1,10 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { getBuild, getBuilds } from './api'
 
-//-------------------------
-//---START--BUILD---------
-//-------------------------
-
 export function useBuild(buildId: string) {
     return useQuery({
         queryKey: ['useBuild'],
@@ -15,7 +11,7 @@ export function useBuild(buildId: string) {
     })
 }
 
-export function useBuilds(params: any) {
+export function useBuilds(params: string) {
     return useQuery({
         queryKey: ['useBuilds', params],
         queryFn: async () => (await getBuilds(params)) || [],
@@ -23,7 +19,3 @@ export function useBuilds(params: any) {
         placeholderData: keepPreviousData,
     })
 }
-
-//-------------------------
-//-----END--BUILD---------
-//-------------------------

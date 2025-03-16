@@ -17,11 +17,11 @@ export default function Page({ params }: { params: { slug: string } }) {
     const { user } = useAuth()
     const router = useRouter()
 
-    const buildId: string | null = extractUUID(slug) || null
-
-    if (!buildId) return <></>
+    const buildId: any = extractUUID(slug) || null
 
     const { error, data: build, isLoading } = useBuild(buildId)
+
+    if (!buildId) return <></>
 
     if (isLoading) return
     if (error) return console.error('An error has occurred: ' + error.message)
@@ -33,7 +33,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                     variant="ghost"
                     className="h-full font-semibold px-10 bg-black border-none gap-5"
                     onClick={() => {
-                        router.replace('/')
+                        window.history.back()
                     }}
                 >
                     <ChevronLeft />

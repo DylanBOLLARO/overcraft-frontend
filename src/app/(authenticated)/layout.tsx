@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         if (_.isNull(user)) {
             router.push('/')
         }
-    }, [user])
+    }, [user, router])
 
     return <>{!_.isNull(user) && children}</>
 }
