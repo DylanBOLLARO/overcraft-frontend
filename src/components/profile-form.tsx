@@ -76,8 +76,8 @@ export function ProfileForm() {
     })
 
     async function onSubmit(data: ProfileFormValues) {
-        const { id: buildId } = (await axiosInstance.post('build', data)).data
-        if (buildId) router.push(`/dashboard/update/${buildId}`)
+        const { slug } = (await axiosInstance.post('builds', data)).data
+        if (slug) router.push(`/dashboard/update/${slug}`)
     }
 
     return (

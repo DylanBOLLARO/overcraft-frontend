@@ -1,7 +1,7 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ThemeProvider } from '../theme-provider'
+import { ThemeProvider } from './theme-provider'
 import { AuthProvider } from './context-provider'
 
 export function MainProvider({ children }: { children: React.ReactNode }) {

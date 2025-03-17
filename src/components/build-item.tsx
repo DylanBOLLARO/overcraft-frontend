@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import { format, formatDistanceToNowStrict } from 'date-fns'
+import { format } from 'date-fns'
 import { Star, Swords } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Separator } from '@/components/ui/separator'
@@ -13,19 +13,28 @@ import {
     CardTitle,
 } from '@/components/ui/card'
 import Link from 'next/link'
-import _ from 'lodash'
+import * as _ from 'lodash'
+import { useAuth } from './providers/context-provider'
 
 export function BuildItem({ build, update }: any) {
+    const { user } = useAuth()
+
     return (
         <Link
-            className="z-10"
+            className="z-10 "
             href={
                 !update
                     ? `/builds/${build.slug}`
                     : `/dashboard/update/${build.slug}`
             }
         >
-            <Card className="flex flex-col p-4 gap-3  duration-100 h-full bg-black hover:bg-accent border-none">
+            <Card
+                className={cn(
+                    'flex flex-col p-4 gap-3 duration-100 h-full bg-black hover:bg-accent border-2 border-transparent',
+                    _.some(user?.userinfo?.builds, { id: build.id }) &&
+                        'border-primary'
+                )}
+            >
                 <CardHeader className="p-0">
                     <CardTitle>
                         <div className="flex">

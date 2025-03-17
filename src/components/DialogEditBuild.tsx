@@ -22,10 +22,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from './ui/select'
-import queryString from 'query-string'
 import _ from 'lodash'
 import { axiosInstance } from '@/lib/networking'
 import { TypographySmall } from './typography'
+import { CustomButton } from './ui-customs/button'
 
 export const DialogEditBuild = ({ build, refetch_build }: any) => {
     const [open, setOpen] = useState(false)
@@ -64,7 +64,7 @@ export const DialogEditBuild = ({ build, refetch_build }: any) => {
     }, [build])
 
     const handleSaveChanges = async () => {
-        await axiosInstance.patch(`build/${editedBuild.id}`, editedBuild)
+        await axiosInstance.patch(`builds/${editedBuild.id}`, editedBuild)
         refetch_build()
         setOpen(false)
     }
@@ -72,10 +72,10 @@ export const DialogEditBuild = ({ build, refetch_build }: any) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                    <ClipboardEdit className="h-4 w-4" />
+                <CustomButton>
+                    <ClipboardEdit />
                     Edit
-                </Button>
+                </CustomButton>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>

@@ -8,24 +8,24 @@ import {
     DialogTitle,
     DialogTrigger,
 } from './ui/dialog'
-import { Button } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
 import { Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { PAGE_PATH } from '../constants/enum'
 import { axiosInstance } from '@/lib/networking'
+import { CustomButton } from './ui-customs/button'
 
 export const DialogDeleteBuild = ({ selectedUserBuildId }: any) => {
     const router = useRouter()
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button
-                    variant="outline"
-                    className="text-destructive hover:text-destructive"
+                <CustomButton
+                    className={'text-destructive hover:text-destructive'}
                 >
-                    <Trash2 className="mr-2 h-4 w-4" />
+                    <Trash2 />
                     Delete
-                </Button>
+                </CustomButton>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -43,7 +43,7 @@ export const DialogDeleteBuild = ({ selectedUserBuildId }: any) => {
                         className="text-destructive hover:text-destructive"
                         onClick={async () => {
                             await axiosInstance.delete(
-                                `build/${selectedUserBuildId}`
+                                `builds/${selectedUserBuildId}`
                             )
                             router.push(PAGE_PATH.DASHBOARD)
                         }}

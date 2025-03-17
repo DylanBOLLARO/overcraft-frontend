@@ -1,60 +1,60 @@
 'use client'
 
 import { useBuild } from '@/lib/queries'
-import { Button } from '@/components/ui/button'
 import { extractUUID, getBadgeVariantFromLabel } from '@/lib/utils'
 import { StepsRowContainer } from '@/components/steps-row-container'
-import { TypographyH2, TypographySmall } from '../../../components/typography'
+import { TypographyH2 } from '../../../components/typography'
 import { Card, CardDescription, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/components/providers/context-provider'
 import _ from 'lodash'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, FileSliders } from 'lucide-react'
+import { FileSliders } from 'lucide-react'
+import { CustomButton } from '@/components/ui-customs/button'
+import { CloneBuildButton } from '@/components/buttons/transfer-builds-orders-buttons/clone-build-button'
+import { BackButton } from '@/components/buttons/back-button'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
     const { user } = useAuth()
+
     const router = useRouter()
 
     const buildId: any = extractUUID(slug) || null
 
-    const { error, data: build, isLoading } = useBuild(buildId)
-
     if (!buildId) return <></>
 
+    const { error, data: build, isLoading } = useBuild(buildId)
+
     if (isLoading) return
+
     if (error) return console.error('An error has occurred: ' + error.message)
 
     return (
         <div className="flex flex-col gap-y-5">
-            <div className="relative flex items-center justify-between gap-4 h-10 z-10 ">
-                <Button
-                    variant="ghost"
-                    className="h-full font-semibold px-10 bg-black border-none gap-5"
-                    onClick={() => {
-                        window.history.back()
-                    }}
-                >
-                    <ChevronLeft />
-                    <TypographySmall str={'Back'} />
-                </Button>
-
-                <div className="absolute left-1/2 -translate-x-1/2 bg-black border-none px-10 h-full flex items-center justify-center w-1/3">
+            <div className="relative flex items-center justify-between gap-4 z-10">
+                <BackButton />
+                <div className="text-muted-foreground absolute left-1/2 -translate-x-1/2 bg-black border-none px-10 h-full flex items-center justify-center w-1/3">
                     <TypographyH2 str={build?.name} />
                 </div>
 
-                {!!user && user?.userinfo?.id == build?.userId && (
-                    <Button
-                        variant="ghost"
-                        className="h-full font-semibold px-10 bg-black border-none gap-5"
+                {!_.isEmpty(user) &&
+                    !_.includes(user?.userinfo?.builds, build.id) && (
+                        <CloneBuildButton
+                            build={build}
+                            userId={user?.userinfo?.sub}
+                        />
+                    )}
+
+                {!_.isEmpty(user) && user?.userinfo?.id == build?.userId && (
+                    <CustomButton
                         onClick={() =>
                             router.push(`/dashboard/update/${build.slug}`)
                         }
                     >
                         <FileSliders />
                         Edit
-                    </Button>
+                    </CustomButton>
                 )}
             </div>
 

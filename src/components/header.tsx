@@ -20,6 +20,7 @@ export default function Header() {
             >
                 Overcraft
             </h4>
+
             <div className="flex items-center ml-auto gap-10 h-full">
                 {_.isEmpty(user) && (
                     <Button
@@ -33,7 +34,10 @@ export default function Header() {
                     </Button>
                 )}
                 {!_.isEmpty(user) && (
-                    <div className="flex gap-5 h-full">
+                    <div className="flex gap-5 h-full items-center">
+                        {!_.isEmpty(user) && (
+                            <p className="text-muted-foreground ml-16">{`Hello ${user.userinfo.given_name}`}</p>
+                        )}
                         <Button
                             className="h-full font-semibold px-10"
                             onClick={() => router.push(PAGE_PATH.DASHBOARD)}

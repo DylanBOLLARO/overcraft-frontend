@@ -2,46 +2,48 @@
 
 import { BuildsList } from '@/components/builds-list'
 import { useAuth } from '@/components/providers/context-provider'
+import { Spinner } from '@/components/spinner'
+import { ImportBuildButton } from '@/components/buttons/transfer-builds-orders-buttons/import-build-button'
 import { TypographySmall } from '@/components/typography'
+import { CustomButton } from '@/components/ui-customs/button'
 import { Button } from '@/components/ui/button'
-import { axiosInstance } from '@/lib/networking'
+import { useMyBuilds } from '@/lib/queries'
 import _ from 'lodash'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 export default function Page() {
     const { user } = useAuth()
-    const [userBuilds, setUserBuilds] = useState([])
-    const router = useRouter()
-    useEffect(() => {
-        const userId = user?.userinfo?.sub ?? null
-        if (!userId) return
+    const userId = user?.userinfo?.sub ?? null
 
-        async function fetchUser() {
-            try {
-                const response = await axiosInstance.get(`/user/${userId}`)
-                setUserBuilds(response.data.build)
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        fetchUser()
-    }, [user])
+    if (!userId) return <></>
+
+    const router = useRouter()
+
+    const { data: builds, isFetched, refetch } = useMyBuilds(userId)
 
     return (
         <div className="flex-1 flex flex-col gap-5">
-            <Button
-                className="h-auto font-semibold w-fit"
-                onClick={() => router.push('/create')}
-            >
-                <TypographySmall str={'Create'} />
-            </Button>
+            <div className="flex gap-3">
+                <CustomButton onClick={() => router.push('/create')}>
+                    <TypographySmall str={'Create'} />
+                </CustomButton>
+                <ImportBuildButton userId={userId} refetch={refetch} />
+            </div>
 
-            {/* <div className="flex flex-row gap-2 ml-auto">
-                <ImportButton refetch={{}} userId={user?.id} />
-                <DialogCreateBuild refetch={{}} userId={user?.id} />
-            </div> */}
-            <BuildsList builds={userBuilds} />
+            {!isFetched && (
+                <div className="py-10">
+                    <Spinner size={'large'}>
+                        <p className="text-xl">Loading...</p>
+                    </Spinner>
+                </div>
+            )}
+
+            {isFetched && (
+                <>
+                    {_.isEmpty(builds) && <></>}
+                    {!_.isEmpty(builds) && <BuildsList builds={builds} />}
+                </>
+            )}
         </div>
     )
 }

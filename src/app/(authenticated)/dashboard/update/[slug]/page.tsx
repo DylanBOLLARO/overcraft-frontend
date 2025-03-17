@@ -1,10 +1,10 @@
 'use client'
 
-import { BuildItem } from '@/components/build-item'
 import { DialogDeleteBuild } from '@/components/DialogDeleteBuild'
 import { DialogEditBuild } from '@/components/DialogEditBuild'
-import ExportButton from '@/components/ExportButton'
 import { useAuth } from '@/components/providers/context-provider'
+import { ExportBuildButton } from '@/components/buttons/transfer-builds-orders-buttons'
+import { CloneBuildButton } from '@/components/buttons/transfer-builds-orders-buttons/clone-build-button'
 import { TypographySmall } from '@/components/typography'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -40,15 +40,20 @@ import {
 import { format } from 'date-fns'
 import { MoreHorizontal, PlusCircle } from 'lucide-react'
 import { useState } from 'react'
+import { BackButton } from '@/components/buttons/back-button'
+import { CustomButton } from '@/components/ui-customs/button'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
+
     const buildId: any = extractUUID(slug) || null
 
     const [description, setDescription] = useState<string>('')
     const [population, setPopulation] = useState<string>('')
     const [selectedMinute, setSelectedMinute] = useState<string>('')
     const [selectedSeconds, setSelectedSeconds] = useState<string>('')
+
+    const { user } = useAuth()
 
     const {
         isLoading,
@@ -84,21 +89,19 @@ export default function Page({ params }: { params: { slug: string } }) {
     return (
         <div className="flex flex-col gap-y-5">
             <div className="flex justify-between">
-                <Button className="w-fit" onClick={() => window.history.back()}>
-                    Back
-                </Button>
+                <BackButton />
 
                 <div className="flex gap-3">
-                    {/* <ExportButton selectedUserBuild={build} /> */}
+                    <ExportBuildButton {...build} />
+                    <CloneBuildButton
+                        build={build}
+                        userId={user?.userinfo?.sub}
+                    />
                     <DialogEditBuild refetch_build={refetch} build={build} />
                     <DialogDeleteBuild selectedUserBuildId={build?.id} />
-                    <Button
-                        variant={'secondary'}
-                        className="h-auto font-semibold w-fit"
-                        onClick={() => window.history.back()}
-                    >
+                    <CustomButton onClick={() => window.history.back()}>
                         <TypographySmall str={'Leave edit mode'} />
-                    </Button>
+                    </CustomButton>
                 </div>
             </div>
 

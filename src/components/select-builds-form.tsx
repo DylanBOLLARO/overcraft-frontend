@@ -29,6 +29,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { objectToQueryString } from '@/lib/utils'
 import { Input } from './ui/input'
 import { Swords } from 'lucide-react'
+import { CustomButton } from './ui-customs/button'
 
 const FormSchema = z.object({
     [RequestParameters.race]: z.string(),
@@ -61,7 +62,7 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(() => {})}
-                className="flex items-center justify-between gap-3 h-10 z-10"
+                className="flex items-center justify-between gap-3 z-10"
             >
                 <div className="flex items-center gap-3">
                     {[RequestParameters.race, RequestParameters.v_race].map(
@@ -141,7 +142,7 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                             </FormItem>
                         )}
                     />
-                    <Button
+                    <CustomButton
                         disabled={_.isEqual(
                             defaultValues,
                             RequestParametersDefaultValues
@@ -154,12 +155,11 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                         }}
                     >
                         Reset
-                    </Button>
+                    </CustomButton>
                 </div>
-                <div className="flex gap-3 items-center">
-                    <Button
+                <div className="flex gap-5 items-center">
+                    <CustomButton
                         variant={'outline'}
-                        className="border-none bg-black"
                         disabled={defaultValues?.page <= 1}
                         onClick={() => {
                             form.setValue(
@@ -171,13 +171,12 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                         }}
                     >
                         Prev
-                    </Button>
+                    </CustomButton>
                     <p className="tracking-widest text-muted-foreground">{`${defaultValues?.page}/${totalItems}`}</p>
-                    <Button
+                    <CustomButton
                         variant={'outline'}
-                        className="border-none bg-black"
                         disabled={defaultValues?.page >= totalItems}
-                        onClick={(e) => {
+                        onClick={(e: any) => {
                             e.preventDefault()
                             form.setValue(
                                 RequestParameters.page,
@@ -188,7 +187,7 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                         }}
                     >
                         Next
-                    </Button>
+                    </CustomButton>
                 </div>
             </form>
         </Form>

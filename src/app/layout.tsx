@@ -19,7 +19,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
     title: 'Overcraft',
     description:
-        'Overcraft is an application that references all the build orders for StarCraft 2.',
+        'Overcraft is an application that references all the builds orders for StarCraft 2.',
 }
 export default function RootLayout({
     children,
