@@ -42,6 +42,7 @@ import { MoreHorizontal, PlusCircle } from 'lucide-react'
 import { useState } from 'react'
 import { BackButton } from '@/components/buttons/back-button'
 import { CustomButton } from '@/components/ui-customs/button'
+import { CustomCard } from '@/components/ui-customs/card'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
@@ -105,7 +106,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 </div>
             </div>
 
-            <Card className="w-full">
+            <CustomCard className="hover:bg-black">
                 <CardHeader>
                     <CardTitle className="flex justify-between">
                         <p className="text-3xl font-semibold">{build?.name}</p>
@@ -117,35 +118,36 @@ export default function Page({ params }: { params: { slug: string } }) {
                         {build?.description}
                     </CardDescription>
                 </CardHeader>
-            </Card>
-            <div className="flex gap-3">
-                <Badge
-                    variant={'outline'}
-                    className="flex-1 p-2 w-full items-center justify-center text-xl"
-                >
-                    {build.type}
-                </Badge>
-                <div className="flex flex-1 justify-center gap-5 items-center">
-                    <Badge
-                        className="p-2 text-lg w-full justify-center"
-                        variant={getBadgeVariantFromLabel(build.race?.[0])}
-                    >{`${build.race}`}</Badge>
-                    <p className="text-3xl font-semibold items-center">vs</p>
-                    <Badge
-                        className="p-2 text-lg w-full justify-center"
-                        variant={getBadgeVariantFromLabel(build.v_race?.[0])}
-                    >{`${build.v_race}`}</Badge>
-                </div>
-                <Badge
-                    variant={'outline'}
-                    className="flex-1 p-2 w-full items-center justify-center text-xl"
-                >
-                    {build.difficulty}
-                </Badge>
-            </div>
+            </CustomCard>
+
+            <CustomCard className="hover:bg-black">
+                <CardHeader>
+                    <CardDescription className="text-base">
+                        <div className="flex gap-3">
+                            <div className="flex flex-1 justify-center gap-5 items-center">
+                                <Badge
+                                    className="p-2 text-lg justify-center w-1/3"
+                                    variant={getBadgeVariantFromLabel(
+                                        build.race?.[0]
+                                    )}
+                                >{`${build.race}`}</Badge>
+                                <p className="text-3xl font-semibold items-center">
+                                    vs
+                                </p>
+                                <Badge
+                                    className="p-2 text-lg justify-center w-1/3"
+                                    variant={getBadgeVariantFromLabel(
+                                        build.v_race?.[0]
+                                    )}
+                                >{`${build.v_race}`}</Badge>
+                            </div>
+                        </div>
+                    </CardDescription>
+                </CardHeader>
+            </CustomCard>
 
             {build?.steps && (
-                <Card className="bg-transparent">
+                <CustomCard className="hover:bg-black">
                     <CardContent className="pt-6">
                         <Table>
                             <TableHeader>
@@ -188,7 +190,10 @@ export default function Page({ params }: { params: { slug: string } }) {
                                                             </span>
                                                         </Button>
                                                     </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
+                                                    <DropdownMenuContent
+                                                        align="end"
+                                                        className="bg-black border-none"
+                                                    >
                                                         <DropdownMenuItem
                                                             onClick={async () => {
                                                                 await axiosInstance.patch(
@@ -249,7 +254,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                             </TableBody>
                         </Table>
                     </CardContent>
-                </Card>
+                </CustomCard>
             )}
 
             <div className="flex flex-1 flex-row justify-between gap-3">
@@ -280,9 +285,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                     />
                 </div>
 
-                <Button
-                    className="h-8"
-                    variant="outline"
+                <CustomButton
                     onClick={async () => {
                         await handleAddButtonClick(
                             description,
@@ -306,7 +309,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 >
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Add
-                </Button>
+                </CustomButton>
             </div>
         </div>
     )

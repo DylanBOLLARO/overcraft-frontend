@@ -13,6 +13,7 @@ import { FileSliders } from 'lucide-react'
 import { CustomButton } from '@/components/ui-customs/button'
 import { CloneBuildButton } from '@/components/buttons/transfer-builds-orders-buttons/clone-build-button'
 import { BackButton } from '@/components/buttons/back-button'
+import { CustomCard } from '@/components/ui-customs/card'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
@@ -59,7 +60,7 @@ export default function Page({ params }: { params: { slug: string } }) {
             </div>
 
             <div className="flex flex-col gap-1">
-                <Card className="w-full bg-black border-none z-10">
+                <CustomCard className="hover:bg-black">
                     <CardHeader>
                         <CardDescription className="text-base">
                             <div className="flex gap-3">
@@ -83,14 +84,10 @@ export default function Page({ params }: { params: { slug: string } }) {
                             </div>
                         </CardDescription>
                     </CardHeader>
-                </Card>
-                <Card className="w-full bg-black border-none z-10">
-                    <CardHeader>
-                        <CardDescription className="text-base">
-                            {build?.description}
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
+                </CustomCard>
+                <CustomCard className="hover:bg-black">
+                    {build?.description}
+                </CustomCard>
             </div>
 
             <StepsRowContainer steps={build?.steps} />
