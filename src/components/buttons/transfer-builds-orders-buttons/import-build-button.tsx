@@ -4,10 +4,12 @@ import { buildsImport, cn } from '@/lib/utils'
 import { axiosInstance } from '@/lib/networking'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { CustomButton } from '../../ui-customs/button'
 import { buttonVariants } from '../../ui/button'
+import { useAuth } from '@/components/providers/context-provider'
 
 export const ImportBuildButton = ({ userId, refetch }: any) => {
+    const { refetch: refetchUser } = useAuth()
+
     return (
         <>
             <Input
@@ -22,6 +24,7 @@ export const ImportBuildButton = ({ userId, refetch }: any) => {
                             ...build,
                             userId,
                         })
+                        await refetchUser()
                         await refetch()
                     } catch (error) {
                         console.error('Error importing the file:', error)
