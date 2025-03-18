@@ -1,20 +1,18 @@
 import { Badge } from '@/components/ui/badge'
 import { format } from 'date-fns'
 import { Star, Swords } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { Separator } from '@/components/ui/separator'
 import { cn, getBadgeVariantFromLabel } from '@/lib/utils'
 import {
-    Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
 import Link from 'next/link'
 import * as _ from 'lodash'
 import { useAuth } from './providers/context-provider'
+import { CustomCard } from './ui-customs/card'
 
 export function BuildItem({ build, update }: any) {
     const { user } = useAuth()
@@ -28,9 +26,8 @@ export function BuildItem({ build, update }: any) {
                     : `/dashboard/update/${build.slug}`
             }
         >
-            <Card
+            <CustomCard
                 className={cn(
-                    'flex flex-col p-4 gap-3 duration-100 h-full bg-black hover:bg-accent border-2 border-transparent',
                     _.some(user?.userinfo?.builds, { id: build.id }) &&
                         'border-primary'
                 )}
@@ -93,7 +90,7 @@ export function BuildItem({ build, update }: any) {
                         )}
                     </div>
                 </CardContent>
-            </Card>
+            </CustomCard>
         </Link>
     )
 }
