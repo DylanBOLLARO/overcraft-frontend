@@ -1,7 +1,9 @@
 import { MODULE_NESTJS } from '@/constants/enum'
 import { axiosInstance } from './networking'
+import * as _ from 'lodash'
 
 export const getBuild = async (buildId: string) => {
+    if (_.isEmpty(buildId)) return
     try {
         const { data } = await axiosInstance(
             `${MODULE_NESTJS.BUILD}/${buildId}`

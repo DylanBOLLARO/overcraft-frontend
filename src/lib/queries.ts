@@ -1,10 +1,11 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { getBuild, getBuilds, getMyBuilds, getUser } from './api'
+import _ from 'lodash'
 
 export function useBuild(buildId: string) {
     return useQuery({
         queryKey: ['useBuild'],
-        queryFn: async () => await getBuild(buildId),
+        queryFn: async () => (await getBuild(buildId)) || null,
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
         enabled: !!buildId,

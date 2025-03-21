@@ -55,7 +55,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     const [selectedMinute, setSelectedMinute] = useState<string>('')
     const [selectedSeconds, setSelectedSeconds] = useState<string>('')
 
-    const { user } = useAuth()
+    const { userId } = useAuth()
 
     const {
         isLoading,
@@ -95,10 +95,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
                 <div className="flex gap-3">
                     <ExportBuildButton {...build} />
-                    <CloneBuildButton
-                        build={build}
-                        userId={user?.userinfo?.sub}
-                    />
+                    <CloneBuildButton build={build} userId={userId} />
                     <BuildEdit build={build} refetchBuild={refetch} />
                     <DialogDeleteBuild selectedUserBuildId={build?.id} />
                     <CustomButton onClick={() => window.history.back()}>

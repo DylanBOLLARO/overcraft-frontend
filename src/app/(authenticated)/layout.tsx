@@ -7,13 +7,13 @@ import { useEffect } from 'react'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter()
-    const { user } = useAuth()
+    const { userId } = useAuth()
 
     useEffect(() => {
-        if (_.isNull(user)) {
+        if (_.isNull(userId)) {
             router.push('/')
         }
-    }, [user, router])
+    }, [userId, router])
 
-    return <>{!_.isNull(user) && children}</>
+    return <>{!_.isEmpty(userId) && children}</>
 }
