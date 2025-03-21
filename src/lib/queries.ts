@@ -32,7 +32,7 @@ export function useMyBuilds(userId: string) {
 export function useUser() {
     return useQuery({
         queryKey: ['useUser'],
-        queryFn: async () => (await getUser()) || {},
+        queryFn: async () => (await getUser()) || null,
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
     })

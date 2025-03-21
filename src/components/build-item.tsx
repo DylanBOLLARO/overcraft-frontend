@@ -50,13 +50,12 @@ export function BuildItem({ build, update }: any) {
                             </div>
                         </div>
                     </CardTitle>
-
                     <CardDescription className="line-clamp-1">
                         {build.description}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
-                    <div className="flex items-center justify-between gap-2 w-full mt-auto">
+                    <div className="flex items-center justify-between gap-2 mt-auto w-fit">
                         <Badge
                             variant={getBadgeVariantFromLabel(build.race?.[0])}
                         >{`${build.race}`}</Badge>
@@ -66,28 +65,6 @@ export function BuildItem({ build, update }: any) {
                                 build.v_race?.[0]
                             )}
                         >{`${build.v_race}`}</Badge>
-
-                        {build?.type && (
-                            <>
-                                <Separator orientation="vertical" />
-                                <h4 className="scroll-m-20 text-lg font-semibold tracking-tight opacity-75">
-                                    {_.capitalize(build?.type) || undefined}
-                                </h4>
-                            </>
-                        )}
-
-                        {build?.difficulty && (
-                            <>
-                                <Separator orientation="vertical" />
-                                <h4 className="scroll-m-20 text-lg font-semibold tracking-tight opacity-75">
-                                    {build?.difficulty || 1}
-                                </h4>
-                                <Star
-                                    strokeWidth={3}
-                                    className="opacity-75 h-5 w-5 text-yellow-500"
-                                />
-                            </>
-                        )}
                     </div>
                 </CardContent>
             </CustomCard>

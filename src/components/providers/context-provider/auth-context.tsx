@@ -1,12 +1,12 @@
 'use client'
 
 import { useUser } from '@/lib/queries'
-import { useContext, createContext, useState, useEffect } from 'react'
+import { useContext, createContext } from 'react'
 
 const AuthContext = createContext<any>(undefined)
 
 export const AuthProvider = ({ children }: any) => {
-    const { data: user, refetch } = useUser()
+    const { data: user = null, refetch } = useUser()
 
     return (
         <AuthContext.Provider

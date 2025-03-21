@@ -65,8 +65,8 @@ const defaultValues: Partial<ProfileFormValues> = {
     difficulty: '',
 }
 
-export function ProfileForm() {
-    const { user } = useAuth()
+export function ProfileForm({ build }: any) {
+    const { user, refetch } = useAuth()
     const router = useRouter()
 
     const form = useForm<ProfileFormValues>({

@@ -43,6 +43,7 @@ import { useState } from 'react'
 import { BackButton } from '@/components/buttons/back-button'
 import { CustomButton } from '@/components/ui-customs/button'
 import { CustomCard } from '@/components/ui-customs/card'
+import { BuildEdit } from '@/components/build-edit'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
@@ -98,7 +99,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                         build={build}
                         userId={user?.userinfo?.sub}
                     />
-                    <DialogEditBuild refetch_build={refetch} build={build} />
+                    <BuildEdit build={build} refetchBuild={refetch} />
                     <DialogDeleteBuild selectedUserBuildId={build?.id} />
                     <CustomButton onClick={() => window.history.back()}>
                         <TypographySmall str={'Leave edit mode'} />
