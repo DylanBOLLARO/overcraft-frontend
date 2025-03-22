@@ -13,7 +13,7 @@ export type BorderTrailProps = {
 export function BorderTrail({
     className,
     size = 60,
-    transition,
+    transition = {},
     onAnimationComplete,
     style,
 }: BorderTrailProps) {
@@ -35,7 +35,7 @@ export function BorderTrail({
                 animate={{
                     offsetDistance: ['0%', '100%'],
                 }}
-                transition={transition || defaultTransition}
+                transition={{ ...defaultTransition, ...transition }}
                 onAnimationComplete={onAnimationComplete}
             />
         </div>

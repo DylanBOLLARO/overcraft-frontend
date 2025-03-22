@@ -29,14 +29,29 @@ export function BuildItem({ build, update }: any) {
             <CustomCard className="relative overflow-hidden rounded-md border outline-hidden ">
                 {_.some(userFavorites, { buildId: build.id }) && (
                     <BorderTrail
+                        transition={{ delay: 0 }}
                         size={80}
-                        className="bg-linear-to-l from-pink-200 via-purple-500 to-pink-200 dark:from-indigo-400 dark:via-purple-600 dark:to-pink-900"
+                        className="z-10 bg-linear-to-l from-purple-200 via-purple-500 to-purple-200 dark:from-purple-400 dark:via-purple-600 dark:to-purple-900 blur-xl"
                     />
                 )}
+
                 {_.some(userBuilds, { id: build.id }) && (
                     <BorderTrail
                         size={80}
-                        className="bg-linear-to-l from-blue-200 via-blue-500 to-blue-200 dark:from-blue-400 dark:via-blue-600 dark:to-blue-900"
+                        transition={{ delay: 0.5 }}
+                        className={cn(
+                            'bg-linear-to-l from-blue-300 via-blue-500 to-blue-300 dark:from-blue-700/30 dark:via-blue-500 dark:to-blue-700/30 blur-xl'
+                        )}
+                    />
+                )}
+
+                {build?.featured && (
+                    <BorderTrail
+                        size={80}
+                        transition={{ delay: 1 }}
+                        className={cn(
+                            'bg-linear-to-l from-green-300 via-green-500 to-green-300 dark:from-green-700/30 dark:via-green-500 dark:to-green-700/30 blur-xl'
+                        )}
                     />
                 )}
 
