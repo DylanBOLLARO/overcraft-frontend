@@ -9,27 +9,27 @@ import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/components/providers/context-provider'
 import _ from 'lodash'
 import { useRouter } from 'next/navigation'
-import { FileSliders } from 'lucide-react'
+import { FileSliders, Star } from 'lucide-react'
 import { CustomButton } from '@/components/ui-customs/button'
 import { CloneBuildButton } from '@/components/buttons/transfer-builds-orders-buttons/clone-build-button'
 import { BackButton } from '@/components/buttons/back-button'
 import { CustomCard } from '@/components/ui-customs/card'
+import { axiosInstance } from '@/lib/networking'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
-    const { user } = useAuth()
+    const { userId, userBuilds, userFavorites, userRefetch } = useAuth()
 
     const router = useRouter()
 
     const buildId: any = extractUUID(slug) || null
-
-    if (!buildId) return <></>
 
     const { error, data: build, isLoading } = useBuild(buildId)
 
     if (isLoading) return
 
     if (error) return console.error('An error has occurred: ' + error.message)
+    console.log({ userFavorites })
 
     return (
         <div className="flex flex-col gap-y-5">
@@ -39,23 +39,58 @@ export default function Page({ params }: { params: { slug: string } }) {
                     <TypographyH2 str={build?.name} />
                 </div>
 
-                {!_.isEmpty(user) &&
-                    !_.includes(user?.userinfo?.builds, build.id) && (
-                        <CloneBuildButton
-                            build={build}
-                            userId={user?.userinfo?.sub}
-                        />
-                    )}
+                {!_.isEmpty(userId) && (
+                    <div className="flex items-center gap-4">
+                        {!_.some(userFavorites, { buildId: build.id }) && (
+                            <CustomButton
+                                onClick={async () => {
+                                    await axiosInstance.post('favorites', {
+                                        userId,
+                                        buildId: build.id,
+                                    })
+                                    await userRefetch()
+                                }}
+                            >
+                                <Star />
+                                Add favorites
+                            </CustomButton>
+                        )}
 
-                {!_.isEmpty(user) && user?.userinfo?.id == build?.userId && (
-                    <CustomButton
-                        onClick={() =>
-                            router.push(`/dashboard/update/${build.slug}`)
-                        }
-                    >
-                        <FileSliders />
-                        Edit
-                    </CustomButton>
+                        {_.some(userFavorites, { buildId: build.id }) && (
+                            <CustomButton
+                                onClick={async () => {
+                                    await axiosInstance.delete(
+                                        `favorites/${
+                                            _.find(userFavorites, {
+                                                buildId: build.id,
+                                            }).id
+                                        }`
+                                    )
+                                    await userRefetch()
+                                }}
+                            >
+                                <Star />
+                                Remove from favorites
+                            </CustomButton>
+                        )}
+
+                        {!_.some(userBuilds, { id: build.id }) && (
+                            <CloneBuildButton build={build} userId={userId} />
+                        )}
+
+                        {_.some(userBuilds, { id: build.id }) && (
+                            <CustomButton
+                                onClick={() =>
+                                    router.push(
+                                        `/dashboard/update/${build.slug}`
+                                    )
+                                }
+                            >
+                                <FileSliders />
+                                Edit
+                            </CustomButton>
+                        )}
+                    </div>
                 )}
             </div>
 

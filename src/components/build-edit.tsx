@@ -70,7 +70,7 @@ const defaultValues: Partial<ProfileFormValues> = {
 }
 
 export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
-    const { user, refetch } = useAuth()
+    const { user, userRefetch } = useAuth()
     const router = useRouter()
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
@@ -95,7 +95,7 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
             const { slug } = (
                 await axiosInstance.post('builds', transformedData)
             ).data
-            await refetch()
+            await userRefetch()
             if (slug) router.push(`/dashboard/update/${slug}`)
         } else {
             await axiosInstance.patch(`builds/${build?.id}`, transformedData)

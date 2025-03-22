@@ -10,7 +10,7 @@ import { TypographySmall } from './typography'
 import { CustomButton } from './ui-customs/button'
 
 export default function Header() {
-    const { user } = useAuth()
+    const { user, userId } = useAuth()
     const router = useRouter()
 
     return (
@@ -23,10 +23,10 @@ export default function Header() {
             </h4>
 
             <div className="flex items-center ml-auto gap-10 h-full">
-                {_.isEmpty(user) && (
+                {_.isEmpty(userId) && (
                     <Button
                         variant="default"
-                        className="h-full font-semibold px-10"
+                        className="h-full font-semibold px-10 cursor-pointer"
                         onClick={() => {
                             router.replace('/auth/login')
                         }}
@@ -34,11 +34,15 @@ export default function Header() {
                         <TypographySmall str={'Login'} />
                     </Button>
                 )}
-                {!_.isEmpty(user) && (
+
+                {!_.isEmpty(userId) && (
                     <div className="flex gap-5 h-full items-center">
-                        {!_.isEmpty(user) && (
-                            <p className="text-muted-foreground ml-16">{`Hello ${user.userinfo.given_name}`}</p>
-                        )}
+                        <p className="text-muted-foreground ml-16">{`Hello ${user.userinfo.given_name}`}</p>
+                        <CustomButton
+                            onClick={() => router.push(PAGE_PATH.FAVORITES)}
+                        >
+                            <TypographySmall str={'Favorites'} />
+                        </CustomButton>
                         <CustomButton
                             onClick={() => router.push(PAGE_PATH.DASHBOARD)}
                         >

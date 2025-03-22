@@ -8,7 +8,7 @@ import { buttonVariants } from '../../ui/button'
 import { useAuth } from '@/components/providers/context-provider'
 
 export const ImportBuildButton = ({ userId, refetch }: any) => {
-    const { refetch: refetchUser } = useAuth()
+    const { userRefetch } = useAuth()
 
     return (
         <>
@@ -24,7 +24,7 @@ export const ImportBuildButton = ({ userId, refetch }: any) => {
                             ...build,
                             userId,
                         })
-                        await refetchUser()
+                        await userRefetch()
                         await refetch()
                     } catch (error) {
                         console.error('Error importing the file:', error)

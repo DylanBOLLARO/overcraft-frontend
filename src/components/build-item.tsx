@@ -15,7 +15,7 @@ import { CustomCard } from './ui-customs/card'
 import { BorderTrail } from './ui/border-trail'
 
 export function BuildItem({ build, update }: any) {
-    const { user } = useAuth()
+    const { userBuilds, userFavorites } = useAuth()
 
     return (
         <Link
@@ -27,9 +27,19 @@ export function BuildItem({ build, update }: any) {
             }
         >
             <CustomCard className="relative overflow-hidden rounded-md border outline-hidden ">
-                {_.some(user?.userinfo?.builds, { id: build.id }) && (
-                    <BorderTrail className="bg-linear-to-l from-blue-200 via-blue-500 to-blue-200 dark:from-blue-400 dark:via-blue-600 dark:to-blue-900" />
+                {_.some(userFavorites, { buildId: build.id }) && (
+                    <BorderTrail
+                        size={80}
+                        className="bg-linear-to-l from-pink-200 via-purple-500 to-pink-200 dark:from-indigo-400 dark:via-purple-600 dark:to-pink-900"
+                    />
                 )}
+                {_.some(userBuilds, { id: build.id }) && (
+                    <BorderTrail
+                        size={80}
+                        className="bg-linear-to-l from-blue-200 via-blue-500 to-blue-200 dark:from-blue-400 dark:via-blue-600 dark:to-blue-900"
+                    />
+                )}
+
                 <CardHeader className="p-0">
                     <CardTitle>
                         <div className="flex">
@@ -41,7 +51,7 @@ export function BuildItem({ build, update }: any) {
                             >
                                 <p className="text-sm font-normal">
                                     {format(
-                                        new Date(build.created_at),
+                                        new Date(build?.created_at),
                                         'dd/MM/yy'
                                     )}
                                 </p>

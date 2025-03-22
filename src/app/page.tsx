@@ -8,7 +8,7 @@ import { useBuilds } from '@/lib/queries'
 import { objectToQueryString } from '@/lib/utils'
 import _ from 'lodash'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 export default function Home() {
     const searchParams = useSearchParams()

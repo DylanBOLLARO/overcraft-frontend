@@ -3,9 +3,7 @@ export enum PAGE_PATH {
     DOCUMENTATION = '/documentation',
     BUILDS = '/builds',
     DASHBOARD = '/dashboard',
-    SIGNIN = '/login',
-    UPDATE = '/update',
-    PROFILE = '/profile',
+    FAVORITES = '/favorites',
 }
 export enum VERBES_HTTP {
     GET = 'GET',

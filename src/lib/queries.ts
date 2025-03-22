@@ -1,5 +1,11 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { getBuild, getBuilds, getMyBuilds, getUser } from './api'
+import {
+    getBuild,
+    getBuilds,
+    getMyBuilds,
+    getMyFavorites,
+    getUser,
+} from './api'
 import _ from 'lodash'
 
 export function useBuild(buildId: string) {
@@ -25,6 +31,15 @@ export function useMyBuilds(userId: string) {
     return useQuery({
         queryKey: ['useMyBuilds'],
         queryFn: async () => (await getMyBuilds(userId)) || [],
+        refetchOnWindowFocus: false,
+        placeholderData: keepPreviousData,
+    })
+}
+
+export function useMyFavorites(userId: string) {
+    return useQuery({
+        queryKey: ['useMyFavorites'],
+        queryFn: async () => (await getMyFavorites(userId)) || [],
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
     })

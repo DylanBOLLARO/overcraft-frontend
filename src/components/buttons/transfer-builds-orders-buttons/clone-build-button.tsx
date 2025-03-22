@@ -8,7 +8,7 @@ import { useAuth } from '@/components/providers/context-provider'
 
 export const CloneBuildButton = ({ build, userId }: any) => {
     const router = useRouter()
-    const { refetch } = useAuth()
+    const { userRefetch } = useAuth()
 
     const cloneBuild = async () => {
         const { slug }: any =
@@ -18,7 +18,7 @@ export const CloneBuildButton = ({ build, userId }: any) => {
                     userId,
                 })
             ).data || {}
-        await refetch()
+        await userRefetch()
         router.push(`/builds/${slug}`)
     }
 

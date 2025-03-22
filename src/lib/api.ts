@@ -22,6 +22,14 @@ export const getBuilds = async (params: string) => {
     }
 }
 
+export const getMyFavorites = async (userId: string) => {
+    try {
+        return (await axiosInstance(`/user/${userId}/favorites`))?.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 export const getMyBuilds = async (userId: string) => {
     try {
         return (await axiosInstance(`/user/${userId}/builds`))?.data

@@ -21,7 +21,18 @@ export default function Page() {
             </div>
 
             {!isFetched && <Loader />}
-            {isFetched && !_.isEmpty(builds) && <BuildsList builds={builds} />}
+
+            {isFetched && (
+                <>
+                    {_.isEmpty(builds) && (
+                        <p className="text-xl text-center py-10">
+                            You have no build orders
+                        </p>
+                    )}
+
+                    {!_.isEmpty(builds) && <BuildsList builds={builds} />}
+                </>
+            )}
         </div>
     )
 }

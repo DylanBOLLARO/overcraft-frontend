@@ -6,16 +6,20 @@ import { useContext, createContext } from 'react'
 const AuthContext = createContext<any>(undefined)
 
 export const AuthProvider = ({ children }: any) => {
-    const { data: user = undefined, refetch } = useUser()
+    const { data: user = undefined, refetch: userRefetch } = useUser()
 
     const userId = (user ? user?.userinfo?.sub : user) || undefined
+    const userBuilds = (user ? user?.userinfo?.builds : user) || []
+    const userFavorites = (user ? user?.userinfo?.favorites : user) || []
 
     return (
         <AuthContext.Provider
             value={{
                 user,
                 userId,
-                refetch,
+                userBuilds,
+                userFavorites,
+                userRefetch,
             }}
         >
             {children}
