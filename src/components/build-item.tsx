@@ -13,6 +13,7 @@ import Link from 'next/link'
 import * as _ from 'lodash'
 import { useAuth } from './providers/context-provider'
 import { CustomCard } from './ui-customs/card'
+import { BorderTrail } from './ui/border-trail'
 
 export function BuildItem({ build, update }: any) {
     const { user } = useAuth()
@@ -26,12 +27,10 @@ export function BuildItem({ build, update }: any) {
                     : `/dashboard/update/${build.slug}`
             }
         >
-            <CustomCard
-                className={cn(
-                    _.some(user?.userinfo?.builds, { id: build.id }) &&
-                        'border-primary'
+            <CustomCard className="relative overflow-hidden rounded-md border outline-hidden ">
+                {_.some(user?.userinfo?.builds, { id: build.id }) && (
+                    <BorderTrail className="bg-linear-to-l from-blue-200 via-blue-500 to-blue-200 dark:from-blue-400 dark:via-blue-600 dark:to-blue-900" />
                 )}
-            >
                 <CardHeader className="p-0">
                     <CardTitle>
                         <div className="flex">
