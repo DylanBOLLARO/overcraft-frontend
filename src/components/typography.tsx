@@ -19,7 +19,7 @@ export function TypographyLead({ str }: TypographyProps) {
 }
 
 export function TypographyP({ str }: TypographyProps) {
-    return <p className="leading-7 [&:not(:first-child)]:mt-6">{str}</p>
+    return <p className="leading-7 not-first:mt-6">{str}</p>
 }
 
 export function TypographyH4({ str }: TypographyProps) {
