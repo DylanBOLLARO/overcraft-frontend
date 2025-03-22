@@ -1,7 +1,6 @@
 'use client'
 
 import { DialogDeleteBuild } from '@/components/DialogDeleteBuild'
-import { DialogEditBuild } from '@/components/DialogEditBuild'
 import { useAuth } from '@/components/providers/context-provider'
 import { ExportBuildButton } from '@/components/buttons/transfer-builds-orders-buttons'
 import { CloneBuildButton } from '@/components/buttons/transfer-builds-orders-buttons/clone-build-button'

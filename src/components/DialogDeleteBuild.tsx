@@ -8,7 +8,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from './ui/dialog'
-import { Button, buttonVariants } from './ui/button'
+import { Button } from './ui/button'
 import { Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { PAGE_PATH } from '../constants/enum'

@@ -1,7 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { format } from 'date-fns'
-import { Star, Swords } from 'lucide-react'
-import { Separator } from '@/components/ui/separator'
+import { Swords } from 'lucide-react'
 import { cn, getBadgeVariantFromLabel } from '@/lib/utils'
 import {
     CardContent,
