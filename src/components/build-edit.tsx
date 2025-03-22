@@ -33,7 +33,6 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form'
-import Link from 'next/link'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import { axiosInstance } from '@/lib/networking'
@@ -170,38 +169,41 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="is_public"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Privacy</FormLabel>
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={
-                                            defaultValues.is_public === 'true'
-                                                ? 'public'
-                                                : 'private'
-                                        }
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select a privacy" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="public">
-                                                Public
-                                            </SelectItem>
-                                            <SelectItem value="private">
-                                                Private
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        {editOrUpdate === 'update' && (
+                            <FormField
+                                control={form.control}
+                                name="is_public"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Privacy</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={
+                                                defaultValues.is_public ===
+                                                'true'
+                                                    ? 'public'
+                                                    : 'private'
+                                            }
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select a privacy" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="public">
+                                                    Public
+                                                </SelectItem>
+                                                <SelectItem value="private">
+                                                    Private
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
 
                         <div className="flex gap-10">
                             <FormField
