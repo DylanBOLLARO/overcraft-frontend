@@ -10,8 +10,6 @@ export default function Home() {
     const { userId } = useAuth()
     const { isFetched, data: builds } = useMyFavorites(userId)
 
-    console.log(builds)
-
     return (
         <div className="flex flex-col gap-y-5">
             {!isFetched && (

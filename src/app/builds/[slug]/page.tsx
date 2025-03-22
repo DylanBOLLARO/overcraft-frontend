@@ -29,7 +29,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     if (isLoading) return
 
     if (error) return console.error('An error has occurred: ' + error.message)
-    console.log({ userFavorites })
 
     return (
         <div className="flex flex-col gap-y-5">
