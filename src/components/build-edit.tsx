@@ -57,6 +57,7 @@ const profileFormSchema = z.object({
         required_error: 'Please select an vs race.',
     }),
     userId: z.string(),
+    is_public: z.string(),
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
@@ -66,12 +67,12 @@ const defaultValues: Partial<ProfileFormValues> = {
     description: '',
     race: '',
     v_race: '',
+    is_public: 'private',
 }
 
 export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
     const { user, refetch } = useAuth()
     const router = useRouter()
-
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
     const [editOrUpdate] = useState(_.isEmpty(build) ? 'create' : 'update')
@@ -86,12 +87,19 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
     })
 
     async function onSubmit(data: ProfileFormValues) {
+        const transformedData = {
+            ...data,
+            is_public: data.is_public === 'public' ? true : false,
+        }
+
         if (editOrUpdate === 'create') {
-            const { slug } = (await axiosInstance.post('builds', data)).data
+            const { slug } = (
+                await axiosInstance.post('builds', transformedData)
+            ).data
             await refetch()
             if (slug) router.push(`/dashboard/update/${slug}`)
         } else {
-            await axiosInstance.patch(`builds/${build?.id}`, data)
+            await axiosInstance.patch(`builds/${build?.id}`, transformedData)
             await refetchBuild()
             setIsDialogOpen(false)
         }
@@ -162,6 +170,39 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="is_public"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Privacy</FormLabel>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={
+                                            defaultValues.is_public === 'true'
+                                                ? 'public'
+                                                : 'private'
+                                        }
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select a privacy" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="public">
+                                                Public
+                                            </SelectItem>
+                                            <SelectItem value="private">
+                                                Private
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
                         <div className="flex gap-10">
                             <FormField
                                 control={form.control}
