@@ -74,6 +74,8 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
+    const [editOrUpdate] = useState(_.isEmpty(build) ? 'create' : 'update')
+
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {
@@ -84,7 +86,7 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
     })
 
     async function onSubmit(data: ProfileFormValues) {
-        if (_.isEmpty(build)) {
+        if (editOrUpdate === 'create') {
             const { slug } = (await axiosInstance.post('builds', data)).data
             await refetch()
             if (slug) router.push(`/dashboard/update/${slug}`)
@@ -103,13 +105,17 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
             open={isDialogOpen}
         >
             <DialogTrigger asChild>
-                <CustomButton variant="outline">Create</CustomButton>
+                <CustomButton variant="outline">
+                    {_.capitalize(editOrUpdate)}
+                </CustomButton>
             </DialogTrigger>
             <DialogContent className="flex flex-1 flex-col max-w-3xl bg-black border-primary/50 border-[1px]">
                 <DialogHeader>
-                    <DialogTitle>Creating a new build order</DialogTitle>
+                    <DialogTitle>
+                        {_.capitalize(editOrUpdate)} a build order
+                    </DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when
+                        Make changes to your build order here. Click save when
                         you're done.
                     </DialogDescription>
                 </DialogHeader>
@@ -156,7 +162,7 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex gap-5">
+                        <div className="flex gap-10">
                             <FormField
                                 control={form.control}
                                 name="race"
@@ -184,14 +190,6 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
-                                        <FormDescription>
-                                            You can manage email addresses in
-                                            your{' '}
-                                            <Link href="/examples/forms">
-                                                email settings
-                                            </Link>
-                                            .
-                                        </FormDescription>
                                         <FormMessage />
                                     </FormItem>
                                 )}
@@ -223,14 +221,6 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
-                                        <FormDescription>
-                                            You can manage email addresses in
-                                            your{' '}
-                                            <Link href="/examples/forms">
-                                                email settings
-                                            </Link>
-                                            .
-                                        </FormDescription>
                                         <FormMessage />
                                     </FormItem>
                                 )}
