@@ -24,7 +24,6 @@ COPY public ./public
 COPY tsconfig.json .
 COPY next.config.mjs .
 COPY postcss.config.mjs .
-COPY tailwind.config.ts .
 COPY components.json .
 
 # Environment variables must be present at build time

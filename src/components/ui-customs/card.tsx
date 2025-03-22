@@ -15,6 +15,6 @@ const CustomCard = React.forwardRef<
         {...props}
     />
 ))
-Card.displayName = 'CustomCard'
+CustomCard.displayName = 'CustomCard'
 
 export { CustomCard }
