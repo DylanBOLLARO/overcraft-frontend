@@ -50,6 +50,7 @@ export function useUser() {
         queryKey: ['useUser'],
         queryFn: async () => (await getUser()) || null,
         refetchOnWindowFocus: false,
+        refetchInterval: 1000 * 60 * 30,
         placeholderData: keepPreviousData,
     })
 }

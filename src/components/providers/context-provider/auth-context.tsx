@@ -1,16 +1,26 @@
 'use client'
 
 import { useUser } from '@/lib/queries'
-import { useContext, createContext } from 'react'
+import _ from 'lodash'
+import { useContext, createContext, useState, useEffect } from 'react'
 
 const AuthContext = createContext<any>(undefined)
 
 export const AuthProvider = ({ children }: any) => {
     const { data: user = undefined, refetch: userRefetch } = useUser()
 
-    const userId = (user ? user?.userinfo?.sub : user) || undefined
-    const userBuilds = (user ? user?.userinfo?.builds : user) || []
-    const userFavorites = (user ? user?.userinfo?.favorites : user) || []
+    const [userId, setUserId] = useState(undefined)
+    const [userBuilds, setUserBuilds] = useState<Array<any>>([])
+    const [userFavorites, setUserFavorites] = useState<Array<any>>([])
+
+    useEffect(() => {
+        if (_.isUndefined(user)) return
+        const { sub, builds, favorites } = user?.userinfo || {}
+
+        setUserId(user ? sub : null)
+        setUserBuilds(user ? builds : [])
+        setUserFavorites(user ? favorites : [])
+    }, [user])
 
     return (
         <AuthContext.Provider

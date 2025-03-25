@@ -58,7 +58,13 @@ export const objectToQueryString = (obj: Record<string, unknown>): string => {
 export const removingBuildReferences = (build: any) => {
     const propsToPick = ['description', 'name', 'race', 'v_race', 'type']
     const cleanedSteps = build.steps.map((step: any) =>
-        _.pick(step, ['description', 'population', 'position', 'timer'])
+        _.pick(step, [
+            'description',
+            'population',
+            'position',
+            'timer',
+            'variant',
+        ])
     )
     return { ..._.pick(build, propsToPick), steps: cleanedSteps }
 }

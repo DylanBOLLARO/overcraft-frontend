@@ -1,3 +1,5 @@
+import { cva } from 'class-variance-authority'
+
 export const ResponseFormat = {
     data: 'data',
     totalItems: 'totalItems',
@@ -27,3 +29,31 @@ export const RequestParametersDefaultValues = {
     [RequestParameters.race]: 'all',
     [RequestParameters.v_race]: 'all',
 }
+
+export const StepVariants = {
+    INFO: 'INFO',
+    SUPPLY: 'SUPPLY',
+    ATTACK: 'ATTACK',
+    BUILDING: 'BUILDING',
+    GAZ: 'GAZ',
+    UNIT: 'UNIT',
+    UPGRADE: 'UPGRADE',
+} as const
+
+export const stepVariants = cva('', {
+    variants: {
+        variant: {
+            [StepVariants.INFO]: 'bg-step-info hover:bg-step-info text-black',
+            [StepVariants.UPGRADE]: 'bg-step-upgrade hover:bg-step-upgrade',
+            [StepVariants.SUPPLY]:
+                'bg-step-supply hover:bg-step-supply text-black',
+            [StepVariants.ATTACK]: 'bg-step-attack hover:bg-step-attack',
+            [StepVariants.BUILDING]: 'bg-step-building hover:bg-step-building',
+            [StepVariants.GAZ]: 'bg-step-gaz hover:bg-step-gaz',
+            [StepVariants.UNIT]: 'bg-step-unit hover:bg-step-unit',
+        },
+    },
+    defaultVariants: {
+        variant: 'INFO',
+    },
+})

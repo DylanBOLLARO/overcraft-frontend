@@ -102,7 +102,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                                     <Badge
                                         className="p-2 text-lg justify-center w-1/3"
                                         variant={getBadgeVariantFromLabel(
-                                            build.race?.[0]
+                                            build?.race?.[0]
                                         )}
                                     >{`${build.race}`}</Badge>
                                     <p className="text-3xl font-semibold items-center">
@@ -111,9 +111,9 @@ export default function Page({ params }: { params: { slug: string } }) {
                                     <Badge
                                         className="p-2 text-lg justify-center w-1/3"
                                         variant={getBadgeVariantFromLabel(
-                                            build.v_race?.[0]
+                                            build?.v_race?.[0]
                                         )}
-                                    >{`${build.v_race}`}</Badge>
+                                    >{`${build?.v_race}`}</Badge>
                                 </div>
                             </div>
                         </CardDescription>

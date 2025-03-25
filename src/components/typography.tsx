@@ -3,7 +3,7 @@ interface TypographyProps {
 }
 
 export function TypographyMuted({ str }: TypographyProps) {
-    return <p className="text-sm text-muted-foreground">{str}</p>
+    return <p className="text-sm">{str}</p>
 }
 
 export function TypographySmall({ str }: TypographyProps) {
