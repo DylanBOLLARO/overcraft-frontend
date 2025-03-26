@@ -4,6 +4,8 @@ export const StepsRowContainer = ({
     steps,
     edit = false,
     refetch = () => {},
+    currentIndex = null,
+    isRunning = null,
 }: any) => {
     return (
         <div className="flex flex-col gap-y-1 ">
@@ -14,6 +16,8 @@ export const StepsRowContainer = ({
                         step={step}
                         edit={edit}
                         refetch={refetch}
+                        currentIndex={currentIndex}
+                        isRunning={isRunning}
                     />
                 )
             })}

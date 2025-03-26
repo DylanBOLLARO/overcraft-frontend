@@ -48,6 +48,8 @@ export const StepsRow = ({
     refetch,
     position,
     buildId,
+    currentIndex,
+    isRunning,
 }: any) => {
     const [loading, setLoading] = useState(false)
 
@@ -101,93 +103,66 @@ export const StepsRow = ({
         await refetch()
     }
 
-    // useEffect(() => {
-    //     if (Object.keys(form.formState.errors).length > 0) {
-    //         console.error('Form Errors:', form.formState.errors)
-    //     }
-    // }, [form.formState.errors])
-
     return (
-        <CustomCard
-            className={cn(
-                stepVariants({
-                    variant:
-                        StepVariants[variant as keyof typeof StepVariants] ||
-                        StepVariants.INFO,
-                }),
-                'cursor-pointer'
-            )}
-        >
-            {!edit && (
-                <div className="flex items-center justify-between">
-                    <div className="flex gap-3 w-28">
-                        <p>{formatSeconds(step.timer)}</p>
-                        <Clock9 />
+        <div className="flex gap-3">
+            <CustomCard
+                className={cn(
+                    stepVariants({
+                        variant:
+                            StepVariants[
+                                variant as keyof typeof StepVariants
+                            ] || StepVariants.INFO,
+                    }),
+                    'cursor-pointer flex-1',
+                    isRunning && currentIndex == step.position
+                        ? 'scale-105 my-2 py-5 border-2 border-white rounded-2xl'
+                        : ''
+                )}
+            >
+                {!edit && (
+                    <div className="flex items-center justify-between">
+                        <div className="flex gap-3 w-28">
+                            <p>{formatSeconds(step.timer)}</p>
+                            <Clock9 />
+                        </div>
+                        <div className="flex gap-3 w-16">
+                            {step.population}
+                            <PersonStanding />
+                        </div>
+                        <p className="flex-1">{step.description}</p>
                     </div>
-                    <div className="flex gap-3 w-16">
-                        {step.population}
-                        <PersonStanding />
-                    </div>
-                    <p className="flex-1">{step.description}</p>
-                </div>
-            )}
+                )}
 
-            {edit && (
-                <div className="flex gap-10 items-center">
-                    {!_.isEmpty(step) && (
-                        <p className="flex bg-black/50 rounded-full w-14 h-14 text-center justify-center items-center text-2xl text-white font-bold">
-                            {step.position}
-                        </p>
-                    )}
+                {edit && (
+                    <div className="flex gap-10 items-center">
+                        {!_.isEmpty(step) && (
+                            <p className="flex bg-black/50 rounded-full w-14 h-14 text-center justify-center items-center text-2xl text-white font-bold">
+                                {step.position}
+                            </p>
+                        )}
 
-                    <div className="flex flex-1 flex-col">
-                        <Form {...form}>
-                            <form
-                                onSubmit={form.handleSubmit(onSubmit)}
-                                className="flex flex-col gap-5"
-                            >
-                                <div className="flex items-center justify-between gap-5 w-full">
-                                    <FormField
-                                        control={form.control}
-                                        name="population"
-                                        render={({ field }) => (
-                                            <FormItem className="w-20">
-                                                <FormLabel className="flex text-center justify-center">
-                                                    Population
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        className="bg-black/20 border-none focus-visible:ring-0"
-                                                        placeholder="pop..."
-                                                        {...field}
-                                                        {...form.register(
-                                                            'population',
-                                                            {
-                                                                valueAsNumber:
-                                                                    true,
-                                                            }
-                                                        )}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <div className="flex gap-5">
+                        <div className="flex flex-1 flex-col">
+                            <Form {...form}>
+                                <form
+                                    onSubmit={form.handleSubmit(onSubmit)}
+                                    className="flex flex-col gap-5"
+                                >
+                                    <div className="flex items-center justify-between gap-5 w-full">
                                         <FormField
                                             control={form.control}
-                                            name="timerMinutes"
+                                            name="population"
                                             render={({ field }) => (
                                                 <FormItem className="w-20">
                                                     <FormLabel className="flex text-center justify-center">
-                                                        Minutes
+                                                        Population
                                                     </FormLabel>
                                                     <FormControl>
                                                         <Input
                                                             className="bg-black/20 border-none focus-visible:ring-0"
-                                                            placeholder="min..."
+                                                            placeholder="pop..."
                                                             {...field}
                                                             {...form.register(
-                                                                'timerMinutes',
+                                                                'population',
                                                                 {
                                                                     valueAsNumber:
                                                                         true,
@@ -198,257 +173,298 @@ export const StepsRow = ({
                                                 </FormItem>
                                             )}
                                         />
+                                        <div className="flex gap-5">
+                                            <FormField
+                                                control={form.control}
+                                                name="timerMinutes"
+                                                render={({ field }) => (
+                                                    <FormItem className="w-20">
+                                                        <FormLabel className="flex text-center justify-center">
+                                                            Minutes
+                                                        </FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                className="bg-black/20 border-none focus-visible:ring-0"
+                                                                placeholder="min..."
+                                                                {...field}
+                                                                {...form.register(
+                                                                    'timerMinutes',
+                                                                    {
+                                                                        valueAsNumber:
+                                                                            true,
+                                                                    }
+                                                                )}
+                                                            />
+                                                        </FormControl>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="timerSecondes"
+                                                render={({ field }) => (
+                                                    <FormItem className="w-20">
+                                                        <FormLabel className="flex text-center justify-center">
+                                                            Seconds
+                                                        </FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                className="bg-black/20 border-none focus-visible:ring-0"
+                                                                placeholder="sec..."
+                                                                {...field}
+                                                                {...form.register(
+                                                                    'timerSecondes',
+                                                                    {
+                                                                        valueAsNumber:
+                                                                            true,
+                                                                    }
+                                                                )}
+                                                            />
+                                                        </FormControl>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
                                         <FormField
                                             control={form.control}
-                                            name="timerSecondes"
+                                            name="description"
                                             render={({ field }) => (
-                                                <FormItem className="w-20">
+                                                <FormItem className="flex-1">
                                                     <FormLabel className="flex text-center justify-center">
-                                                        Seconds
+                                                        Description
                                                     </FormLabel>
                                                     <FormControl>
                                                         <Input
                                                             className="bg-black/20 border-none focus-visible:ring-0"
-                                                            placeholder="sec..."
+                                                            placeholder="description..."
                                                             {...field}
-                                                            {...form.register(
-                                                                'timerSecondes',
-                                                                {
-                                                                    valueAsNumber:
-                                                                        true,
-                                                                }
-                                                            )}
                                                         />
                                                     </FormControl>
                                                 </FormItem>
                                             )}
                                         />
                                     </div>
-                                    <FormField
-                                        control={form.control}
-                                        name="description"
-                                        render={({ field }) => (
-                                            <FormItem className="flex-1">
-                                                <FormLabel className="flex text-center justify-center">
-                                                    Description
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        className="bg-black/20 border-none focus-visible:ring-0"
-                                                        placeholder="description..."
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
 
-                                <div className="flex items-end justify-center gap-x-16">
-                                    <FormField
-                                        control={form.control}
-                                        name="variant"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <Select
-                                                    onValueChange={
-                                                        field.onChange
-                                                    }
-                                                    defaultValue={field.value}
-                                                >
-                                                    <FormLabel className="flex text-center justify-center">
-                                                        Variant
-                                                    </FormLabel>
-                                                    <FormControl>
-                                                        <SelectTrigger className="bg-black/20 border-none focus-visible:ring-0 flex items-end justify-center m-0">
-                                                            <SelectValue placeholder="Variant" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent
-                                                        className={cn(
-                                                            stepVariants({
-                                                                variant:
-                                                                    StepVariants[
-                                                                        variant as keyof typeof StepVariants
-                                                                    ] ||
-                                                                    StepVariants.INFO,
-                                                            }),
-                                                            'focus-visible:ring-0 border-black border-[1px]'
-                                                        )}
+                                    <div className="flex items-end justify-center gap-x-16">
+                                        <FormField
+                                            control={form.control}
+                                            name="variant"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <Select
+                                                        onValueChange={
+                                                            field.onChange
+                                                        }
+                                                        defaultValue={
+                                                            field.value
+                                                        }
                                                     >
-                                                        {_.keys(
-                                                            StepVariants
-                                                        ).map(
-                                                            (variant: any) => {
-                                                                return (
-                                                                    <SelectItem
-                                                                        key={`selectItem_variant_${variant}`}
-                                                                        value={
-                                                                            variant
-                                                                        }
-                                                                    >
-                                                                        {_.capitalize(
-                                                                            variant
-                                                                        )}
-                                                                    </SelectItem>
-                                                                )
+                                                        <FormLabel className="flex text-center justify-center">
+                                                            Variant
+                                                        </FormLabel>
+                                                        <FormControl>
+                                                            <SelectTrigger className="bg-black/20 border-none focus-visible:ring-0 flex items-end justify-center m-0">
+                                                                <SelectValue placeholder="Variant" />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent
+                                                            className={cn(
+                                                                stepVariants({
+                                                                    variant:
+                                                                        StepVariants[
+                                                                            variant as keyof typeof StepVariants
+                                                                        ] ||
+                                                                        StepVariants.INFO,
+                                                                }),
+                                                                'focus-visible:ring-0 border-black border-[1px]'
+                                                            )}
+                                                        >
+                                                            {_.keys(
+                                                                StepVariants
+                                                            ).map(
+                                                                (
+                                                                    variant: any
+                                                                ) => {
+                                                                    return (
+                                                                        <SelectItem
+                                                                            key={`selectItem_variant_${variant}`}
+                                                                            value={
+                                                                                variant
+                                                                            }
+                                                                        >
+                                                                            {_.capitalize(
+                                                                                variant
+                                                                            )}
+                                                                        </SelectItem>
+                                                                    )
+                                                                }
+                                                            )}
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+
+                                        {!_.isEmpty(step) && (
+                                            <div className="flex items-center justify-center gap-3">
+                                                <CustomButton
+                                                    disabled={loading}
+                                                    className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
+                                                    onClick={async () => {
+                                                        setLoading(true)
+                                                        await axiosInstance.patch(
+                                                            `/step/move-position`,
+                                                            {
+                                                                id:
+                                                                    '' +
+                                                                    step?.id,
+                                                                buildId:
+                                                                    '' +
+                                                                    step.buildId,
+                                                                move: 'DOWN',
                                                             }
-                                                        )}
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage />
-                                            </FormItem>
+                                                        )
+
+                                                        await refetch()
+                                                        setLoading(false)
+                                                    }}
+                                                >
+                                                    DOWN
+                                                </CustomButton>
+                                                <CustomButton
+                                                    disabled={loading}
+                                                    className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
+                                                    onClick={async () => {
+                                                        setLoading(true)
+                                                        await axiosInstance.patch(
+                                                            `/step/move-position`,
+                                                            {
+                                                                id:
+                                                                    '' +
+                                                                    step?.id,
+                                                                buildId:
+                                                                    step.buildId,
+                                                                move: 'UP',
+                                                            }
+                                                        )
+                                                        await refetch()
+                                                        setLoading(false)
+                                                    }}
+                                                >
+                                                    UP
+                                                </CustomButton>
+                                                <CustomButton
+                                                    disabled={loading}
+                                                    className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
+                                                    onClick={async () => {
+                                                        setLoading(true)
+                                                        await axiosInstance.delete(
+                                                            `/step/${step?.id}`
+                                                        )
+                                                        await refetch()
+                                                        setLoading(false)
+                                                    }}
+                                                >
+                                                    DELETE
+                                                </CustomButton>
+                                            </div>
                                         )}
-                                    />
 
-                                    {!_.isEmpty(step) && (
-                                        <div className="flex items-center justify-center gap-3">
-                                            <CustomButton
-                                                disabled={loading}
-                                                className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
-                                                onClick={async () => {
-                                                    setLoading(true)
-                                                    await axiosInstance.patch(
-                                                        `/step/move-position`,
+                                        <Button
+                                            disabled={
+                                                _.isEqual(
+                                                    _.pick(
                                                         {
-                                                            id: '' + step?.id,
-                                                            buildId:
-                                                                '' +
-                                                                step.buildId,
-                                                            move: 'DOWN',
-                                                        }
-                                                    )
-
-                                                    await refetch()
-                                                    setLoading(false)
-                                                }}
-                                            >
-                                                DOWN
-                                            </CustomButton>
-                                            <CustomButton
-                                                disabled={loading}
-                                                className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
-                                                onClick={async () => {
-                                                    setLoading(true)
-                                                    await axiosInstance.patch(
-                                                        `/step/move-position`,
-                                                        {
-                                                            id: '' + step?.id,
-                                                            buildId:
-                                                                step.buildId,
-                                                            move: 'UP',
-                                                        }
-                                                    )
-                                                    await refetch()
-                                                    setLoading(false)
-                                                }}
-                                            >
-                                                UP
-                                            </CustomButton>
-                                            <CustomButton
-                                                disabled={loading}
-                                                className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
-                                                onClick={async () => {
-                                                    setLoading(true)
-                                                    await axiosInstance.delete(
-                                                        `/step/${step?.id}`
-                                                    )
-                                                    await refetch()
-                                                    setLoading(false)
-                                                }}
-                                            >
-                                                DELETE
-                                            </CustomButton>
-                                        </div>
-                                    )}
-
-                                    <Button
-                                        disabled={
-                                            _.isEqual(
-                                                _.pick(
-                                                    {
-                                                        population:
-                                                            step?.population ||
-                                                            0,
-                                                        description:
-                                                            step?.description ||
-                                                            '',
-                                                        timerMinutes:
-                                                            time?.minutes || 0,
-                                                        timerSecondes:
-                                                            time?.seconds || 0,
-                                                        variant:
-                                                            step?.variant ||
-                                                            'INFO',
-                                                        position:
-                                                            step?.position || 0,
-                                                    },
-                                                    [
+                                                            population:
+                                                                step?.population ||
+                                                                0,
+                                                            description:
+                                                                step?.description ||
+                                                                '',
+                                                            timerMinutes:
+                                                                time?.minutes ||
+                                                                0,
+                                                            timerSecondes:
+                                                                time?.seconds ||
+                                                                0,
+                                                            variant:
+                                                                step?.variant ||
+                                                                'INFO',
+                                                            position:
+                                                                step?.position ||
+                                                                0,
+                                                        },
+                                                        [
+                                                            'population',
+                                                            'description',
+                                                            'variant',
+                                                            'timerSecondes',
+                                                            'timerMinutes',
+                                                        ]
+                                                    ),
+                                                    _.pick(form.getValues(), [
                                                         'population',
                                                         'description',
                                                         'variant',
                                                         'timerSecondes',
                                                         'timerMinutes',
-                                                    ]
-                                                ),
-                                                _.pick(form.getValues(), [
-                                                    'population',
-                                                    'description',
-                                                    'variant',
-                                                    'timerSecondes',
-                                                    'timerMinutes',
-                                                ])
-                                            ) || loading
-                                        }
-                                        type="submit"
-                                        variant={
-                                            _.isEqual(
-                                                _.pick(
-                                                    {
-                                                        population:
-                                                            step?.population ||
-                                                            0,
-                                                        description:
-                                                            step?.description ||
-                                                            '',
-                                                        timerMinutes:
-                                                            time?.minutes || 0,
-                                                        timerSecondes:
-                                                            time?.seconds || 0,
-                                                        variant:
-                                                            step?.variant ||
-                                                            'INFO',
-                                                        position:
-                                                            step?.position || 0,
-                                                    },
-                                                    [
+                                                    ])
+                                                ) || loading
+                                            }
+                                            type="submit"
+                                            variant={
+                                                _.isEqual(
+                                                    _.pick(
+                                                        {
+                                                            population:
+                                                                step?.population ||
+                                                                0,
+                                                            description:
+                                                                step?.description ||
+                                                                '',
+                                                            timerMinutes:
+                                                                time?.minutes ||
+                                                                0,
+                                                            timerSecondes:
+                                                                time?.seconds ||
+                                                                0,
+                                                            variant:
+                                                                step?.variant ||
+                                                                'INFO',
+                                                            position:
+                                                                step?.position ||
+                                                                0,
+                                                        },
+                                                        [
+                                                            'population',
+                                                            'description',
+                                                            'variant',
+                                                            'timerSecondes',
+                                                            'timerMinutes',
+                                                        ]
+                                                    ),
+                                                    _.pick(form.getValues(), [
                                                         'population',
                                                         'description',
                                                         'variant',
                                                         'timerSecondes',
                                                         'timerMinutes',
-                                                    ]
-                                                ),
-                                                _.pick(form.getValues(), [
-                                                    'population',
-                                                    'description',
-                                                    'variant',
-                                                    'timerSecondes',
-                                                    'timerMinutes',
-                                                ])
-                                            )
-                                                ? 'ghost'
-                                                : 'destructive'
-                                        }
-                                    >
-                                        {!_.isEmpty(step) ? 'Save' : 'Add'}
-                                    </Button>
-                                </div>
-                            </form>
-                        </Form>
+                                                    ])
+                                                )
+                                                    ? 'ghost'
+                                                    : 'destructive'
+                                            }
+                                        >
+                                            {!_.isEmpty(step) ? 'Save' : 'Add'}
+                                        </Button>
+                                    </div>
+                                </form>
+                            </Form>
+                        </div>
                     </div>
-                </div>
-            )}
-        </CustomCard>
+                )}
+            </CustomCard>
+        </div>
     )
 }
