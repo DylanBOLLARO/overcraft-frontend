@@ -5,6 +5,7 @@ import Header from '@/components/header'
 import { MainProvider } from '@/components/providers'
 import { BackgroundColors } from '@/components/background-colors/background-colors'
 import { Suspense } from 'react'
+import { Toaster } from '@/components/ui/sonner'
 
 const geistSans = localFont({
     src: './fonts/GeistVF.woff',
@@ -41,6 +42,7 @@ export default function RootLayout({
                         </div>
                     </div>
                 </MainProvider>
+                <Toaster />
             </body>
         </html>
     )

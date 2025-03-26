@@ -8,6 +8,7 @@ import { PAGE_PATH } from '@/constants/enum'
 import { Button } from '@/components/ui/button'
 import { TypographySmall } from './typography'
 import { CustomButton } from './ui-customs/button'
+import AuthButton from './buttons/auth-button'
 
 export default function Header() {
     const { user, userId } = useAuth()
@@ -23,18 +24,6 @@ export default function Header() {
             </h4>
 
             <div className="flex items-center ml-auto gap-10 h-full">
-                {_.isEmpty(userId) && (
-                    <Button
-                        variant="default"
-                        className="h-full font-semibold px-10 cursor-pointer"
-                        onClick={() => {
-                            router.replace('/auth/login')
-                        }}
-                    >
-                        <TypographySmall str={'Login'} />
-                    </Button>
-                )}
-
                 {!_.isEmpty(userId) && (
                     <div className="flex gap-5 h-full items-center">
                         <p className="text-muted-foreground ml-16">{`Hello ${user.userinfo.given_name}`}</p>
@@ -48,16 +37,10 @@ export default function Header() {
                         >
                             <TypographySmall str={'Dashboard'} />
                         </CustomButton>
-
-                        <CustomButton
-                            onClick={() => {
-                                router.replace('/auth/logout')
-                            }}
-                        >
-                            <TypographySmall str={'Logout'} />
-                        </CustomButton>
                     </div>
                 )}
+
+                <AuthButton user={user?.userinfo} />
             </div>
         </div>
     )
