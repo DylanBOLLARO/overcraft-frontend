@@ -13,7 +13,7 @@ export const StopwatchProvider = ({ children }: any) => {
     useEffect(() => {
         if (isRunning) {
             intervalIdRef.current = setInterval(() => {
-                setElapsedTime((Date.now() - startTimeRef.current) * 10)
+                setElapsedTime(Date.now() - startTimeRef.current)
             }, 100)
         }
 
