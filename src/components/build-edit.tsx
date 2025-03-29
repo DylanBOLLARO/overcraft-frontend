@@ -40,14 +40,9 @@ import _ from 'lodash'
 import { useState } from 'react'
 
 const profileFormSchema = z.object({
-    name: z
-        .string()
-        .min(2, {
-            message: 'name must be at least 2 characters.',
-        })
-        .max(30, {
-            message: 'name must not be longer than 30 characters.',
-        }),
+    name: z.string().min(2, {
+        message: 'name must be at least 2 characters.',
+    }),
     description: z.string().max(160).min(4),
     race: z.string({
         required_error: 'Please select an race.',
