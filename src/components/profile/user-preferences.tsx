@@ -29,52 +29,65 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Switch } from '@/components/ui/switch'
 import { useTheme } from 'next-themes'
+import _ from 'lodash'
+import { StepVariants } from '@/constants'
+import { useAuth } from '../providers/context-provider'
+import { axiosInstance } from '@/lib/networking'
 
 // Form validation schema
 const preferencesFormSchema = z.object({
-    themeColor: z.string(),
     darkMode: z.boolean().default(false),
-    language: z.string(),
-    emailNotifications: z.boolean().default(true),
-    pushNotifications: z.boolean().default(true),
-    marketingEmails: z.boolean().default(false),
-    dataSharing: z.boolean().default(true),
-    accentColor: z.string(),
 })
 
-type PreferencesFormValues = z.infer<typeof preferencesFormSchema>
-
 export const UserPreferences = () => {
+    const { user, userId, userRefetch } = useAuth()
+
     const [isLoading, setIsLoading] = useState(false)
     const { setTheme, theme: nextTheme } = useTheme()
 
-    // Mock user preferences data - in a real app, this would come from your database
-    const defaultValues: PreferencesFormValues = {
-        themeColor: '#3b82f6',
+    function getRandomDarkColor() {
+        let color = Math.floor(Math.random() * 16777215).toString(16)
+
+        color = '#' + ('000000' + color).slice(-6)
+
+        let r = parseInt(color.slice(1, 3), 16)
+        let g = parseInt(color.slice(3, 5), 16)
+        let b = parseInt(color.slice(5, 7), 16)
+
+        r = Math.floor(r * 0.5)
+        g = Math.floor(g * 0.5)
+        b = Math.floor(b * 0.5)
+
+        return (
+            '#' +
+            r.toString(16).padStart(2, '0') +
+            g.toString(16).padStart(2, '0') +
+            b.toString(16).padStart(2, '0')
+        )
+    }
+
+    const defaultValues: any = {
         darkMode: nextTheme == 'dark',
-        language: 'en',
-        emailNotifications: true,
-        pushNotifications: true,
-        marketingEmails: false,
-        dataSharing: true,
-        accentColor: '#10b981',
+        ...(!_.isNil(user?.userinfo?.colorPreferences)
+            ? user?.userinfo?.colorPreferences
+            : {}),
     }
 
     // Initialize form with react-hook-form
-    const form = useForm<PreferencesFormValues>({
+    const form = useForm<any>({
         resolver: zodResolver(preferencesFormSchema),
         defaultValues,
-        mode: 'onChange',
     })
 
     // Handle form submission
-    async function onSubmit(data: PreferencesFormValues) {
+    async function onSubmit(data: any) {
         setIsLoading(true)
-
         try {
-            // In a real app, you would send this data to your API
-            await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate API call
-
+            await axiosInstance.patch(
+                `user/${userId}`,
+                _.omit(form.getValues(), ['darkMode'])
+            )
+            await userRefetch()
             toast('Preferences updated', {
                 description: 'Your preferences have been successfully saved.',
                 position: 'top-center',
@@ -128,75 +141,95 @@ export const UserPreferences = () => {
                                 value="appearance"
                                 className="space-y-6 pt-4"
                             >
-                                <div className="space-y-4">
-                                    <FormField
-                                        control={form.control}
-                                        name="themeColor"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Primary Color
-                                                </FormLabel>
-                                                <div className="flex items-center gap-2">
-                                                    <FormControl>
-                                                        <Input
-                                                            className="w-12 h-10 p-1 cursor-pointer"
-                                                            type="color"
-                                                            {...field}
-                                                        />
-                                                    </FormControl>
-                                                    <Input
-                                                        type="text"
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        className="w-28"
-                                                    />
-                                                </div>
-                                                <FormDescription>
-                                                    Choose the primary color of
-                                                    the interface
-                                                </FormDescription>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                <div className="flex flex-col gap-5">
+                                    <div className="flex flex-wrap gap-5">
+                                        {_.keys(StepVariants).map((color) => {
+                                            return (
+                                                <FormField
+                                                    key={`${color.toLowerCase()}_color`}
+                                                    control={form.control}
+                                                    name={`${color.toLowerCase()}_color`}
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel>
+                                                                {_.capitalize(
+                                                                    color
+                                                                )}{' '}
+                                                                Color
+                                                            </FormLabel>
+                                                            <div className="flex items-center gap-2">
+                                                                <FormControl>
+                                                                    <Input
+                                                                        className="w-12 h-10 p-1 cursor-pointer"
+                                                                        type="color"
+                                                                        {...field}
+                                                                    />
+                                                                </FormControl>
+                                                                <Input
+                                                                    type="text"
+                                                                    value={
+                                                                        field.value
+                                                                    }
+                                                                    onChange={
+                                                                        field.onChange
+                                                                    }
+                                                                    className="w-28"
+                                                                />
+                                                            </div>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            )
+                                        })}
+                                    </div>
 
-                                    <FormField
-                                        control={form.control}
-                                        name="accentColor"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Accent Color
-                                                </FormLabel>
-                                                <div className="flex items-center gap-2">
-                                                    <FormControl>
-                                                        <Input
-                                                            type="color"
-                                                            {...field}
-                                                            className="w-12 h-10 p-1 cursor-pointer"
-                                                        />
-                                                    </FormControl>
-                                                    <Input
-                                                        type="text"
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        className="w-28"
-                                                    />
-                                                </div>
-                                                <FormDescription>
-                                                    Choose the accent color for
-                                                    buttons and links
-                                                </FormDescription>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                    <div className="flex gap-5">
+                                        <Button
+                                            variant={'secondary'}
+                                            className="flex-1"
+                                            onClick={() => {
+                                                const colorsItems = _.keys(
+                                                    StepVariants
+                                                ).reduce((acc, curr) => {
+                                                    if (!_.has(acc, curr)) {
+                                                        acc[
+                                                            `${curr.toLowerCase()}_color`
+                                                        ] = getRandomDarkColor()
+                                                    }
 
+                                                    return acc
+                                                }, {})
+
+                                                form.reset(colorsItems)
+                                            }}
+                                            type="button"
+                                        >
+                                            Generate a random color palette
+                                        </Button>
+                                        <Button
+                                            variant={'secondary'}
+                                            className="flex-1"
+                                            onClick={() => {
+                                                const colorsItems = _.keys(
+                                                    StepVariants
+                                                ).reduce((acc, curr) => {
+                                                    if (!_.has(acc, curr)) {
+                                                        acc[
+                                                            `${curr.toLowerCase()}_color`
+                                                        ] = ''
+                                                    }
+
+                                                    return acc
+                                                }, {})
+
+                                                form.reset(colorsItems)
+                                            }}
+                                            type="button"
+                                        >
+                                            Use default color palette
+                                        </Button>
+                                    </div>
                                     <FormField
                                         control={form.control}
                                         name="darkMode"
@@ -315,7 +348,19 @@ export const UserPreferences = () => {
                             </TabsContent>
                         </Tabs>
                         <CardFooter className="px-0 pt-6">
-                            <Button type="submit" disabled={isLoading}>
+                            <Button
+                                type="submit"
+                                disabled={
+                                    isLoading ||
+                                    _.isEqual(
+                                        _.omit(form.getValues(), ['darkMode']),
+                                        _.omit(
+                                            user?.userinfo?.colorPreferences,
+                                            ['darkMode']
+                                        )
+                                    )
+                                }
+                            >
                                 {isLoading ? 'Saving...' : 'Save preferences'}
                             </Button>
                         </CardFooter>

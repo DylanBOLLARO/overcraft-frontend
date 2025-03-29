@@ -6,6 +6,7 @@ export const StepsRowContainer = ({
     refetch = () => {},
     currentIndex = null,
     isRunning = null,
+    colors = {},
 }: any) => {
     return (
         <div className="flex flex-col gap-y-2 ">
@@ -18,6 +19,7 @@ export const StepsRowContainer = ({
                         refetch={refetch}
                         currentIndex={currentIndex}
                         isRunning={isRunning}
+                        colors={colors}
                     />
                 )
             })}

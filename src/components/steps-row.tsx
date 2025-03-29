@@ -39,7 +39,7 @@ import * as _ from 'lodash'
 import { axiosInstance } from '@/lib/networking'
 import { Card } from './ui/card'
 import { Separator } from './ui/separator'
-import { DialogDeleteBuild } from './DialogDeleteBuild'
+import { useAuth } from './providers/context-provider'
 
 const FormSchema = z.object({
     population: z.number(),
@@ -60,6 +60,7 @@ export const StepsRow = ({
     isRunning,
 }: any) => {
     const [loading, setLoading] = useState(false)
+    const { user } = useAuth()
 
     const time = intervalToDuration({ start: 0, end: step.timer * 1000 })
 
@@ -110,10 +111,33 @@ export const StepsRow = ({
         setLoading(false)
         await refetch()
     }
+    const c = user?.userinfo?.colorPreferences
+    const isActive = _.isNil(c)
+
+    const detectColor = {
+        [StepVariants.INFO]: c.info_color,
+        [StepVariants.UPGRADE]: c.upgrade_color,
+        [StepVariants.SUPPLY]: c.supply_color,
+        [StepVariants.ATTACK]: c.attack_color,
+        [StepVariants.BUILDING]: c.building_color,
+        [StepVariants.GAZ]: c.gaz_color,
+        [StepVariants.UNIT]: c.unit_color,
+    }
 
     return (
         <div className="flex gap-3">
             <Card
+                // bg-html-color-value not working with tailwindcss
+                style={{
+                    ...(!isActive && {
+                        backgroundColor:
+                            detectColor[
+                                StepVariants[
+                                    variant as keyof typeof StepVariants
+                                ]
+                            ],
+                    }),
+                }}
                 className={cn(
                     stepVariants({
                         variant:

@@ -22,12 +22,11 @@ import {
     CardTitle,
 } from '@/components/ui/card'
 import { format } from 'date-fns'
-import { DialogDeleteBuild } from '@/components/DialogDeleteBuild'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
 
-    const { userId, userBuilds, userFavorites, userRefetch } = useAuth()
+    const { userId, userBuilds, userFavorites, userRefetch, user } = useAuth()
     const { isRunning, elapsedTime, formatTime, start, stop, reset } =
         useStopwatch()
 
@@ -183,6 +182,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                 }
                 isRunning={isRunning}
                 currentIndex={currentIndex}
+                colors={user.userinfo.colorPreferences}
             />
         </div>
     )
