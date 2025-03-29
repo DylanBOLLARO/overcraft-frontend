@@ -26,7 +26,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Switch } from '@/components/ui/switch'
 import { useTheme } from 'next-themes'
 import _ from 'lodash'
@@ -121,241 +120,124 @@ export const UserPreferences = () => {
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-8"
                     >
-                        <Tabs defaultValue="appearance" className="w-full">
-                            <TabsList className="flex w-full">
-                                <TabsTrigger
-                                    value="appearance"
-                                    className="flex-1"
-                                >
-                                    Appearance
-                                </TabsTrigger>
-                                <TabsTrigger
-                                    value="notifications"
-                                    className="flex-1"
-                                >
-                                    Notifications
-                                </TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent
-                                value="appearance"
-                                className="space-y-6 pt-4"
-                            >
-                                <div className="flex flex-col gap-5">
-                                    <div className="flex flex-wrap gap-5">
-                                        {_.keys(StepVariants).map((color) => {
-                                            return (
-                                                <FormField
-                                                    key={`${color.toLowerCase()}_color`}
-                                                    control={form.control}
-                                                    name={`${color.toLowerCase()}_color`}
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel>
-                                                                {_.capitalize(
-                                                                    color
-                                                                )}{' '}
-                                                                Color
-                                                            </FormLabel>
-                                                            <div className="flex items-center gap-2">
-                                                                <FormControl>
-                                                                    <Input
-                                                                        className="w-12 h-10 p-1 cursor-pointer"
-                                                                        type="color"
-                                                                        {...field}
-                                                                    />
-                                                                </FormControl>
-                                                                <Input
-                                                                    type="text"
-                                                                    value={
-                                                                        field.value
-                                                                    }
-                                                                    onChange={
-                                                                        field.onChange
-                                                                    }
-                                                                    className="w-28"
-                                                                />
-                                                            </div>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            )
-                                        })}
-                                    </div>
-
-                                    <div className="flex gap-5">
-                                        <Button
-                                            variant={'secondary'}
-                                            className="flex-1"
-                                            onClick={() => {
-                                                const colorsItems = _.keys(
-                                                    StepVariants
-                                                ).reduce<
-                                                    Record<string, string>
-                                                >(
-                                                    (acc, curr) => {
-                                                        if (!_.has(acc, curr)) {
-                                                            acc[
-                                                                `${curr.toLowerCase()}_color`
-                                                            ] =
-                                                                getRandomDarkColor()
-                                                        }
-                                                        return acc
-                                                    },
-                                                    {} as Record<string, string>
-                                                )
-
-                                                form.reset(colorsItems)
-                                            }}
-                                            type="button"
-                                        >
-                                            Generate a random color palette
-                                        </Button>
-                                        <Button
-                                            variant={'secondary'}
-                                            className="flex-1"
-                                            onClick={() => {
-                                                const colorsItems = _.keys(
-                                                    StepVariants
-                                                ).reduce<
-                                                    Record<string, string>
-                                                >(
-                                                    (acc, curr) => {
-                                                        if (!_.has(acc, curr)) {
-                                                            acc[
-                                                                `${curr.toLowerCase()}_color`
-                                                            ] = ''
-                                                        }
-                                                        return acc
-                                                    },
-                                                    {} as Record<string, string>
-                                                )
-
-                                                form.reset(colorsItems)
-                                            }}
-                                            type="button"
-                                        >
-                                            Use default color palette
-                                        </Button>
-                                    </div>
-                                    <FormField
-                                        control={form.control}
-                                        name="darkMode"
-                                        render={({ field }) => (
-                                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                                                <div className="space-y-0.5">
-                                                    <FormLabel className="text-base">
-                                                        Dark Mode
+                        <div className="flex flex-col gap-5">
+                            <div className="flex flex-wrap gap-5">
+                                {_.keys(StepVariants).map((color) => {
+                                    return (
+                                        <FormField
+                                            key={`${color.toLowerCase()}_color`}
+                                            control={form.control}
+                                            name={`${color.toLowerCase()}_color`}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>
+                                                        {_.capitalize(color)}{' '}
+                                                        Color
                                                     </FormLabel>
-                                                    <FormDescription>
-                                                        Enable dark mode for the
-                                                        interface
-                                                    </FormDescription>
-                                                </div>
-                                                <FormControl>
-                                                    <Switch
-                                                        checked={
-                                                            nextTheme == 'dark'
-                                                        }
-                                                        onCheckedChange={(e) =>
-                                                            setTheme(
-                                                                e
-                                                                    ? 'dark'
-                                                                    : 'light'
-                                                            )
-                                                        }
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                            </TabsContent>
+                                                    <div className="flex items-center gap-2">
+                                                        <FormControl>
+                                                            <Input
+                                                                className="w-12 h-10 p-1 cursor-pointer"
+                                                                type="color"
+                                                                {...field}
+                                                            />
+                                                        </FormControl>
+                                                        <Input
+                                                            type="text"
+                                                            value={field.value}
+                                                            onChange={
+                                                                field.onChange
+                                                            }
+                                                            className="w-28"
+                                                        />
+                                                    </div>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    )
+                                })}
+                            </div>
 
-                            <TabsContent
-                                value="notifications"
-                                className="space-y-6 pt-4"
-                            >
-                                <FormField
-                                    control={form.control}
-                                    name="emailNotifications"
-                                    render={({ field }) => (
-                                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                            <FormControl>
-                                                <Checkbox
-                                                    checked={field.value}
-                                                    onCheckedChange={
-                                                        field.onChange
-                                                    }
-                                                />
-                                            </FormControl>
-                                            <div className="space-y-1 leading-none">
-                                                <FormLabel className="text-base">
-                                                    Email Notifications
-                                                </FormLabel>
-                                                <FormDescription>
-                                                    Receive email notifications
-                                                    about your account
-                                                </FormDescription>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
+                            <div className="flex gap-5">
+                                <Button
+                                    variant={'secondary'}
+                                    className="flex-1"
+                                    onClick={() => {
+                                        const colorsItems = _.keys(
+                                            StepVariants
+                                        ).reduce<Record<string, string>>(
+                                            (acc, curr) => {
+                                                if (!_.has(acc, curr)) {
+                                                    acc[
+                                                        `${curr.toLowerCase()}_color`
+                                                    ] = getRandomDarkColor()
+                                                }
+                                                return acc
+                                            },
+                                            {} as Record<string, string>
+                                        )
 
-                                <FormField
-                                    control={form.control}
-                                    name="pushNotifications"
-                                    render={({ field }) => (
-                                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                            <FormControl>
-                                                <Checkbox
-                                                    checked={field.value}
-                                                    onCheckedChange={
-                                                        field.onChange
-                                                    }
-                                                />
-                                            </FormControl>
-                                            <div className="space-y-1 leading-none">
-                                                <FormLabel className="text-base">
-                                                    Push Notifications
-                                                </FormLabel>
-                                                <FormDescription>
-                                                    Receive push notifications
-                                                    on your device
-                                                </FormDescription>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
+                                        form.reset(colorsItems)
+                                    }}
+                                    type="button"
+                                >
+                                    Generate a random color palette
+                                </Button>
+                                <Button
+                                    variant={'secondary'}
+                                    className="flex-1"
+                                    onClick={() => {
+                                        const colorsItems = _.keys(
+                                            StepVariants
+                                        ).reduce<Record<string, string>>(
+                                            (acc, curr) => {
+                                                if (!_.has(acc, curr)) {
+                                                    acc[
+                                                        `${curr.toLowerCase()}_color`
+                                                    ] = ''
+                                                }
+                                                return acc
+                                            },
+                                            {} as Record<string, string>
+                                        )
 
-                                <FormField
-                                    control={form.control}
-                                    name="marketingEmails"
-                                    render={({ field }) => (
-                                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                            <FormControl>
-                                                <Checkbox
-                                                    checked={field.value}
-                                                    onCheckedChange={
-                                                        field.onChange
-                                                    }
-                                                />
-                                            </FormControl>
-                                            <div className="space-y-1 leading-none">
-                                                <FormLabel className="text-base">
-                                                    Marketing Emails
-                                                </FormLabel>
-                                                <FormDescription>
-                                                    Receive emails about our new
-                                                    products and offers
-                                                </FormDescription>
-                                            </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            </TabsContent>
-                        </Tabs>
+                                        form.reset(colorsItems)
+                                    }}
+                                    type="button"
+                                >
+                                    Use default color palette
+                                </Button>
+                            </div>
+                            <FormField
+                                control={form.control}
+                                name="darkMode"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                        <div className="space-y-0.5">
+                                            <FormLabel className="text-base">
+                                                Dark Mode
+                                            </FormLabel>
+                                            <FormDescription>
+                                                Enable dark mode for the
+                                                interface
+                                            </FormDescription>
+                                        </div>
+                                        <FormControl>
+                                            <Switch
+                                                checked={nextTheme == 'dark'}
+                                                onCheckedChange={(e) =>
+                                                    setTheme(
+                                                        e ? 'dark' : 'light'
+                                                    )
+                                                }
+                                            />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
                         <CardFooter className="px-0 pt-6">
                             <Button
                                 type="submit"

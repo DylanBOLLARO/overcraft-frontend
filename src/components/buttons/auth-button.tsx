@@ -52,7 +52,7 @@ export default function AuthButton({ user }: any) {
                         className="cursor-pointer flex items-center gap-2 h-10"
                     >
                         <Settings className="h-4 w-4" />
-                        <span>Settings</span>
+                        <span>Preferences</span>
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
