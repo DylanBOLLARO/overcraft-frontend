@@ -191,15 +191,20 @@ export const UserPreferences = () => {
                                             onClick={() => {
                                                 const colorsItems = _.keys(
                                                     StepVariants
-                                                ).reduce((acc, curr) => {
-                                                    if (!_.has(acc, curr)) {
-                                                        acc[
-                                                            `${curr.toLowerCase()}_color`
-                                                        ] = getRandomDarkColor()
-                                                    }
-
-                                                    return acc
-                                                }, {})
+                                                ).reduce<
+                                                    Record<string, string>
+                                                >(
+                                                    (acc, curr) => {
+                                                        if (!_.has(acc, curr)) {
+                                                            acc[
+                                                                `${curr.toLowerCase()}_color`
+                                                            ] =
+                                                                getRandomDarkColor()
+                                                        }
+                                                        return acc
+                                                    },
+                                                    {} as Record<string, string>
+                                                )
 
                                                 form.reset(colorsItems)
                                             }}
@@ -213,15 +218,19 @@ export const UserPreferences = () => {
                                             onClick={() => {
                                                 const colorsItems = _.keys(
                                                     StepVariants
-                                                ).reduce((acc, curr) => {
-                                                    if (!_.has(acc, curr)) {
-                                                        acc[
-                                                            `${curr.toLowerCase()}_color`
-                                                        ] = ''
-                                                    }
-
-                                                    return acc
-                                                }, {})
+                                                ).reduce<
+                                                    Record<string, string>
+                                                >(
+                                                    (acc, curr) => {
+                                                        if (!_.has(acc, curr)) {
+                                                            acc[
+                                                                `${curr.toLowerCase()}_color`
+                                                            ] = ''
+                                                        }
+                                                        return acc
+                                                    },
+                                                    {} as Record<string, string>
+                                                )
 
                                                 form.reset(colorsItems)
                                             }}
