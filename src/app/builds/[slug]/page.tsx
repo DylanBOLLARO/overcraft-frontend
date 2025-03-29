@@ -139,9 +139,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                         </div>
                         <div className="flex-1 flex justify-center gap-5">
                             <Button
-                                variant={cn(
-                                    isRunning ? 'destructive' : ' dark'
-                                )}
+                                variant={isRunning ? 'destructive' : 'dark'}
                                 onClick={isRunning ? stop : start}
                                 size={'lg'}
                             >
