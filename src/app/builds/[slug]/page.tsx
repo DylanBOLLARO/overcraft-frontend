@@ -1,19 +1,30 @@
 'use client'
 
 import { useBuild } from '@/lib/queries'
-import { extractUUID, getBadgeVariantFromLabel } from '@/lib/utils'
+import { cn, extractUUID, getBadgeVariantFromLabel } from '@/lib/utils'
 import { StepsRowContainer } from '@/components/steps-row-container'
 import { TypographyH2 } from '../../../components/typography'
 import { Badge } from '@/components/ui/badge'
 import { useAuth, useStopwatch } from '@/components/providers/context-provider'
 import * as _ from 'lodash'
 import { useRouter } from 'next/navigation'
-import { FileSliders, Star } from 'lucide-react'
+import { FileSliders, Star, StarOff } from 'lucide-react'
 import { CustomButton } from '@/components/ui-customs/button'
 import { CloneBuildButton } from '@/components/buttons/transfer-builds-orders-buttons/clone-build-button'
 import { BackButton } from '@/components/buttons/back-button'
 import { CustomCard } from '@/components/ui-customs/card'
 import { axiosInstance } from '@/lib/networking'
+import { Button } from '@/components/ui/button'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
+import { format } from 'date-fns'
+import { DialogDeleteBuild } from '@/components/DialogDeleteBuild'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
@@ -42,16 +53,14 @@ export default function Page({ params }: { params: { slug: string } }) {
     return (
         <div className="flex flex-col gap-y-5">
             {!isRunning && (
-                <div className="relative flex items-center justify-between gap-4 z-10">
+                <div className="relative flex items-center justify-between gap-5 z-10">
                     <BackButton />
-                    <div className="text-muted-foreground absolute left-1/2 -translate-x-1/2 bg-black border-none px-10 h-full flex items-center justify-center w-1/3">
-                        <TypographyH2 str={build?.name} />
-                    </div>
 
                     {!_.isEmpty(userId) && (
                         <div className="flex items-center gap-4">
                             {!_.some(userFavorites, { buildId: build.id }) && (
-                                <CustomButton
+                                <Button
+                                    className="bg-red-950 hover:bg-red-950/90 text-foreground"
                                     onClick={async () => {
                                         await axiosInstance.post('favorites', {
                                             userId,
@@ -62,11 +71,12 @@ export default function Page({ params }: { params: { slug: string } }) {
                                 >
                                     <Star />
                                     Add favorites
-                                </CustomButton>
+                                </Button>
                             )}
 
                             {_.some(userFavorites, { buildId: build.id }) && (
-                                <CustomButton
+                                <Button
+                                    className="bg-card hover:bg-card/90 text-foreground"
                                     onClick={async () => {
                                         await axiosInstance.delete(
                                             `favorites/${
@@ -78,9 +88,9 @@ export default function Page({ params }: { params: { slug: string } }) {
                                         await userRefetch()
                                     }}
                                 >
-                                    <Star />
+                                    <StarOff />
                                     Remove from favorites
-                                </CustomButton>
+                                </Button>
                             )}
 
                             {!_.some(userBuilds, { id: build.id }) && (
@@ -91,7 +101,8 @@ export default function Page({ params }: { params: { slug: string } }) {
                             )}
 
                             {_.some(userBuilds, { id: build.id }) && (
-                                <CustomButton
+                                <Button
+                                    className="bg-purple-950 hover:bg-purple-950/90 text-foreground"
                                     onClick={() =>
                                         router.push(
                                             `/dashboard/update/${build.slug}`
@@ -100,46 +111,74 @@ export default function Page({ params }: { params: { slug: string } }) {
                                 >
                                     <FileSliders />
                                     Edit
-                                </CustomButton>
+                                </Button>
                             )}
                         </div>
                     )}
                 </div>
             )}
-            {!_.isEmpty(userId) && (
-                <CustomCard className="flex flex-row justify-center items-center gap-10 hover:bg-black/80 rounded-2xl bg-black/80">
-                    <div className="flex-1 flex justify-center text-5xl font-bold">
-                        {formatTime()}
-                    </div>
-                    <div className="flex-1 flex justify-center gap-5">
-                        <CustomButton onClick={start}>Start</CustomButton>
-                        <CustomButton onClick={stop}>Stop</CustomButton>
-                        <CustomButton onClick={reset}>Reset</CustomButton>
-                    </div>
-                </CustomCard>
-            )}
-            {!isRunning && (
+
+            <div className="flex gap-3">
+                <Card className="flex-1">
+                    <CardHeader>
+                        <div className="flex justify-between">
+                            <CardTitle>
+                                <h2 className="text-2xl">{build?.name}</h2>
+                            </CardTitle>
+                            <p className="text-sm font-normal text-foreground/50">
+                                {format(new Date(build.created_at), 'dd/MM/yy')}
+                            </p>
+                        </div>
+                        <CardDescription>{build?.description}</CardDescription>
+                    </CardHeader>
+                </Card>
+                {!_.isEmpty(userId) && (
+                    <Card className="flex-1 flex gap-3 items-center justify-center">
+                        <div className="flex-1 flex justify-center text-5xl font-bold">
+                            {formatTime()}
+                        </div>
+                        <div className="flex-1 flex justify-center gap-5">
+                            <Button
+                                variant={cn(
+                                    isRunning ? 'destructive' : ' dark'
+                                )}
+                                onClick={isRunning ? stop : start}
+                                size={'lg'}
+                            >
+                                {isRunning ? 'Stop' : 'Start'}
+                            </Button>
+                            <Button
+                                disabled={Math.floor(elapsedTime / 1000) === 0}
+                                onClick={reset}
+                                size={'lg'}
+                            >
+                                Reset
+                            </Button>
+                        </div>
+                    </Card>
+                )}
+            </div>
+
+            {/* {!isRunning && (
                 <div className="flex flex-col gap-3">
-                    <div className="flex flex-1 justify-center gap-5 items-center">
+                    <div className="flex gap-5 items-center">
                         <Badge
-                            className="p-2 text-lg justify-center w-1/3"
+                            className="p-2 text-lg justify-center"
                             variant={getBadgeVariantFromLabel(build?.race?.[0])}
                         >{`${build.race}`}</Badge>
                         <p className="text-3xl font-semibold items-center">
                             vs
                         </p>
                         <Badge
-                            className="p-2 text-lg justify-center w-1/3"
+                            className="p-2 text-lg justify-center"
                             variant={getBadgeVariantFromLabel(
                                 build?.v_race?.[0]
                             )}
                         >{`${build?.v_race}`}</Badge>
                     </div>
-                    <CustomCard className="hover:bg-black">
-                        {build?.description}
-                    </CustomCard>
                 </div>
-            )}
+            )} */}
+
             <StepsRowContainer
                 steps={
                     isRunning

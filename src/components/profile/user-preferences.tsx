@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -26,16 +26,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Switch } from '@/components/ui/switch'
-import { CustomCard } from '../ui-customs/card'
+import { useTheme } from 'next-themes'
 
 // Form validation schema
 const preferencesFormSchema = z.object({
@@ -51,20 +44,21 @@ const preferencesFormSchema = z.object({
 
 type PreferencesFormValues = z.infer<typeof preferencesFormSchema>
 
-// Mock user preferences data - in a real app, this would come from your database
-const defaultValues: PreferencesFormValues = {
-    themeColor: '#3b82f6',
-    darkMode: false,
-    language: 'fr',
-    emailNotifications: true,
-    pushNotifications: true,
-    marketingEmails: false,
-    dataSharing: true,
-    accentColor: '#10b981',
-}
-
 export const UserPreferences = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const { setTheme, theme: nextTheme } = useTheme()
+
+    // Mock user preferences data - in a real app, this would come from your database
+    const defaultValues: PreferencesFormValues = {
+        themeColor: '#3b82f6',
+        darkMode: nextTheme == 'dark',
+        language: 'fr',
+        emailNotifications: true,
+        pushNotifications: true,
+        marketingEmails: false,
+        dataSharing: true,
+        accentColor: '#10b981',
+    }
 
     // Initialize form with react-hook-form
     const form = useForm<PreferencesFormValues>({
@@ -88,22 +82,17 @@ export const UserPreferences = () => {
                 duration: 2000,
             })
         } catch (error) {
-            console.log({
-                title: 'Une erreur est survenue',
-                description:
-                    "Vos préférences n'ont pas pu être mises à jour. Veuillez réessayer.",
-                variant: 'destructive',
-            })
+            console.error(error)
         } finally {
             setIsLoading(false)
         }
     }
 
     return (
-        <CustomCard className="hover:bg-[#131313] bg-[#131313] rounded-2xl">
+        <Card>
             <CardHeader className="space-y-1">
                 <div className="flex items-center space-x-4">
-                    <div className="h-20 w-20 rounded-full flex items-center justify-center text-primary-foreground bg-accent">
+                    <div className="h-20 w-20 rounded-full flex items-center justify-center text-primary-foreground bg-accent-foreground">
                         <Settings className="h-10 w-10" />
                     </div>
                     <div>
@@ -121,16 +110,16 @@ export const UserPreferences = () => {
                         className="space-y-8"
                     >
                         <Tabs defaultValue="appearance" className="w-full">
-                            <TabsList className="flex w-full bg-accent">
+                            <TabsList className="flex w-full">
                                 <TabsTrigger
                                     value="appearance"
-                                    className="flex-1 data-[state=active]:bg-primary"
+                                    className="flex-1"
                                 >
                                     Apparence
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="notifications"
-                                    className="flex-1 data-[state=active]:bg-primary"
+                                    className="flex-1"
                                 >
                                     Notifications
                                 </TabsTrigger>
@@ -152,7 +141,7 @@ export const UserPreferences = () => {
                                                 <div className="flex items-center gap-2">
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-accent border-none w-12 h-10 p-1 cursor-pointer"
+                                                            className="w-12 h-10 p-1 cursor-pointer"
                                                             type="color"
                                                             {...field}
                                                         />
@@ -163,7 +152,7 @@ export const UserPreferences = () => {
                                                         onChange={
                                                             field.onChange
                                                         }
-                                                        className="w-28 bg-accent border-none"
+                                                        className="w-28"
                                                     />
                                                 </div>
                                                 <FormDescription>
@@ -188,7 +177,7 @@ export const UserPreferences = () => {
                                                         <Input
                                                             type="color"
                                                             {...field}
-                                                            className="bg-accent border-none w-12 h-10 p-1 cursor-pointer"
+                                                            className="w-12 h-10 p-1 cursor-pointer"
                                                         />
                                                     </FormControl>
                                                     <Input
@@ -197,7 +186,7 @@ export const UserPreferences = () => {
                                                         onChange={
                                                             field.onChange
                                                         }
-                                                        className="w-28 bg-accent border-none"
+                                                        className="w-28"
                                                     />
                                                 </div>
                                                 <FormDescription>
@@ -214,7 +203,7 @@ export const UserPreferences = () => {
                                         control={form.control}
                                         name="darkMode"
                                         render={({ field }) => (
-                                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 bg-accent">
+                                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                                 <div className="space-y-0.5">
                                                     <FormLabel className="text-base">
                                                         Mode sombre
@@ -226,53 +215,18 @@ export const UserPreferences = () => {
                                                 </div>
                                                 <FormControl>
                                                     <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={
-                                                            field.onChange
+                                                        checked={
+                                                            nextTheme == 'dark'
+                                                        }
+                                                        onCheckedChange={(e) =>
+                                                            setTheme(
+                                                                e
+                                                                    ? 'dark'
+                                                                    : 'light'
+                                                            )
                                                         }
                                                     />
                                                 </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="language"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Langue</FormLabel>
-                                                <Select
-                                                    onValueChange={
-                                                        field.onChange
-                                                    }
-                                                    defaultValue={field.value}
-                                                >
-                                                    <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Sélectionnez une langue" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="fr">
-                                                            Français
-                                                        </SelectItem>
-                                                        <SelectItem value="en">
-                                                            English
-                                                        </SelectItem>
-                                                        <SelectItem value="es">
-                                                            Español
-                                                        </SelectItem>
-                                                        <SelectItem value="de">
-                                                            Deutsch
-                                                        </SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormDescription>
-                                                    Choisissez la langue de
-                                                    l'interface
-                                                </FormDescription>
-                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
@@ -372,6 +326,6 @@ export const UserPreferences = () => {
                     </form>
                 </Form>
             </CardContent>
-        </CustomCard>
+        </Card>
     )
 }

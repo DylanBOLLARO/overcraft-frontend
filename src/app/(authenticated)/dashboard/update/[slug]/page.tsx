@@ -5,26 +5,58 @@ import { useAuth } from '@/components/providers/context-provider'
 import { ExportBuildButton } from '@/components/buttons/transfer-builds-orders-buttons'
 import { CloneBuildButton } from '@/components/buttons/transfer-builds-orders-buttons/clone-build-button'
 import { TypographySmall } from '@/components/typography'
-import { Badge } from '@/components/ui/badge'
-import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { axiosInstance } from '@/lib/networking'
 import { useBuild } from '@/lib/queries'
-import { extractUUID, getBadgeVariantFromLabel } from '@/lib/utils'
+import { cn, extractUUID } from '@/lib/utils'
 import { format } from 'date-fns'
 import { BackButton } from '@/components/buttons/back-button'
-import { CustomButton } from '@/components/ui-customs/button'
-import { CustomCard } from '@/components/ui-customs/card'
-import { BuildEdit } from '@/components/build-edit'
+
 import { StepsRowContainer } from '@/components/steps-row-container'
 import { StepsRow } from '@/components/steps-row'
+import { Button } from '@/components/ui/button'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form'
+import { Textarea } from '@/components/ui/textarea'
+import { useRouter } from 'next/navigation'
+import { Input } from '@/components/ui/input'
+import { useEffect, useState } from 'react'
+import * as _ from 'lodash'
+import { Checkbox } from '@/components/ui/checkbox'
+import { ChevronLeft, Save } from 'lucide-react'
+import { BuildEdit } from '@/components/build-edit'
+import { FormUpdateBuild } from '@/components/form-update-build'
 
 export default function Page({ params }: { params: { slug: string } }) {
     const { slug } = params
-
     const buildId: any = extractUUID(slug) || null
 
-    const { userId } = useAuth()
     const {
         isLoading,
         error,
@@ -32,6 +64,12 @@ export default function Page({ params }: { params: { slug: string } }) {
         refetch,
         isFetched,
     } = useBuild(buildId)
+
+    const [editOrUpdate, setEditOrUpdate] = useState(
+        _.isEmpty(build) ? 'create' : 'update'
+    )
+
+    const { userId } = useAuth()
 
     if (isLoading && !isFetched) return
     if (error) return console.error('An error has occurred: ' + error.message)
@@ -44,53 +82,35 @@ export default function Page({ params }: { params: { slug: string } }) {
                 <div className="flex gap-3">
                     <ExportBuildButton {...build} />
                     <CloneBuildButton build={build} userId={userId} />
-                    <BuildEdit build={build} refetchBuild={refetch} />
-                    <DialogDeleteBuild selectedUserBuildId={build?.id} />
-                    <CustomButton onClick={() => window.history.back()}>
+                    <Button
+                        className="bg-purple-950 hover:bg-purple-950/90 text-foreground"
+                        onClick={() => window.history.back()}
+                    >
+                        <ChevronLeft />
                         <TypographySmall str={'Leave edit mode'} />
-                    </CustomButton>
+                    </Button>
                 </div>
             </div>
 
-            <CustomCard className="hover:bg-black">
-                <CardHeader>
-                    <CardTitle className="flex justify-between">
-                        <p className="text-3xl font-semibold">{build?.name}</p>
-                        <p className="text-sm font-normal text-muted-foreground">
-                            {format(new Date(build.created_at), 'dd/MM/yy')}
-                        </p>
-                    </CardTitle>
-                    <CardDescription className="text-base">
-                        {build?.description}
-                    </CardDescription>
-                </CardHeader>
-            </CustomCard>
-
-            <CustomCard className="hover:bg-black">
-                <CardHeader>
-                    <CardDescription className="text-base">
-                        <div className="flex gap-3">
-                            <div className="flex flex-1 justify-center gap-5 items-center">
-                                <Badge
-                                    className="p-2 text-lg justify-center w-1/3"
-                                    variant={getBadgeVariantFromLabel(
-                                        build?.race?.[0]
-                                    )}
-                                >{`${build.race}`}</Badge>
-                                <p className="text-3xl font-semibold items-center">
-                                    vs
-                                </p>
-                                <Badge
-                                    className="p-2 text-lg justify-center w-1/3"
-                                    variant={getBadgeVariantFromLabel(
-                                        build?.v_race?.[0]
-                                    )}
-                                >{`${build?.v_race}`}</Badge>
-                            </div>
+            <Card>
+                <div className="flex justify-between">
+                    <CardHeader>
+                        <div className="flex justify-between">
+                            <CardTitle>
+                                <h2 className="text-2xl">{build?.name}</h2>
+                            </CardTitle>
                         </div>
-                    </CardDescription>
-                </CardHeader>
-            </CustomCard>
+                        <CardDescription>{build?.description}</CardDescription>
+                    </CardHeader>
+                    <CardHeader>
+                        <DialogDeleteBuild selectedUserBuildId={build?.id} />
+                    </CardHeader>
+                </div>
+
+                <CardContent>
+                    <FormUpdateBuild build={build} refetchBuild={refetch} />
+                </CardContent>
+            </Card>
 
             {build?.steps && (
                 <StepsRowContainer

@@ -84,7 +84,7 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                                                     defaultValue={field.value}
                                                 >
                                                     <FormControl>
-                                                        <SelectTrigger className="w-40 border-none bg-black focus:ring-0">
+                                                        <SelectTrigger className="w-40">
                                                             <SelectValue
                                                                 placeholder={
                                                                     item
@@ -92,7 +92,7 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                                                             />
                                                         </SelectTrigger>
                                                     </FormControl>
-                                                    <SelectContent className="border-none bg-black focus:ring-0">
+                                                    <SelectContent>
                                                         {_.keys(
                                                             PlayableRaces
                                                         ).map((race) => {
@@ -100,7 +100,7 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                                                                 <SelectItem
                                                                     key={`${item}_${race}`}
                                                                     value={race}
-                                                                    className="border-none bg-black focus:ring-0"
+                                                                    className=""
                                                                 >
                                                                     {_.capitalize(
                                                                         race
@@ -129,7 +129,6 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                             <FormItem>
                                 <FormControl>
                                     <Input
-                                        className="border-none bg-black focus-visible:ring-0"
                                         placeholder="Search..."
                                         name={field.name}
                                         ref={refInputSearch}
@@ -158,7 +157,7 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                     </CustomButton>
                 </div>
                 <div className="flex gap-5 items-center">
-                    <CustomButton
+                    <Button
                         variant={'outline'}
                         disabled={defaultValues?.page <= 1}
                         onClick={() => {
@@ -171,9 +170,9 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                         }}
                     >
                         Prev
-                    </CustomButton>
-                    <p className="tracking-widest text-muted-foreground">{`${defaultValues?.page}/${totalItems}`}</p>
-                    <CustomButton
+                    </Button>
+                    <p className="tracking-widest">{`${defaultValues?.page}/${totalItems}`}</p>
+                    <Button
                         variant={'outline'}
                         disabled={defaultValues?.page >= totalItems}
                         onClick={(e: any) => {
@@ -187,7 +186,7 @@ export function SelectBuildsForm({ defaultValues, totalItems }: any) {
                         }}
                     >
                         Next
-                    </CustomButton>
+                    </Button>
                 </div>
             </form>
         </Form>

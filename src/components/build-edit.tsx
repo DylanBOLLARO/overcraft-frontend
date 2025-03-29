@@ -112,11 +112,9 @@ export function BuildEdit({ build = {}, refetchBuild = () => {} }: any) {
             open={isDialogOpen}
         >
             <DialogTrigger asChild>
-                <CustomButton variant="outline">
-                    {_.capitalize(editOrUpdate)}
-                </CustomButton>
+                <Button>{_.capitalize(editOrUpdate)}</Button>
             </DialogTrigger>
-            <DialogContent className="flex flex-1 flex-col max-w-3xl bg-black border-primary/50 border-[1px]">
+            <DialogContent className="flex flex-1 flex-col max-w-3xl bg-card">
                 <DialogHeader>
                     <DialogTitle>
                         {_.capitalize(editOrUpdate)} a build order

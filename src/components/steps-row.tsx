@@ -8,9 +8,7 @@ import { intervalToDuration, minutesToSeconds } from 'date-fns'
 
 import { cn, formatSeconds } from '@/lib/utils'
 
-import { CustomCard } from '@/components/ui-customs/card'
 import { StepVariants, stepVariants } from '@/constants'
-import { CustomButton } from './ui-customs/button'
 
 import {
     Form,
@@ -22,7 +20,14 @@ import {
 } from '@/components/ui/form'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import { Clock9, PersonStanding } from 'lucide-react'
+import {
+    CircleArrowDown,
+    CircleArrowUp,
+    CircleX,
+    Clock9,
+    PersonStanding,
+    Trash2,
+} from 'lucide-react'
 import {
     Select,
     SelectContent,
@@ -32,6 +37,9 @@ import {
 } from './ui/select'
 import * as _ from 'lodash'
 import { axiosInstance } from '@/lib/networking'
+import { Card } from './ui/card'
+import { Separator } from './ui/separator'
+import { DialogDeleteBuild } from './DialogDeleteBuild'
 
 const FormSchema = z.object({
     population: z.number(),
@@ -105,7 +113,7 @@ export const StepsRow = ({
 
     return (
         <div className="flex gap-3">
-            <CustomCard
+            <Card
                 className={cn(
                     stepVariants({
                         variant:
@@ -113,9 +121,9 @@ export const StepsRow = ({
                                 variant as keyof typeof StepVariants
                             ] || StepVariants.INFO,
                     }),
-                    'cursor-pointer flex-1',
+                    'cursor-pointer flex-1 p-3',
                     isRunning && currentIndex == step.position
-                        ? 'scale-105 my-2 py-5 border-2 border-white rounded-2xl'
+                        ? 'scale-y-105 my-2 py-5 border-2 border-accent-foreground/50'
                         : ''
                 )}
             >
@@ -134,11 +142,35 @@ export const StepsRow = ({
                 )}
 
                 {edit && (
-                    <div className="flex gap-10 items-center">
+                    <div className="flex gap-5 items-center">
                         {!_.isEmpty(step) && (
-                            <p className="flex bg-black/50 rounded-full w-14 h-14 text-center justify-center items-center text-2xl text-white font-bold">
-                                {step.position}
-                            </p>
+                            <div className="flex flex-col gap-5">
+                                <Button
+                                    className="w-14 h-14 "
+                                    variant={'destructive'}
+                                    disabled={loading}
+                                    onClick={async () => {
+                                        setLoading(true)
+                                        await axiosInstance.delete(
+                                            `/step/${step?.id}`
+                                        )
+                                        await refetch()
+                                        setLoading(false)
+                                    }}
+                                    size={'icon'}
+                                >
+                                    <Trash2 />
+                                </Button>
+                                <p className="flex bg-background/50 rounded-xl w-14 h-14 text-center justify-center items-center text-2xl font-bold">
+                                    {step.position}
+                                </p>
+                            </div>
+                        )}
+                        {!_.isEmpty(step) && (
+                            <Separator
+                                orientation={'vertical'}
+                                className="h-20"
+                            />
                         )}
 
                         <div className="flex flex-1 flex-col">
@@ -158,7 +190,7 @@ export const StepsRow = ({
                                                     </FormLabel>
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-black/20 border-none focus-visible:ring-0"
+                                                            className="bg-background/25 border-transparent"
                                                             placeholder="pop..."
                                                             {...field}
                                                             {...form.register(
@@ -184,7 +216,7 @@ export const StepsRow = ({
                                                         </FormLabel>
                                                         <FormControl>
                                                             <Input
-                                                                className="bg-black/20 border-none focus-visible:ring-0"
+                                                                className="bg-background/25 border-transparent"
                                                                 placeholder="min..."
                                                                 {...field}
                                                                 {...form.register(
@@ -209,7 +241,7 @@ export const StepsRow = ({
                                                         </FormLabel>
                                                         <FormControl>
                                                             <Input
-                                                                className="bg-black/20 border-none focus-visible:ring-0"
+                                                                className="bg-background/25 border-transparent"
                                                                 placeholder="sec..."
                                                                 {...field}
                                                                 {...form.register(
@@ -235,7 +267,7 @@ export const StepsRow = ({
                                                     </FormLabel>
                                                     <FormControl>
                                                         <Input
-                                                            className="bg-black/20 border-none focus-visible:ring-0"
+                                                            className="bg-background/25 border-transparent"
                                                             placeholder="description..."
                                                             {...field}
                                                         />
@@ -245,12 +277,12 @@ export const StepsRow = ({
                                         />
                                     </div>
 
-                                    <div className="flex items-end justify-center gap-x-16">
+                                    <div className="flex items-end justify-between gap-5">
                                         <FormField
                                             control={form.control}
                                             name="variant"
                                             render={({ field }) => (
-                                                <FormItem>
+                                                <FormItem className="flex-1">
                                                     <Select
                                                         onValueChange={
                                                             field.onChange
@@ -263,7 +295,7 @@ export const StepsRow = ({
                                                             Variant
                                                         </FormLabel>
                                                         <FormControl>
-                                                            <SelectTrigger className="bg-black/20 border-none focus-visible:ring-0 flex items-end justify-center m-0">
+                                                            <SelectTrigger className="bg-background/25 border-none flex items-end justify-center m-0">
                                                                 <SelectValue placeholder="Variant" />
                                                             </SelectTrigger>
                                                         </FormControl>
@@ -276,7 +308,7 @@ export const StepsRow = ({
                                                                         ] ||
                                                                         StepVariants.INFO,
                                                                 }),
-                                                                'focus-visible:ring-0 border-black border-[1px]'
+                                                                ''
                                                             )}
                                                         >
                                                             {_.keys(
@@ -307,10 +339,9 @@ export const StepsRow = ({
                                         />
 
                                         {!_.isEmpty(step) && (
-                                            <div className="flex items-center justify-center gap-3">
-                                                <CustomButton
+                                            <div className="flex items-center justify-center gap-3 flex-1">
+                                                <Button
                                                     disabled={loading}
-                                                    className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
                                                     onClick={async () => {
                                                         setLoading(true)
                                                         await axiosInstance.patch(
@@ -330,11 +361,11 @@ export const StepsRow = ({
                                                         setLoading(false)
                                                     }}
                                                 >
+                                                    <CircleArrowDown />
                                                     DOWN
-                                                </CustomButton>
-                                                <CustomButton
+                                                </Button>
+                                                <Button
                                                     disabled={loading}
-                                                    className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
                                                     onClick={async () => {
                                                         setLoading(true)
                                                         await axiosInstance.patch(
@@ -353,25 +384,13 @@ export const StepsRow = ({
                                                     }}
                                                 >
                                                     UP
-                                                </CustomButton>
-                                                <CustomButton
-                                                    disabled={loading}
-                                                    className="bg-black/20 border-none focus-visible:ring-0 hover:bg-black/20"
-                                                    onClick={async () => {
-                                                        setLoading(true)
-                                                        await axiosInstance.delete(
-                                                            `/step/${step?.id}`
-                                                        )
-                                                        await refetch()
-                                                        setLoading(false)
-                                                    }}
-                                                >
-                                                    DELETE
-                                                </CustomButton>
+                                                    <CircleArrowUp />
+                                                </Button>
                                             </div>
                                         )}
 
                                         <Button
+                                            className="flex-1"
                                             disabled={
                                                 _.isEqual(
                                                     _.pick(
@@ -464,7 +483,7 @@ export const StepsRow = ({
                         </div>
                     </div>
                 )}
-            </CustomCard>
+            </Card>
         </div>
     )
 }

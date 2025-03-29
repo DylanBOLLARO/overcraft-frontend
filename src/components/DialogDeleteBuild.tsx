@@ -13,19 +13,16 @@ import { Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { PAGE_PATH } from '../constants/enum'
 import { axiosInstance } from '@/lib/networking'
-import { CustomButton } from './ui-customs/button'
 
 export const DialogDeleteBuild = ({ selectedUserBuildId }: any) => {
     const router = useRouter()
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <CustomButton
-                    className={'text-destructive hover:text-destructive'}
-                >
+                <Button variant={'destructive'}>
                     <Trash2 />
                     Delete
-                </CustomButton>
+                </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>

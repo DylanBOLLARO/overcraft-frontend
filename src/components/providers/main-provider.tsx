@@ -15,7 +15,7 @@ export function MainProvider({ children }: { children: React.ReactNode }) {
                 attribute="class"
                 defaultTheme="dark"
                 enableSystem
-                disableTransitionOnChange
+                storageKey="overcraft-theme"
             >
                 <AuthProvider>
                     <div className="flex min-h-screen w-full flex-col">

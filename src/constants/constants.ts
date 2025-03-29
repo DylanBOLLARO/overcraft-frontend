@@ -43,14 +43,13 @@ export const StepVariants = {
 export const stepVariants = cva('', {
     variants: {
         variant: {
-            [StepVariants.INFO]: 'bg-step-info hover:bg-step-info text-black',
-            [StepVariants.UPGRADE]: 'bg-step-upgrade hover:bg-step-upgrade',
-            [StepVariants.SUPPLY]:
-                'bg-step-supply hover:bg-step-supply text-black',
-            [StepVariants.ATTACK]: 'bg-step-attack hover:bg-step-attack',
-            [StepVariants.BUILDING]: 'bg-step-building hover:bg-step-building',
-            [StepVariants.GAZ]: 'bg-step-gaz hover:bg-step-gaz',
-            [StepVariants.UNIT]: 'bg-step-unit hover:bg-step-unit',
+            [StepVariants.INFO]: 'bg-cyan-700',
+            [StepVariants.UPGRADE]: 'bg-purple-950',
+            [StepVariants.SUPPLY]: 'bg-yellow-950',
+            [StepVariants.ATTACK]: 'bg-red-950',
+            [StepVariants.BUILDING]: 'bg-zinc-900',
+            [StepVariants.GAZ]: 'bg-green-950',
+            [StepVariants.UNIT]: 'bg-blue-950',
         },
     },
     defaultVariants: {

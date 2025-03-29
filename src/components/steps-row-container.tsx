@@ -8,7 +8,7 @@ export const StepsRowContainer = ({
     isRunning = null,
 }: any) => {
     return (
-        <div className="flex flex-col gap-y-1 ">
+        <div className="flex flex-col gap-y-2 ">
             {steps?.map((step: any) => {
                 return (
                     <StepsRow

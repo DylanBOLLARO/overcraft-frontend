@@ -30,11 +30,10 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased font-[family-name:var(--font-geist-sans)] `}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased font-[family-name:var(--font-geist-sans)]`}
             >
                 <MainProvider>
                     <Header />
-                    <BackgroundColors />
                     {/* div below with "pt-[4rem]" cause Header has 64px height, to avoid unvisible content (below header)*/}
                     <div className="container mx-auto flex flex-1 flex-col pt-[4rem]">
                         <div className="py-5 px-2">

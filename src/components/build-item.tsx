@@ -3,6 +3,7 @@ import { format } from 'date-fns'
 import { Swords } from 'lucide-react'
 import { cn, getBadgeVariantFromLabel } from '@/lib/utils'
 import {
+    Card,
     CardContent,
     CardDescription,
     CardHeader,
@@ -26,7 +27,7 @@ export function BuildItem({ build, update }: any) {
                     : `/dashboard/update/${build.slug}`
             }
         >
-            <CustomCard className="relative overflow-hidden rounded-md border outline-hidden ">
+            <Card className="relative overflow-hidden rounded-md border outline-hidden rounded border text-card-foreground shadow-sm flex flex-col p-4 gap-3 duration-100 h-full">
                 {_.some(userFavorites, { buildId: build.id }) && (
                     <BorderTrail
                         transition={{ delay: 0 }}
@@ -90,7 +91,7 @@ export function BuildItem({ build, update }: any) {
                         >{`${build.v_race}`}</Badge>
                     </div>
                 </CardContent>
-            </CustomCard>
+            </Card>
         </Link>
     )
 }

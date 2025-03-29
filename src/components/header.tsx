@@ -15,18 +15,19 @@ export default function Header() {
     const router = useRouter()
 
     return (
-        <div className="fixed left-0 right-0 top-0 border-b z-50 flex p-3 px-16 justify-between items-center gap-5 h-16 bg-black border-none">
+        <div className="fixed left-0 right-0 top-0 border-b z-50 flex p-3 px-16 justify-between items-center gap-5 h-16 bg-background">
             <h4
                 className="text-2xl tracking-wider cursor-pointer font-bold"
                 onClick={() => router.push(PAGE_PATH.HOME)}
             >
                 Overcraft
             </h4>
-
+            <CustomButton onClick={() => router.push(PAGE_PATH.HOME)}>
+                <TypographySmall str={'Home'} />
+            </CustomButton>
             <div className="flex items-center ml-auto gap-10 h-full">
                 {!_.isEmpty(userId) && (
                     <div className="flex gap-5 h-full items-center">
-                        <p className="text-muted-foreground ml-16">{`Hello ${user.userinfo.given_name}`}</p>
                         <CustomButton
                             onClick={() => router.push(PAGE_PATH.FAVORITES)}
                         >

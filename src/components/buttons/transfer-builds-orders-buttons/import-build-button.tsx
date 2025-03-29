@@ -35,8 +35,8 @@ export const ImportBuildButton = ({ userId, refetch }: any) => {
             <Label
                 htmlFor="btn-import"
                 className={cn(
-                    buttonVariants({ variant: 'ghost' }),
-                    'h-9 font-semibold px-10 bg-black border-none gap-5 cursor-pointer'
+                    buttonVariants(),
+                    'h-9 font-semibold px-10  gap-5 cursor-pointer'
                 )}
             >
                 <Download className="h-3.5 w-3.5" />

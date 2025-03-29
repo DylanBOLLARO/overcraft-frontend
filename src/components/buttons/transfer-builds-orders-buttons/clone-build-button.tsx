@@ -3,8 +3,8 @@ import { BookCopy } from 'lucide-react'
 import { removingBuildReferences } from '@/lib/utils'
 import { axiosInstance } from '@/lib/networking'
 import { useRouter } from 'next/navigation'
-import { CustomButton } from '@/components/ui-customs/button'
 import { useAuth } from '@/components/providers/context-provider'
+import { Button } from '@/components/ui/button'
 
 export const CloneBuildButton = ({ build, userId }: any) => {
     const router = useRouter()
@@ -23,9 +23,12 @@ export const CloneBuildButton = ({ build, userId }: any) => {
     }
 
     return (
-        <CustomButton onClick={cloneBuild}>
+        <Button
+            onClick={cloneBuild}
+            className="bg-green-700 hover:bg-green-700/90 text-foreground"
+        >
             <BookCopy />
             Clone
-        </CustomButton>
+        </Button>
     )
 }

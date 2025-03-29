@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { User } from 'lucide-react'
+import { User, User2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -79,43 +79,25 @@ export const UserProfile = () => {
         try {
             // In a real app, you would send this data to your API
             await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate API call
-
             toast('Profile updated successfully', {
                 description: 'Your changes have been saved.',
                 position: 'top-center',
                 duration: 2000,
             })
-
-            console.log({
-                title: 'Profile updated',
-                description:
-                    'Your profile information has been updated successfully.',
-            })
         } catch (error) {
-            console.log({
-                title: 'Something went wrong',
-                description:
-                    'Your profile could not be updated. Please try again.',
-                variant: 'destructive',
-            })
+            console.error(error)
         } finally {
             setIsLoading(false)
         }
     }
 
     return (
-        <CustomCard className="hover:bg-black rounded-2xl">
+        <Card>
             <CardHeader className="space-y-1">
                 <div className="flex items-center space-x-4">
-                    <Avatar className="h-20 w-20">
-                        <AvatarImage
-                            src="/placeholder.svg?height=80&width=80"
-                            alt="Profile picture"
-                        />
-                        <AvatarFallback>
-                            <User className="h-10 w-10" />
-                        </AvatarFallback>
-                    </Avatar>
+                    <div className="h-20 w-20 rounded-full flex items-center justify-center text-primary-foreground bg-accent-foreground">
+                        <User2 className="h-10 w-10" />
+                    </div>
                     <div>
                         <CardTitle className="text-2xl">Profile</CardTitle>
                         <CardDescription>
@@ -139,7 +121,6 @@ export const UserProfile = () => {
                                         <FormLabel>First name</FormLabel>
                                         <FormControl>
                                             <Input
-                                                className="bg-accent border-none"
                                                 placeholder="Enter your first name"
                                                 {...field}
                                             />
@@ -156,7 +137,6 @@ export const UserProfile = () => {
                                         <FormLabel>Last name</FormLabel>
                                         <FormControl>
                                             <Input
-                                                className="bg-accent border-none"
                                                 placeholder="Enter your last name"
                                                 {...field}
                                             />
@@ -174,7 +154,6 @@ export const UserProfile = () => {
                                     <FormLabel>Username</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className="bg-accent border-none"
                                             placeholder="Enter your username"
                                             {...field}
                                         />
@@ -196,7 +175,6 @@ export const UserProfile = () => {
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className="bg-accent border-none"
                                             placeholder="Enter your username"
                                             {...field}
                                         />
@@ -213,6 +191,6 @@ export const UserProfile = () => {
                     </form>
                 </Form>
             </CardContent>
-        </CustomCard>
+        </Card>
     )
 }
