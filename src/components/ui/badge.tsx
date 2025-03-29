@@ -15,10 +15,9 @@ const badgeVariants = cva(
                 destructive:
                     'border-transparent bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/80',
                 outline: 'text-foreground',
-                zerg: 'border-transparent bg-zerg text-zerg-foreground hover:bg-zerg/80',
-                terran: 'border-transparent bg-terran text-terran-foreground hover:bg-terran/80',
-                protoss:
-                    'border-transparent bg-protoss text-protoss-foreground hover:bg-protoss/80',
+                zerg: 'border-transparent bg-purple-900 hover:bg-purple-900/90',
+                terran: 'border-transparent bg-orange-800 hover:bg-orange-800/90',
+                protoss: 'border-transparent bg-blue-500 hover:bg-blue-500/90',
             },
         },
         defaultVariants: {

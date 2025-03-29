@@ -154,26 +154,6 @@ export default function Page({ params }: { params: { slug: string } }) {
                 )}
             </div>
 
-            {/* {!isRunning && (
-                <div className="flex flex-col gap-3">
-                    <div className="flex gap-5 items-center">
-                        <Badge
-                            className="p-2 text-lg justify-center"
-                            variant={getBadgeVariantFromLabel(build?.race?.[0])}
-                        >{`${build.race}`}</Badge>
-                        <p className="text-3xl font-semibold items-center">
-                            vs
-                        </p>
-                        <Badge
-                            className="p-2 text-lg justify-center"
-                            variant={getBadgeVariantFromLabel(
-                                build?.v_race?.[0]
-                            )}
-                        >{`${build?.v_race}`}</Badge>
-                    </div>
-                </div>
-            )} */}
-
             <StepsRowContainer
                 steps={
                     isRunning

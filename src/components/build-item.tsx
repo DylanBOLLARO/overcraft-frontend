@@ -12,7 +12,6 @@ import {
 import Link from 'next/link'
 import * as _ from 'lodash'
 import { useAuth } from './providers/context-provider'
-import { CustomCard } from './ui-customs/card'
 import { BorderTrail } from './ui/border-trail'
 
 export function BuildItem({ build, update }: any) {
@@ -27,7 +26,7 @@ export function BuildItem({ build, update }: any) {
                     : `/dashboard/update/${build.slug}`
             }
         >
-            <Card className="relative overflow-hidden rounded-md border outline-hidden rounded border text-card-foreground shadow-sm flex flex-col p-4 gap-3 duration-100 h-full">
+            <Card className="relative overflow-hidden outline-hidden rounded border text-card-foreground shadow-sm flex flex-col p-4 gap-3 duration-100 h-full">
                 {_.some(userFavorites, { buildId: build.id }) && (
                     <BorderTrail
                         transition={{ delay: 0 }}
