@@ -182,7 +182,11 @@ export default function Page({ params }: { params: { slug: string } }) {
                 }
                 isRunning={isRunning}
                 currentIndex={currentIndex}
-                colors={user.userinfo.colorPreferences}
+                colors={
+                    !_.isNil(user?.userinfo?.colorPreferences)
+                        ? user?.userinfo?.colorPreferences
+                        : {}
+                }
             />
         </div>
     )

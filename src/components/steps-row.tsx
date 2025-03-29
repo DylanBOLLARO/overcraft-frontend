@@ -114,15 +114,17 @@ export const StepsRow = ({
     const c = user?.userinfo?.colorPreferences
     const isActive = _.isNil(c)
 
-    const detectColor = {
-        [StepVariants.INFO]: c.info_color,
-        [StepVariants.UPGRADE]: c.upgrade_color,
-        [StepVariants.SUPPLY]: c.supply_color,
-        [StepVariants.ATTACK]: c.attack_color,
-        [StepVariants.BUILDING]: c.building_color,
-        [StepVariants.GAZ]: c.gaz_color,
-        [StepVariants.UNIT]: c.unit_color,
-    }
+    const detectColor = !_.isEmpty(c)
+        ? {
+              [StepVariants.INFO]: c.info_color,
+              [StepVariants.UPGRADE]: c.upgrade_color,
+              [StepVariants.SUPPLY]: c.supply_color,
+              [StepVariants.ATTACK]: c.attack_color,
+              [StepVariants.BUILDING]: c.building_color,
+              [StepVariants.GAZ]: c.gaz_color,
+              [StepVariants.UNIT]: c.unit_color,
+          }
+        : {}
 
     return (
         <div className="flex gap-3">
