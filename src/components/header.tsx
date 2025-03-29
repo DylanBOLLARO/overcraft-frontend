@@ -25,6 +25,9 @@ export default function Header() {
             <CustomButton onClick={() => router.push(PAGE_PATH.HOME)}>
                 <TypographySmall str={'Home'} />
             </CustomButton>
+            <CustomButton onClick={() => router.push('/documentation')}>
+                <TypographySmall str={'Documentation'} />
+            </CustomButton>
             <div className="flex items-center ml-auto gap-10 h-full">
                 {!_.isEmpty(userId) && (
                     <div className="flex gap-5 h-full items-center">
