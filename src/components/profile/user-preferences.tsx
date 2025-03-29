@@ -52,7 +52,7 @@ export const UserPreferences = () => {
     const defaultValues: PreferencesFormValues = {
         themeColor: '#3b82f6',
         darkMode: nextTheme == 'dark',
-        language: 'fr',
+        language: 'en',
         emailNotifications: true,
         pushNotifications: true,
         marketingEmails: false,
@@ -75,9 +75,8 @@ export const UserPreferences = () => {
             // In a real app, you would send this data to your API
             await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate API call
 
-            toast('Préférences mises à jour', {
-                description:
-                    'Vos préférences ont été enregistrées avec succès.',
+            toast('Preferences updated', {
+                description: 'Your preferences have been successfully saved.',
                 position: 'top-center',
                 duration: 2000,
             })
@@ -96,9 +95,9 @@ export const UserPreferences = () => {
                         <Settings className="h-10 w-10" />
                     </div>
                     <div>
-                        <CardTitle className="text-2xl">Préférences</CardTitle>
+                        <CardTitle className="text-2xl">Preferences</CardTitle>
                         <CardDescription>
-                            Personnalisez votre expérience d'utilisation
+                            Customize your user experience
                         </CardDescription>
                     </div>
                 </div>
@@ -115,7 +114,7 @@ export const UserPreferences = () => {
                                     value="appearance"
                                     className="flex-1"
                                 >
-                                    Apparence
+                                    Appearance
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="notifications"
@@ -136,7 +135,7 @@ export const UserPreferences = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Couleur principale
+                                                    Primary Color
                                                 </FormLabel>
                                                 <div className="flex items-center gap-2">
                                                     <FormControl>
@@ -156,8 +155,8 @@ export const UserPreferences = () => {
                                                     />
                                                 </div>
                                                 <FormDescription>
-                                                    Choisissez la couleur
-                                                    principale de l'interface
+                                                    Choose the primary color of
+                                                    the interface
                                                 </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
@@ -170,7 +169,7 @@ export const UserPreferences = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                    Couleur d'accent
+                                                    Accent Color
                                                 </FormLabel>
                                                 <div className="flex items-center gap-2">
                                                     <FormControl>
@@ -190,9 +189,8 @@ export const UserPreferences = () => {
                                                     />
                                                 </div>
                                                 <FormDescription>
-                                                    Choisissez la couleur
-                                                    d'accent pour les boutons et
-                                                    liens
+                                                    Choose the accent color for
+                                                    buttons and links
                                                 </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
@@ -206,11 +204,11 @@ export const UserPreferences = () => {
                                             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                                 <div className="space-y-0.5">
                                                     <FormLabel className="text-base">
-                                                        Mode sombre
+                                                        Dark Mode
                                                     </FormLabel>
                                                     <FormDescription>
-                                                        Activer le mode sombre
-                                                        pour l'interface
+                                                        Enable dark mode for the
+                                                        interface
                                                     </FormDescription>
                                                 </div>
                                                 <FormControl>
@@ -252,12 +250,11 @@ export const UserPreferences = () => {
                                             </FormControl>
                                             <div className="space-y-1 leading-none">
                                                 <FormLabel className="text-base">
-                                                    Notifications par email
+                                                    Email Notifications
                                                 </FormLabel>
                                                 <FormDescription>
-                                                    Recevoir des notifications
-                                                    par email concernant votre
-                                                    compte
+                                                    Receive email notifications
+                                                    about your account
                                                 </FormDescription>
                                             </div>
                                         </FormItem>
@@ -279,11 +276,11 @@ export const UserPreferences = () => {
                                             </FormControl>
                                             <div className="space-y-1 leading-none">
                                                 <FormLabel className="text-base">
-                                                    Notifications push
+                                                    Push Notifications
                                                 </FormLabel>
                                                 <FormDescription>
-                                                    Recevoir des notifications
-                                                    push sur votre appareil
+                                                    Receive push notifications
+                                                    on your device
                                                 </FormDescription>
                                             </div>
                                         </FormItem>
@@ -305,12 +302,11 @@ export const UserPreferences = () => {
                                             </FormControl>
                                             <div className="space-y-1 leading-none">
                                                 <FormLabel className="text-base">
-                                                    Emails marketing
+                                                    Marketing Emails
                                                 </FormLabel>
                                                 <FormDescription>
-                                                    Recevoir des emails
-                                                    concernant nos nouveaux
-                                                    produits et offres
+                                                    Receive emails about our new
+                                                    products and offers
                                                 </FormDescription>
                                             </div>
                                         </FormItem>

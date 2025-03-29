@@ -3,8 +3,6 @@
 import { useBuild } from '@/lib/queries'
 import { cn, extractUUID, getBadgeVariantFromLabel } from '@/lib/utils'
 import { StepsRowContainer } from '@/components/steps-row-container'
-import { TypographyH2 } from '../../../components/typography'
-import { Badge } from '@/components/ui/badge'
 import { useAuth, useStopwatch } from '@/components/providers/context-provider'
 import * as _ from 'lodash'
 import { useRouter } from 'next/navigation'
