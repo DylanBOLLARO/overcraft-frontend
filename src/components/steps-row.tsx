@@ -364,6 +364,16 @@ export const StepsRow = ({
                                                                         ],
                                                                 }),
                                                             }}
+                                                            className={cn(
+                                                                stepVariants({
+                                                                    variant:
+                                                                        StepVariants[
+                                                                            variant as keyof typeof StepVariants
+                                                                        ] ||
+                                                                        StepVariants.INFO,
+                                                                }),
+                                                                ''
+                                                            )}
                                                         >
                                                             {_.keys(
                                                                 StepVariants
