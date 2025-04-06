@@ -226,6 +226,14 @@ export const StepsRow = ({
                                                                         true,
                                                                 }
                                                             )}
+                                                            onChange={(event) =>
+                                                                field.onChange(
+                                                                    +event
+                                                                        .target
+                                                                        .value ||
+                                                                        0
+                                                                )
+                                                            }
                                                         />
                                                     </FormControl>
                                                 </FormItem>
@@ -252,6 +260,16 @@ export const StepsRow = ({
                                                                             true,
                                                                     }
                                                                 )}
+                                                                onChange={(
+                                                                    event
+                                                                ) =>
+                                                                    field.onChange(
+                                                                        +event
+                                                                            .target
+                                                                            .value ||
+                                                                            0
+                                                                    )
+                                                                }
                                                             />
                                                         </FormControl>
                                                     </FormItem>
@@ -277,6 +295,16 @@ export const StepsRow = ({
                                                                             true,
                                                                     }
                                                                 )}
+                                                                onChange={(
+                                                                    event
+                                                                ) =>
+                                                                    field.onChange(
+                                                                        +event
+                                                                            .target
+                                                                            .value ||
+                                                                            0
+                                                                    )
+                                                                }
                                                             />
                                                         </FormControl>
                                                     </FormItem>
@@ -326,16 +354,16 @@ export const StepsRow = ({
                                                             </SelectTrigger>
                                                         </FormControl>
                                                         <SelectContent
-                                                            className={cn(
-                                                                stepVariants({
-                                                                    variant:
-                                                                        StepVariants[
-                                                                            variant as keyof typeof StepVariants
-                                                                        ] ||
-                                                                        StepVariants.INFO,
+                                                            style={{
+                                                                ...(!isActive && {
+                                                                    backgroundColor:
+                                                                        detectColor[
+                                                                            StepVariants[
+                                                                                variant as keyof typeof StepVariants
+                                                                            ]
+                                                                        ],
                                                                 }),
-                                                                ''
-                                                            )}
+                                                            }}
                                                         >
                                                             {_.keys(
                                                                 StepVariants
